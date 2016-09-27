@@ -18,7 +18,7 @@
       			<p><span class="glyphicon glyphicon-envelope"></span>Email: kartooz@mail.com</p>
     		</div>
     		<div class="col-md-8">
-    			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d487295.0253204453!2d78.12785124924685!3d17.412153075682923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C+Telangana!5e0!3m2!1sen!2sin!4v1472880433616" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+    			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d487295.0253204453!2d78.12785124924685!3d17.412153075682923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99daeaebd2c7%3A0xae93b78392bafbc2!2sHyderabad%2C+Telangana!5e0!3m2!1sen!2sin!4v1472880433616" frameborder="0" style="border:0;max-height: 500px;width: 500px;" allowfullscreen></iframe>
     		</div>
     		</div>
   		</div>
