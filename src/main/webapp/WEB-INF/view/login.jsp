@@ -37,7 +37,7 @@
 			value="${_csrf.token}" />
   	</form:form>
   	<form name='loginForm'
-		  action="<c:url value='/j_spring_security_check' />" method='POST'>
+		  action="<c:url value='/loginPattern' />" method='POST'>
 		<table>
 			<tr>
 				<td>User:</td>
