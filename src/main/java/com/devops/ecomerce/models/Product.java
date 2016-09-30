@@ -1,5 +1,6 @@
 package com.devops.ecomerce.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class Product {
 	private Float price;
 	@Size(min=10,max=50,message="Description Should atleast have 10 Char")
 	private String description;
-	@NotNull
+	@Column(columnDefinition="Integer default 0")
 	private Integer available;
 	@Transient
 	private MultipartFile productImage;

@@ -4,6 +4,7 @@ import java.util.List;
 import com.devops.ecomerce.models.Category;
 import com.devops.ecomerce.models.Product;
 import com.devops.ecomerce.models.Seller;
+import com.devops.ecomerce.models.User;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -42,10 +43,10 @@ public class ProductDAOImpl implements IProductDAO {
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public void updateProduct(Product product) {
-		Session session=factory.getCurrentSession();
+	public void deleteProduct(int productId) {
+		Session session=factory.openSession();
 		Transaction tx=session.beginTransaction();
-		session.saveOrUpdate(product);
+		session.delete(getProduct(productId));
 		tx.commit();
 	}
 
@@ -77,5 +78,45 @@ public class ProductDAOImpl implements IProductDAO {
 	    tx.begin();
 	    session.saveOrUpdate(seller);
 	    tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Product> viewProducts(User user){
+		Session session=factory.getCurrentSession();
+	    Transaction tx=session.beginTransaction();
+	    tx.begin();
+	    Criteria cr=session.createCriteria(Seller.class);
+	    cr.add(Restrictions.eq("userId",user));
+	    List<Product> products = cr.list();
+	    tx.commit();
+	    return products;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public Seller getProduct(int sellerId,User user){
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(Seller.class);
+		cr.add(Restrictions.eq("id",sellerId));
+		cr.add(Restrictions.eq("userId",user));
+		Seller seller=(Seller)cr.uniqueResult();
+		tx.commit();
+	    return seller;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void updateSeller(Seller seller){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		session.update(seller);
+		tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void delete(Seller seller){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		session.delete(seller);
+		tx.commit();
 	}
 }

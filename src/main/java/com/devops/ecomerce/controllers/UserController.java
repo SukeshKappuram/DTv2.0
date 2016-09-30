@@ -1,24 +1,27 @@
 package com.devops.ecomerce.controllers;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.devops.ecomerce.models.Blog;
 import com.devops.ecomerce.models.Forum;
 import com.devops.ecomerce.models.Seller;
@@ -50,7 +53,8 @@ public class UserController {
 	private IUtilityService iUtilityService;
 
 	List<ObjectError> errors;
-	
+
+	/*
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
 	public String signUp(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
 			u.setRegisteredDate(new Date());
@@ -63,6 +67,17 @@ public class UserController {
 			errors=result.getAllErrors();
 		iUtilityService.setErrors(errors);
 		return "redirect:/signUp";
+	}*/
+	
+	@RequestMapping(value="/signUp",method=RequestMethod.POST)
+	public ResponseEntity<Void> signUp(@RequestBody User user,UriComponentsBuilder ucBuilder){
+ 
+		iUserService.addUser(user);
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		
 	}
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
@@ -113,46 +128,9 @@ public class UserController {
 		return "redirect:/shipTo";
 	}
 	
-	@RequestMapping(value="/shipFrom")
-	public ModelAndView sShippingAddress(HttpServletRequest request){
-		//int cartId=Integer.parseInt(request.getParameter("c"));
-		ModelAndView mv= new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
-		try{
-			if(iUserService.viewShippingAddress().size()>0){
-				mv=new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("shippings",iUserService.viewShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
-			}
-		}
-		catch(Exception e){
-			mv=new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
-		}
-		return mv;
-	}
-	
 	@RequestMapping(value="/review")
 	public ModelAndView order(){
 		return new ModelAndView("orders");
-	}
-	
-	@RequestMapping(value="/approveSeller")
-	public ModelAndView users(){
-		return new ModelAndView("viewUser","users",iUserService.viewUsers());
-	}
-	
-	@RequestMapping(value="/updateRole")
-	public String updateRole(HttpServletRequest request){
-		int roleId=Integer.parseInt(request.getParameter("u"));
-		iUserService.updateRole(roleId);
-		return "redirect:/User/approveSeller";
-	}
-	
-	@RequestMapping(value="/addSellerProduct")
-	public String addSellerProduct(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") Seller s,BindingResult result){
-		int pid=Integer.parseInt(request.getParameter("productId"));
-		s.setProduct(iProductService.getProduct(pid));
-		s.setUserId(iUserService.getUser());
-		s.setShippingAddress(iUserService.getShippingAddress());
-		iProductService.addSeller(s);
-		return "redirect:/User/sell";
 	}
 	
 	@RequestMapping(value={"/Blogs"},method=RequestMethod.POST)

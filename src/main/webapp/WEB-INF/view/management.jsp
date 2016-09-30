@@ -21,6 +21,9 @@ body {
         margin-left: 150px;
     }
   }
+  th,td{
+  	text-align: center;
+  }
   </style>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
@@ -29,15 +32,51 @@ body {
 	<div class="row">
     <nav class="col-sm-3" id="myScrollspy">
       <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#section1">Add Product</a></li>
-        <li><a href="#section2">Ship Product</a></li>
-        <li><a href="shipTo">Shipping Address</a></li>
-        <li><a href="#section3">Show Requests</a></li>
+        <li class="active"><a href="#section1">View Product</a></li>
+        <li><a href="#section2">Add Product</a></li>
+        <li><a href="#section4">Shipping Address</a></li>
+        <li><a href="#section3">Shipping Requests</a></li>
       </ul>
     </nav>
     <div class="col-sm-9">
       <div id="section1" style="color:white;">
-        <h1>Add Product</h1>
+      	<div class="bs-example" data-example-id="simple-responsive-table"> 
+      	<div class="table-responsive"> 
+      	<table class="table" style="color: black">
+      	<caption>Products sold by You</caption>
+      	<thead> 
+      	<tr class="active"> 
+      		<th>Product Name</th> <th>Selling Price</th> <th>Quantity</th> <th>Discount</th> <th colspan='2'>Modify</th> 
+      	</tr> 
+      	</thead> 
+      	<tbody> 
+      <c:forEach var="p" items="${sproducts}">
+      	<tr class="info">
+      		<th scope="row">${p.product.name}</th>
+      		<th scope="row">${p.product.price}</th>
+  			<c:if test="${empty seller}" >
+  			<td>${p.quantity}</td>
+  			<td>${p.discount}</td>
+  			<td><a href="edit?p=${p.id}">Update</a></td>
+  			<td><a href="delete?p=${p.id}">Delete</a></td>
+  			</c:if>
+  			<c:if test="${p.id == seller.id}">
+  			<form action="update">
+  			<td><input type="number" name="q" value="${p.quantity}" min="1" style="color: blue;" /></td>
+  			<td><input type="text" name="d" value="${p.discount}" style="color: blue;" /></td>
+  			<td><input type="submit" value="Update" class="btn btn-default"></td>
+  			</form>
+  			</c:if>
+		</tr>
+	  </c:forEach>
+	  </tbody>	
+	  </table>
+	  </div>
+	  </div>
+      </div>
+      <hr style="width:100%;"/>
+      <div id="section2" style="color:white;">
+      	<h1>Add Product</h1>
         <form:form action="addSellerProduct" method="post">
     <div class="form-group">
       <label for="sel3">Category</label>
@@ -77,10 +116,14 @@ body {
    	</div>
   	</form:form>
       </div>
-      <div id="section1" style="color:white;">
+      <hr style="width:100%;"/>
+      <div id="section3" style="color:white;">
+      </div>
+      <div id="section4" style="color:white;">
       <iframe src="shipFrom"  style="width:100%;height: 500px;">      	
       </iframe>
       </div>
+      
     </div>
   </div>
 	</div>

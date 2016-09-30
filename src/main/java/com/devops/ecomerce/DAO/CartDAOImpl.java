@@ -77,5 +77,16 @@ public class CartDAOImpl implements ICartDAO {
 		tx.commit();
 		return cartItems;
 	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List getSellerOrders(){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(UserOrder.class);
+		List<CartItem> cartItems=cr.list();
+		tx.commit();
+		return cartItems;
+	}
 
 }

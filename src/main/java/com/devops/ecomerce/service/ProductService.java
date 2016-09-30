@@ -9,6 +9,7 @@ import com.devops.ecomerce.DAO.IProductDAO;
 import com.devops.ecomerce.models.Category;
 import com.devops.ecomerce.models.Product;
 import com.devops.ecomerce.models.Seller;
+import com.devops.ecomerce.models.User;
 
 @Service("productService")
 public class ProductService implements IProductService {
@@ -24,8 +25,8 @@ public class ProductService implements IProductService {
 		return iProductDAO.getProduct(productId);
 	}
 
-	public void updateProduct(Product product) {
-		iProductDAO.updateProduct(product);
+	public void deleteProduct(int productId) {
+		iProductDAO.deleteProduct(productId);
 	}
 
 	public List<Product> viewProducts(Category category) {
@@ -35,9 +36,25 @@ public class ProductService implements IProductService {
 	public List<Product> viewProducts() {
 		return iProductDAO.viewProducts();
 	}
+	
+	public List<Product> viewProducts(User user) {
+		return iProductDAO.viewProducts(user);
+	}
 
 	public void addSeller(Seller seller) {
 		iProductDAO.addSeller(seller);		
+	}
+	
+	public Seller getProduct(int sellerId,User user){
+		return iProductDAO.getProduct(sellerId,user);
+	}
+	
+	public void updateSeller(Seller seller){
+		iProductDAO.updateSeller(seller);
+	}
+	
+	public void delete(Seller seller){
+		iProductDAO.delete(seller);
 	}
 
 }

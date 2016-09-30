@@ -14,4 +14,5 @@ public interface ICartDAO {
 	public UserOrder addOrder(Cart cart);
 	public Cart getCart(User user);
 	public List<CartItem> viewCart(User user);
+	public List getSellerOrders();
 }

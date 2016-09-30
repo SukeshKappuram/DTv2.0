@@ -5,9 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
 <title>KartooZ</title>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="HomeController as ctrl">
 <%@include file="header.jsp" %>
 <div class="container">
   <h2 style="color: white;">Sign Up</h2>
@@ -31,26 +35,26 @@
     				</div>
    				</c:if>
     	</c:forEach>
- 	<form:form action="User/signUp" method="post" enctype="multipart/form-data">
+ 	<form:form role="form"  name="myForm" ng-submit="ctrl.createUser()"> <!-- action="User/signUp" method="post" enctype="multipart/form-data" -->
     <div class="form-group">
       <label for="inputdefault">First Name</label>
-      <form:input class="form-control" path="firstName" type="text"/>
+      <form:input class="form-control" path="firstName" type="text" ng-model="ctrl.user.name"/>
     </div>
     <div class="form-group">
       <label for="inputlg">Last Name</label>
-      <form:input class="form-control" path="lastName" type="text"/>
+      <form:input class="form-control" path="lastName" type="text" />
     </div>
     <div class="form-group">
       <label for="inputlg">Mail Id</label>
-      <form:input class="form-control" path="mailId" type="email"/>
+      <form:input class="form-control" path="mailId" type="email" ng-model="ctrl.user.mail"/>
     </div>
     <div class="form-group">
       <label for="inputlg">Phone Number</label>
-      <form:input class="form-control" path="phoneNumber" type="text"/>
+      <form:input class="form-control" path="phoneNumber" type="text" ng-model="ctrl.user.phno"/>
     </div>
     <div class="form-group">
       <label for="inputlg">Password</label>
-      <form:input class="form-control" path="password" type="password"/>
+      <form:input class="form-control" path="password" type="password" ng-model="ctrl.user.password"/>
     </div>
     <div class="form-group">
     	<button type="submit" class="btn btn-primary">I Agree to Sign up KartooZ</button>
@@ -61,5 +65,8 @@
   </div>
 </div>
 <%@include file="footer.jsp" %>
+	<script src="/ecomerce/resources/js/app.js"></script>
+	<script src="/ecomerce/resources/js/HomeController.js"></script>
+	<script src="/ecomerce/resources/js/UserService.js"></script>
 </body>
 </html>
