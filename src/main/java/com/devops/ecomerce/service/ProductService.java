@@ -56,5 +56,12 @@ public class ProductService implements IProductService {
 	public void delete(Seller seller){
 		iProductDAO.delete(seller);
 	}
+	
+	public List<Product> showProducts(){
+		return iProductDAO.showProducts();
+	}
 
+	public List<Product> updateProductAvailablity(){
+		return iProductDAO.updateProductAvailablity();
+	}
 }

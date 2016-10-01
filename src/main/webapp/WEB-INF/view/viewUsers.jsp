@@ -14,6 +14,9 @@
 <title>KartooZ</title>
 </head>
 <body>
+	<div class="panel panel-default" style="width:80%;margin:0 auto;">
+    <div class="panel-heading" id="flip">Sellers</div>
+    <div class="panel-body" id="panel">
 	<c:forEach var="u" items="${users}" end="4">
 		<div class="row">
 			<div class="col-sm-2">
@@ -30,5 +33,9 @@
 			</div>
 		</div>
 	</c:forEach>
+	</div>
+    <div class="panel-footer"></div>          
+	</div>
+	</div>
 </body>
 </html>

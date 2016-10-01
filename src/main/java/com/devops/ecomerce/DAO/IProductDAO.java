@@ -18,4 +18,6 @@ public interface IProductDAO {
 	public Seller getProduct(int sellerId,User user);
 	public void updateSeller(Seller seller);
 	public void delete(Seller seller);
+	public List<Product> showProducts();
+	public List<Product> updateProductAvailablity();
 }

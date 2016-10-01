@@ -13,8 +13,13 @@
 
 <div class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
-      <p class="navbar-text pull-left">© 2016 - Site Built By K.Sukesh
-           <a href="#">KartooZ</a>
+      <p class="navbar-text pull-left" style="font-size: 12px;">© 2016 - Site Built By K.Sukesh
+           <a href="#">KartooZ</a> 
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <a href="#">Return Policy</a> | 
+           <a href="#">Terms to Use</a> | 
+           <a href="#">Security</a> | 
+           <a href="#">Privacy</a>
       </p>
      <!-- <a href="http://youtu.be/zJahlKPCL9g" class="navbar-btn btn-danger btn pull-right">
       <span class="glyphicon glyphicon-star"></span>  Subscribe on YouTube</a> --> 

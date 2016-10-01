@@ -11,6 +11,7 @@ import com.devops.ecomerce.models.Forum;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.service.ICategoryService;
 import com.devops.ecomerce.service.INetworkService;
+import com.devops.ecomerce.service.IProductService;
 import com.devops.ecomerce.service.IUserService;
 import com.devops.ecomerce.service.IUtilityService;
 
@@ -25,6 +26,9 @@ public class HomeController {
 	
 	@Autowired(required=true)
 	private IUserService iUserService;
+	
+	@Autowired(required=true)
+	private IProductService iProductService;
 	
 	@Autowired(required=true)
 	private IUtilityService iUtilityService;
@@ -70,6 +74,24 @@ public class HomeController {
 		mv.addObject("network",reqString).addObject("user",iUserService);
 		mv.addObject("image", iUtilityService);
 		return mv;
+	}
+	
+	@RequestMapping(value="/products")
+	public ModelAndView viewProducts(HttpServletRequest request){
+		int categoryId=Integer.parseInt(request.getParameter("c"));
+		return new ModelAndView("products","products",iUtilityService.getJson(iProductService.viewProducts(iCategoryService.viewCategory(categoryId)))).addObject("image", iUtilityService).addObject("user",iUserService);
+	}
+	
+	@RequestMapping(value="/Details")
+	public ModelAndView viewProduct(HttpServletRequest request){
+		int productId=Integer.parseInt(request.getParameter("p"));
+		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService);
+	}
+	
+	@RequestMapping(value="/Profile")
+	public ModelAndView viewProfile(HttpServletRequest request){
+		//int productId=Integer.parseInt(request.getParameter("p"));
+		return new ModelAndView("profile","user",iUserService);
 	}
 	
 }

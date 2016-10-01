@@ -71,9 +71,7 @@ public class UserController {
 	
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
 	public ResponseEntity<Void> signUp(@RequestBody User user,UriComponentsBuilder ucBuilder){
- 
 		iUserService.addUser(user);
- 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
@@ -85,6 +83,9 @@ public class UserController {
 		iUserService.verifyUser(u);
 		try{
 			iUserService.getUser().equals(null);
+			if(iUserService.getRole().equals("ROLE_ADMIN")){
+				return "redirect:/Admin/";
+			}
 		}
 		catch(Exception e){
 			ObjectError oe= new ObjectError("Invalid", "You mailId or password is incorrect");

@@ -10,9 +10,9 @@
 <title>KartooZ</title>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
 
 	.container-fluid{
@@ -111,18 +111,28 @@
           </div>
       </li>
       <c:if test="${fn:length(user.getUser().firstName) > 0}">
-      	<li><a href="#">Hi ${user.getUser().firstName} !</a></li>
+      	<li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Hi ${user.getUser().firstName} !<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="./Profile"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
+                  <li><a href="#"><span class="glyphicon glyphicon-th"></span> My Orders</a></li>
+                  <li><a href="#">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
+                </ul>
+         </li>
       	 <c:if test="${user.getRole()=='ROLE_USER'}">
-      	<li><a href="Cart/cart"><img src="/ecomerce/resources/images/cart.png" style="width:20px;height: 20px;"/></a></li>
+      	<li><a href="Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
       	</c:if>
       	<c:if test="${user.getRole()=='ROLE_SELLER'}">
-      	<li><a href="User/sell">Sell</a></li>
-      	<li><a href="Cart/cart"><img src="/ecomerce/resources/images/cart.png" style="width:20px;height: 20px;"/></a></li>
+      	<li><a href="Seller/sell">Sell</a></li>
+      	<li><a href="Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+      	</c:if>
+      	<c:if test="${user.getRole()=='ROLE_ADMIN'}">
+      		
       	</c:if>
       </c:if>
       <c:if test="${empty user.getUser()}">
-      <li><a href="signUp">Sign Up</a></li>
-      <li><a href="login">Login</a></li>
+      <li><a href="signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </c:if>
     </ul>
   </div>

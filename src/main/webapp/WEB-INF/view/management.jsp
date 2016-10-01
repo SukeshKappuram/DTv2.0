@@ -5,8 +5,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/ecomerce/resources/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/ecomerce/resources/js/jquery.autocomplete.min.js"></script>
+  <script type="text/javascript">
+  $(function(){
+	  var currencies = ${product};
+  $('#autocomplete').autocomplete({
+	    lookup: currencies,
+	    onSelect: function (suggestion) {
+	      var thehtml = '<strong>Currency Name:</strong> ' + suggestion.value + ' <br> <strong>Symbol:</strong> ' + suggestion.data;
+	      $('#outputcontent').html(thehtml);
+	    }
+	  });
+	});
+  </script>
 <title>KartooZ</title>
 <style>
 body {
@@ -88,11 +102,20 @@ body {
     </div>
     <div class="form-group">
       <label for="inputdefault">Product Name</label>
+      <!-- 
       <select class="form-control" path="product" name="productId" id="sel3">
         <c:forEach var="p" items="${products}">
         	<option value="${p.productId}">${p.name}</option>
         </c:forEach>
       </select>
+       -->
+       <div id="w">
+    		<div id="content">
+      			<div id="searchfield">
+        			<form><input type="text" path="product" name="productId" class="form-control" id="autocomplete"></form>
+      			</div><!-- @end #searchfield -->
+    		</div><!-- @end #content -->
+  		</div>
     </div>
 	    <div class="form-group">
       <label for="inputdefault">Quantity</label>

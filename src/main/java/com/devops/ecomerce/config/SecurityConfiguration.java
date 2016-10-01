@@ -9,6 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+public class SecurityConfiguration{
+	
+}
+/*
 @Configuration
 @EnableWebSecurity
 	public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -54,4 +58,4 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 		  
 		  System.out.println("endof configure");
 		}
-}
+}*/

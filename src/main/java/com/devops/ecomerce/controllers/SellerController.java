@@ -1,8 +1,14 @@
 package com.devops.ecomerce.controllers;
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,12 +17,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.devops.ecomerce.models.Product;
 import com.devops.ecomerce.models.Seller;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.service.ICartService;
 import com.devops.ecomerce.service.ICategoryService;
 import com.devops.ecomerce.service.IProductService;
 import com.devops.ecomerce.service.IUserService;
+import com.devops.ecomerce.service.IUtilityService;
 
 @Controller
 @RequestMapping(value="/Seller")
@@ -46,15 +54,16 @@ public class SellerController {
 		ModelAndView mv=new ModelAndView("management","command",new Seller());
 		mv.addObject("categories",iCategoryService.viewCategories());
 		mv.addObject("products", iProductService.viewProducts());
+		mv.addObject("product", getProducts(iProductService.showProducts()));
 		mv.addObject("cart",iCartService);
 		mv.addObject("sproducts",iProductService.viewProducts(iUserService.getUser()));
 		mv.addObject("seller",s);
+		mv.addObject("user",iUserService);
 		return mv;
 	}
 	
 	@RequestMapping(value="/shipFrom")
 	public ModelAndView sShippingAddress(HttpServletRequest request){
-		//int cartId=Integer.parseInt(request.getParameter("c"));
 		ModelAndView mv= new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
 		try{
 			if(iUserService.viewShippingAddress().size()>0){
@@ -87,7 +96,7 @@ public class SellerController {
 	public String delete(HttpServletRequest request){
 		int productId=Integer.parseInt(request.getParameter("p"));
 		s=iProductService.getProduct(productId,iUserService.getUser());
-		iProductService.delete(s);
+		iProductService.delete(s);s=null;
 		return "redirect:./sell";
 	}
 	
@@ -98,8 +107,27 @@ public class SellerController {
 		s.setUserId(iUserService.getUser());
 		s.setShippingAddress(iUserService.getShippingAddress());
 		iProductService.addSeller(s);
+		iProductService.updateProductAvailablity();
 		return "redirect:./sell";
 	}
 	
-	
+	public String getProducts(List<Product> products){
+ 		ObjectMapper mapper = new ObjectMapper();
+        String jsonData="";
+        try {
+			jsonData=mapper.writeValueAsString(products);
+			jsonData="[{ value:"+jsonData.substring(1).replaceAll("\"", "\'").replaceAll(",", ", data: 'prod' },{ value: ").replace("]", ", data: 'prod' }]");
+			System.out.print(jsonData);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		return jsonData;
+ 	}
 }

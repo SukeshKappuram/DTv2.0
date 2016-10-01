@@ -10,6 +10,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -70,6 +73,16 @@ public class ProductDAOImpl implements IProductDAO {
 		tx.commit();
 		return products;
 	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Product> showProducts() {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(Product.class).setProjection(Projections.property("name"));
+		List<Product> products = cr.list();
+		tx.commit();
+		return products;
+	}
 
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public void addSeller(Seller seller) {
@@ -118,5 +131,30 @@ public class ProductDAOImpl implements IProductDAO {
 		Transaction tx=session.beginTransaction();
 		session.delete(seller);
 		tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Product> updateProductAvailablity(){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		Criteria pcr=session.createCriteria(Product.class);
+		List<Product> p=pcr.list();
+		for(Product pd:p){
+		Criteria cr=session.createCriteria(Seller.class);
+		cr.setProjection(Projections.sum("quantity"));
+		cr.add(Restrictions.eq("product",pd));
+		List result=cr.list();
+		try{
+		Number number = (Number) result.get(0);
+		pd.setAvailable(number.intValue());
+		session.saveOrUpdate(pd);
+		System.out.println(number.intValue());}
+		catch(Exception e){
+			pd.setAvailable(0);
+			session.saveOrUpdate(pd);
+		}
+		}
+		tx.commit();
+		return p;
 	}
 }

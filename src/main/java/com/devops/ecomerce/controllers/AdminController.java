@@ -44,7 +44,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/")
 	public ModelAndView admin(){
-		return new ModelAndView("administration","products",iProductService.viewProducts());
+		return new ModelAndView("administration","products",iProductService.viewProducts()).addObject("user",iUserService);
 	}
 	
 	@RequestMapping(value="/addProduct",method=RequestMethod.GET)

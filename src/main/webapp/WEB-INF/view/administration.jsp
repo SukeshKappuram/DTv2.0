@@ -33,6 +33,8 @@ body {
         <li><a href="#section2">Add Product</a></li>
         <li><a href="#section3">Add Category</a></li>
         <li><a href="#section4">Approve Seller</a></li>
+        <li><a href="#section5">View BLogs</a></li>
+        <li><a href="#section6">View Forums</a></li>
       </ul>
     </nav>
     <div class="col-sm-9">
@@ -73,8 +75,17 @@ body {
     	<iframe src="approveSeller" frameborder='0' style="width:100%;height: 600px;">      	
       	</iframe>
     </div>
+    <div id="section5" style="color:white;">
+    	<iframe src="../Blogs" frameborder='0' style="width:100%;height: 600px;">      	
+      	</iframe>
+    </div>
+    <div id="section6" style="color:white;">
+    	<iframe src="../Forums" frameborder='0' style="width:100%;height: 600px;">      	
+      	</iframe>
+    </div>
   </div>
 	</div>
 	</div>
+	<%@include file="footer.jsp"%>
 </body>
 </html>
