@@ -23,10 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.devops.ecomerce.models.Blog;
+import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.Forum;
 import com.devops.ecomerce.models.Seller;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
+import com.devops.ecomerce.models.UserOrder;
 import com.devops.ecomerce.service.ICartService;
 import com.devops.ecomerce.service.INetworkService;
 import com.devops.ecomerce.service.IProductService;
@@ -131,7 +133,15 @@ public class UserController {
 	
 	@RequestMapping(value="/review")
 	public ModelAndView order(){
-		return new ModelAndView("orders");
+		UserOrder order=new UserOrder();
+		Cart cart=iCartService.getCart(iUserService.getUser());
+		cart.setPaid(true);
+		order.setCartId(cart);
+		order.setDelivered(false);
+		order.setDeliveryDate(new Date());
+		order.setOrderDate(new Date());
+		iCartService.addOrder(order);
+		return new ModelAndView("viewOrders","cartItems",iCartService.viewCart(iUserService.getUser()));
 	}
 	
 	@RequestMapping(value={"/Blogs"},method=RequestMethod.POST)

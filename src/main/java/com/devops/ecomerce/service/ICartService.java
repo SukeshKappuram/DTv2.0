@@ -11,7 +11,7 @@ public interface ICartService {
 	public void addToCart(CartItem cartItem);
 	public void updateCart(Cart cart);
 	public Cart getCart(Cart cart);
-	public UserOrder addOrder(Cart cart);
+	public UserOrder addOrder(UserOrder order);
 	public Cart getCart(User user);
 	public List<CartItem> viewCart(User user);
 }

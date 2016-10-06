@@ -90,12 +90,12 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li><span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span></li>
-      <li><a href="./">Home</a></li>
-      <li><a href="./#about">About Us</a></li>
-      <li><a href="./#contact">Contact Us</a></li>
-      <li><a href="./#feedback">Feedback</a></li>
-      <li><a href="./Blogs">Blogs</a></li>
-      <li><a href="../Forums">Forums</a></li>
+      <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+      <li><a href="${pageContext.request.contextPath}/#about">About Us</a></li>
+      <li><a href="${pageContext.request.contextPath}/#contact">Contact Us</a></li>
+      <li><a href="${pageContext.request.contextPath}/#feedback">Feedback</a></li>
+      <li><a href="${pageContext.request.contextPath}/Blogs">Blogs</a></li>
+      <li><a href="${pageContext.request.contextPath}/Forums">Forums</a></li>
    </ul>   
    <ul class="nav navbar-nav" style="float: right;">   
       <li>
@@ -114,25 +114,25 @@
       	<li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Hi ${user.getUser().firstName} !<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="./Profile"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
-                  <li><a href="#"><span class="glyphicon glyphicon-th"></span> My Orders</a></li>
-                  <li><a href="#">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
+                  <li><a href="${pageContext.request.contextPath}/Profile"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
+                  <li><a href="${pageContext.request.contextPath}/Cart/viewOrder"><span class="glyphicon glyphicon-th"></span> My Orders</a></li>
+                  <li><a href="${pageContext.request.contextPath}/">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
                 </ul>
          </li>
       	 <c:if test="${user.getRole()=='ROLE_USER'}">
-      	<li><a href="Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+      	<li><a href="${pageContext.request.contextPath}/Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
       	</c:if>
       	<c:if test="${user.getRole()=='ROLE_SELLER'}">
-      	<li><a href="Seller/sell">Sell</a></li>
-      	<li><a href="Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+      	<li><a href="${pageContext.request.contextPath}/Seller/sell">Sell</a></li>
+      	<li><a href="${pageContext.request.contextPath}/Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
       	</c:if>
       	<c:if test="${user.getRole()=='ROLE_ADMIN'}">
       		
       	</c:if>
       </c:if>
       <c:if test="${empty user.getUser()}">
-      <li><a href="signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a href="${pageContext.request.contextPath}/signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </c:if>
     </ul>
   </div>

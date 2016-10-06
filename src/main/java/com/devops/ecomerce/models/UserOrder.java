@@ -18,7 +18,6 @@ public class UserOrder {
 	private Integer orderId;
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "id")
 	private Cart cartId;
 	@NotNull
 	private Date orderDate;

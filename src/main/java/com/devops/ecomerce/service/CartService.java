@@ -29,8 +29,8 @@ public class CartService implements ICartService {
 		return iCartDAO.getCart(cart);
 	}
 
-	public UserOrder addOrder(Cart cart) {
-		return iCartDAO.addOrder(cart);
+	public UserOrder addOrder(UserOrder order) {
+		return iCartDAO.addOrder(order);
 	}
 	
 	public Cart getCart(User user){

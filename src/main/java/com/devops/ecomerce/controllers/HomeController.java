@@ -76,13 +76,13 @@ public class HomeController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/products")
+	@RequestMapping(value="/Product/products")
 	public ModelAndView viewProducts(HttpServletRequest request){
 		int categoryId=Integer.parseInt(request.getParameter("c"));
 		return new ModelAndView("products","products",iUtilityService.getJson(iProductService.viewProducts(iCategoryService.viewCategory(categoryId)))).addObject("image", iUtilityService).addObject("user",iUserService);
 	}
 	
-	@RequestMapping(value="/Details")
+	@RequestMapping(value="/Product/Details")
 	public ModelAndView viewProduct(HttpServletRequest request){
 		int productId=Integer.parseInt(request.getParameter("p"));
 		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService);

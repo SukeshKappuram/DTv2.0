@@ -91,8 +91,8 @@
   				</li>
     			<li class="header">{{ resource.name}}</li>
     			<li class="grey">$ {{ resource.price}}</li>
-    			<li><a href="#" class="button" role="button">Add To Cart</a></li>
-   				<li class="grey"><a href="#" class="button" role="button">Buy Now</a> </li>
+    			<li><a href="../Cart/addToCart?c={{ resource.productId}}" class="button" role="button">Add To Cart</a></li>
+   				<li class="grey"><a href="../Cart/buyNow?c={{ resource.productId}}" class="button" role="button">Buy Now</a> </li>
   			</ul>
 		</div>
   	</div>

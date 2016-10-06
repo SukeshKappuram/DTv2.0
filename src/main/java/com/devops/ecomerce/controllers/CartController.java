@@ -31,7 +31,7 @@ public class CartController {
 		return new ModelAndView("viewCart","cartItems",iCartService.viewCart(iUserService.getUser())).addObject("cart",iCartService.getCart(iUserService.getUser())).addObject("user",iUserService);
 	}
 	
-	@RequestMapping(value="/addToCart")
+	@RequestMapping(value={"/addToCart","/buyNow"})
 	public String addToCart(HttpServletRequest request){
 		int productId=Integer.parseInt(request.getParameter("c"));
 		String redirect="redirect:/";
@@ -51,7 +51,9 @@ public class CartController {
 		cartItem.setCartGroupId(cartGroup);
 		iCartService.addToCart(cartItem);
 			redirect="redirect:/Cart/cart";
-		
+			if(request.getRequestURI().contains("buyNow")){
+				redirect="redirect:/User/shipTo?c="+cart.getCartId();
+			}
 		return redirect;
 	}
 	
@@ -98,6 +100,6 @@ public class CartController {
 	
 	@RequestMapping(value="/viewOrder")
 	public ModelAndView viewOrder(){
-		return new ModelAndView("viewOrder");
+		return new ModelAndView("viewOrders","cartItems",iCartService.viewCart(iUserService.getUser()));
 	}
 }

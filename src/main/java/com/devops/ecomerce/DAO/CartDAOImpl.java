@@ -58,11 +58,11 @@ public class CartDAOImpl implements ICartDAO {
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public UserOrder addOrder(Cart cart) {
+	public UserOrder addOrder(UserOrder order) {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
-		session.saveOrUpdate(cart);
+		session.saveOrUpdate(order);
 		tx.commit();
 		return new UserOrder();
 	}

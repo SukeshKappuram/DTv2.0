@@ -37,7 +37,7 @@ $(document).ready(function(){
 <title>KartooZ</title>
 </head>
 <body>
-<c:if test="${user.getRole()=='ROLE_USER'}">
+<c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER' or empty user}">
 <%@include file="header.jsp" %>
 </c:if>
 <div class="container">
@@ -159,7 +159,7 @@ $(document).ready(function(){
     				}
 				});
 			</script>
-<c:if test="${user.getRole()=='ROLE_USER'}">
+<c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER' or empty user}">
 <%@include file="footer.jsp" %>
 </c:if>
 </body>
