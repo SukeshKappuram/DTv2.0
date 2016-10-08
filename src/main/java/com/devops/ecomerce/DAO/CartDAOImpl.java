@@ -88,5 +88,23 @@ public class CartDAOImpl implements ICartDAO {
 		tx.commit();
 		return cartItems;
 	}
+	
+	public List<CartItem> getCart(int productId,int cartId){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		System.out.println("==START==");
+		Criteria cr=session.createCriteria(CartItem.class).add(Restrictions.eq("cartGroupId.productId.productId",productId));
+		cr.add(Restrictions.eq("cartGroupId.cartId.cartId",cartId));
+		List<CartItem> cartItems=cr.list();
+		System.out.println("==START==");
+		for(CartItem c:cartItems){
+			System.out.println(c.getTotatPrice());
+		}
+		System.out.println("==END==");
+		System.out.println("==END==");
+		tx.commit();
+		return cartItems;
+	}
 
 }

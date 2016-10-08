@@ -84,7 +84,7 @@
                 						<p>${s.state},${s.pincode}.</p>
                 						<p>Phone :${s.phoneNumber}</p>
                 						</c:forEach>
-                						<c:forEach var="s" items="${shippings}" begin="1">
+                						<c:forEach var="s" items="${shippings}" begin="2">
                	 						<input type="radio" value="" name='addressId'/><b>${s.receiverName}</b>
                 						<p>${s.doorNo}, ${s.street},</p>
                 						<p>${s.description}, </p>

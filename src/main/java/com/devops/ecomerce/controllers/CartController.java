@@ -52,7 +52,7 @@ public class CartController {
 		iCartService.addToCart(cartItem);
 			redirect="redirect:/Cart/cart";
 			if(request.getRequestURI().contains("buyNow")){
-				redirect="redirect:/User/shipTo?c="+cart.getCartId();
+				redirect="redirect:/User/shipTo?c="+cart.getCartId()+"&&p="+productId;
 			}
 		return redirect;
 	}

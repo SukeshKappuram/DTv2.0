@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -29,7 +32,7 @@ import com.devops.ecomerce.models.UserRole;
 @Configuration
 @ComponentScan("com")
 @EnableTransactionManagement
-public class ApplicationConfiguration {
+public class ApplicationConfiguration{
 	private  Properties getHibernateProperties()
 	{
 		Properties properties=new Properties();
@@ -68,4 +71,30 @@ public class ApplicationConfiguration {
 		return hibernateTransactionManager;
 		
 	}
+	
+	@Autowired
+	@Bean(name="javaMailSender")
+	public JavaMailSender javaMailService() {
+		
+		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+			
+		Properties mailProperties = new Properties();
+        
+        mailProperties.put("mail.smtp.host", "smtp.gmail.com");
+        mailProperties.put("mail.smtp.auth","true");
+        mailProperties.put("mail.smtp.starttls.enable", "true");
+        mailProperties.put("mail.smtp.port", "587");
+        mailProperties.setProperty("mail.debug", "true");
+        
+	        javaMailSender.setJavaMailProperties(mailProperties);
+	        javaMailSender.setHost("smtp.gmail.com");
+	        javaMailSender.setPort(587);
+	        javaMailSender.setProtocol("smtp");
+	        javaMailSender.setUsername("your@gmail.com");
+	        javaMailSender.setPassword("******");
+	        
+	        return javaMailSender;
+	    }
+
+	    
 }

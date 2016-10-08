@@ -2,6 +2,8 @@ package com.devops.ecomerce.controllers;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,15 @@ public class UserController {
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
 	public ResponseEntity<Void> signUp(@RequestBody User user,UriComponentsBuilder ucBuilder){
 		iUserService.addUser(user);
+		String subject="Thanks for Registering with NIIT CONNECT";
+		String body="This is a greeting mail from NIIT Connect";
+		try {
+			iNetworkService.send(user, subject,body);
+			System.out.println("mail sent");
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
@@ -111,15 +122,27 @@ public class UserController {
 	
 	@RequestMapping(value="/shipTo")
 	public ModelAndView shippingAddress(HttpServletRequest request){
-		//int cartId=Integer.parseInt(request.getParameter("c"));
-		ModelAndView mv= new ModelAndView("shippingAddress","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
+		int productId=0,cartId=0;
+		try{
+		productId=Integer.parseInt(request.getParameter("p"));
+		cartId=Integer.parseInt(request.getParameter("c"));
+		}catch(Exception e){}
+		ModelAndView mv= new ModelAndView("shippingAddress","command",new ShippingAddress());
+		
 		try{
 			if(iUserService.viewShippingAddress().size()>0){
-				mv=new ModelAndView("shippingAddress","command",new ShippingAddress()).addObject("shippings",iUserService.viewShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
+				mv.addObject("shippings",iUserService.viewShippingAddress());
+				System.out.println(iUserService.viewShippingAddress().size());
+				if(productId>0){
+					mv.addObject("cartItems",iCartService.getCart(productId,cartId));
+				}
+				else{
+					mv.addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
+				}
 			}
 		}
 		catch(Exception e){
-			mv=new ModelAndView("shippingAddress","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
+			mv.addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
 		}
 		return mv;
 	}

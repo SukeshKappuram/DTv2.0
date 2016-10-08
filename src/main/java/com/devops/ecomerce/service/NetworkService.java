@@ -2,8 +2,14 @@ package com.devops.ecomerce.service;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
 
 import com.devops.ecomerce.DAO.INetworkDAO;
 import com.devops.ecomerce.models.Blog;
@@ -37,5 +43,26 @@ public class NetworkService implements INetworkService {
 	
 	public List<SocialNetwork> viewNetworks(String network,User user){
 		return iNetworkDAO.viewNetworks(network, user);
+	}
+	
+	public static final String REPLY_TO_ADDRESS="support@kartooz.com";
+	public static final String FROM_ADDRESS="wecare@kartooz.com";
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	public void send(User user,String subject,String body) throws MessagingException
+	{
+		System.out.println("Inside mail");
+		MimeMessage mail=javaMailSender.createMimeMessage();
+		MimeMessageHelper helper=new MimeMessageHelper(mail,true);
+		helper.setTo(user.getMailId());
+		helper.setReplyTo(REPLY_TO_ADDRESS);
+		helper.setFrom(FROM_ADDRESS);
+		helper.setSubject(subject);
+		helper.setText(body);
+		helper.setText(body);
+		helper.addBcc("sukesh.niithabsiguda@gmail.com");
+		javaMailSender.send(mail);
 	}
 }

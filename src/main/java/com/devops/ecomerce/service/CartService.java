@@ -41,4 +41,7 @@ public class CartService implements ICartService {
 		return iCartDAO.viewCart(user);
 	}
 
+	public List<CartItem> getCart(int productId,int cartId){
+		return iCartDAO.getCart(productId,cartId);
+	}
 }
