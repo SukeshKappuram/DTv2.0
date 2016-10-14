@@ -3,7 +3,8 @@ package com.devops.ecomerce.DAO;
 import java.util.List;
 
 import com.devops.ecomerce.models.Category;
-import com.devops.ecomerce.models.User;
+import com.devops.ecomerce.service.ICategoryService;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,11 +12,13 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository("Category")
-public class CategoryDAOImpl implements ICategoryDAO {
+@Repository
+@Service("categoryService")
+public class CategoryDAOImpl implements ICategoryService {
 
 	@Autowired
 	private SessionFactory factory;

@@ -5,6 +5,7 @@ import com.devops.ecomerce.models.Category;
 import com.devops.ecomerce.models.Product;
 import com.devops.ecomerce.models.Seller;
 import com.devops.ecomerce.models.User;
+import com.devops.ecomerce.service.IProductService;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -16,11 +17,13 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository("Product")
-public class ProductDAOImpl implements IProductDAO {
+@Repository
+@Service("productService")
+public class ProductDAOImpl implements IProductService {
 
 	@Autowired
 	private SessionFactory factory;

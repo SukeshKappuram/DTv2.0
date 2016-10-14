@@ -2,6 +2,9 @@ package com.devops.ecomerce.DAO;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +12,10 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +23,11 @@ import com.devops.ecomerce.models.Blog;
 import com.devops.ecomerce.models.Forum;
 import com.devops.ecomerce.models.SocialNetwork;
 import com.devops.ecomerce.models.User;
+import com.devops.ecomerce.service.INetworkService;
 
-@Repository("SocialNetwork")
-public class NetworkDAOImpl implements INetworkDAO {
+@Repository
+@Service("networkService")
+public class NetworkDAOImpl implements INetworkService {
 
 	@Autowired
 	private SessionFactory factory;
@@ -87,6 +95,27 @@ public class NetworkDAOImpl implements INetworkDAO {
 		SocialNetwork sn=(SocialNetwork)ct.uniqueResult();
 		tx.commit();
 		return sn;
+	}
+
+	public static final String REPLY_TO_ADDRESS="support@kartooz.com";
+	public static final String FROM_ADDRESS="wecare@kartooz.com";
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	public void send(User user,String subject,String body) throws MessagingException
+	{
+		System.out.println("Inside mail");
+		MimeMessage mail=javaMailSender.createMimeMessage();
+		MimeMessageHelper helper=new MimeMessageHelper(mail,true);
+		helper.setTo(user.getMailId());
+		helper.setReplyTo(REPLY_TO_ADDRESS);
+		helper.setFrom(FROM_ADDRESS);
+		helper.setSubject(subject);
+		helper.setText(body);
+		helper.setText(body);
+		helper.addBcc("sukesh.niithabsiguda@gmail.com");
+		javaMailSender.send(mail);
 	}
 
 
