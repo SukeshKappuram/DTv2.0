@@ -8,6 +8,8 @@ import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserRole;
+import com.devops.ecomerce.service.IUserService;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,11 +18,13 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository("User")
-public class UserDAOImpl implements IUserDAO {
+@Repository
+@Service("userService")
+public class UserDAOImpl implements IUserService {
 
 	@Autowired
 	private SessionFactory factory;

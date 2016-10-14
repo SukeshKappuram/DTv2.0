@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//USER
 		http.authorizeRequests()
 		.antMatchers("/User/**").access("hasRole('ROLE_USER')")
-		.and().formLogin().defaultSuccessUrl("/").failureUrl("/log?error")
+		.and().formLogin().defaultSuccessUrl("/User/").failureUrl("/log?error")
 		.and().logout()
 		.and().exceptionHandling().accessDeniedPage("/403");		
 		
