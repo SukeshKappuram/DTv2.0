@@ -116,9 +116,10 @@
                 <ul class="dropdown-menu">
                   <li><a href="${pageContext.request.contextPath}/Profile"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
                   <li><a href="${pageContext.request.contextPath}/Cart/viewOrder"><span class="glyphicon glyphicon-th"></span> My Orders</a></li>
-                  <li><a href="${pageContext.request.contextPath}/">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
+                  <li><a href="${pageContext.request.contextPath}/logout">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
                 </ul>
          </li>
+         <li><a href="${pageContext.request.contextPath}/logout">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
       	 <c:if test="${user.getRole()=='ROLE_USER'}">
       	<li><a href="${pageContext.request.contextPath}/Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
       	</c:if>
