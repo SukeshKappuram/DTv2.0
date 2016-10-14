@@ -8,9 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 @Configuration
 @EnableWebSecurity
@@ -38,23 +35,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//SELLER
 		http.authorizeRequests()
 		.antMatchers("/Seller/**").access("hasRole('ROLE_SELLER')")
-		.and().formLogin().defaultSuccessUrl("/Seller/sell").failureUrl("/log?error")
+		.and().formLogin().defaultSuccessUrl("/Seller/sell").failureUrl("/authenticate?error")
 		.and().logout()
 		.and().exceptionHandling().accessDeniedPage("/403");
 		
 		//ADMIN
 		http.authorizeRequests()
 		.antMatchers("/Admin/**").access("hasRole('ROLE_ADMIN')")
-		.and().formLogin().defaultSuccessUrl("/Admin/").failureUrl("/log?error")
+		.and().formLogin().defaultSuccessUrl("/Admin/").failureUrl("/authenticate?error")
 		.and().logout()
 		.and().exceptionHandling().accessDeniedPage("/403");
 		
 		//USER
 		http.authorizeRequests()
 		.antMatchers("/User/**").access("hasRole('ROLE_USER')")
-		.and().formLogin().defaultSuccessUrl("/User/").failureUrl("/log?error")
+		//.and().formLogin().loginPage("/authenticate").loginProcessingUrl("/login").defaultSuccessUrl("/User/").failureUrl("/authenticate?error")
+		.and().formLogin().defaultSuccessUrl("/User/").failureUrl("/authenticate?error")
 		.and().logout()
-		.and().exceptionHandling().accessDeniedPage("/403");		
+		.and().exceptionHandling().accessDeniedPage("/403")
+		.and().csrf();		
 		
 		http.headers().frameOptions().disable();
 	}

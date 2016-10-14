@@ -21,7 +21,7 @@
     				</div>
    				</c:if>
 	</c:forEach>
- 	<form:form action="User/authenticate" method="post" >
+ 	<form:form action="/ecomerce/login" method="post" >
     <div class="form-group">
       <label for="inputlg">Mail Id</label>
       <form:input class="form-control" path="mailId" type="email"/>
@@ -30,6 +30,7 @@
       <label for="inputlg">Password</label>
       <form:input class="form-control" path="password" type="password"/>
     </div>
+     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <div class="form-group">
     	<button type="submit" class="btn btn-primary">Login</button>
    	</div>
