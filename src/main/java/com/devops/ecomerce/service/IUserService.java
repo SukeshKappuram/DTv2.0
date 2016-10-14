@@ -9,6 +9,7 @@ public interface IUserService {
 	public int addUser(User user);
 	public void addShippingAddress(ShippingAddress s);
 	public User verifyUser(User user);
+	public User loadUser(String mailId);
 	public User getUser();
 	public void updateUser(User user);
 	public List<User> viewUsers();

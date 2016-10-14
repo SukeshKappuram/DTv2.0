@@ -35,11 +35,6 @@ public class HomeController {
 
 	@RequestMapping(value="/")
 	public ModelAndView home(){
-		User user=null;
-		try{
-			user=iUserService.getUser();
-		}
-		catch(Exception e){}
 		return new ModelAndView("home","categories", iCategoryService.viewCategories()).addObject("image", iUtilityService).addObject("user",iUserService);
 	}
 	
@@ -53,7 +48,7 @@ public class HomeController {
 		return new ModelAndView("contactUs");
 	}
 	
-	@RequestMapping(value="/login",method=RequestMethod.GET)
+	@RequestMapping(value="/authenticate",method=RequestMethod.GET)
 	public ModelAndView login(){
 		return new ModelAndView("login","command",new User()).addObject("errors", iUtilityService.getErrors());
 	}
@@ -94,4 +89,9 @@ public class HomeController {
 		return new ModelAndView("profile","user",iUserService);
 	}
 	
+	@RequestMapping(value = "/403")
+	public ModelAndView errorPage() {
+		ModelAndView model = new ModelAndView("errorPage");
+		return model;
+	}
 }

@@ -90,8 +90,8 @@ public class ApplicationConfiguration{
 	        javaMailSender.setHost("smtp.gmail.com");
 	        javaMailSender.setPort(587);
 	        javaMailSender.setProtocol("smtp");
-	        javaMailSender.setUsername("your@gmail.com");
-	        javaMailSender.setPassword("******");
+	        javaMailSender.setUsername("yourmail@gmail.com");
+	        javaMailSender.setPassword("p******d");
 	        
 	        return javaMailSender;
 	    }

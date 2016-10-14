@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-@Configuration
+	@Configuration
 	@EnableWebMvc
 	@ComponentScan(basePackages="com.devops")
 	@Import({ SecurityConfiguration.class })

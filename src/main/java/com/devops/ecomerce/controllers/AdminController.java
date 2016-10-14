@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -44,6 +47,10 @@ public class AdminController {
 	
 	@RequestMapping(value="/")
 	public ModelAndView admin(){
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		User currentUser = (User)a.getPrincipal();
+		System.out.println(currentUser.getUsername());
+		iUserService.loadUser(currentUser.getUsername());
 		return new ModelAndView("administration","products",iProductService.viewProducts()).addObject("user",iUserService);
 	}
 	

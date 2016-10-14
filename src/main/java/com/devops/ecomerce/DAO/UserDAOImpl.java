@@ -158,4 +158,15 @@ public class UserDAOImpl implements IUserDAO {
 		tx.commit();
 		return ur.getRoleName();
 	}
+
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public User loadUser(String mailId) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(User.class);
+		cr.add(Restrictions.eq("mailId",mailId));
+		user=(User)cr.uniqueResult();
+		tx.commit();
+		return user;
+	}
 }

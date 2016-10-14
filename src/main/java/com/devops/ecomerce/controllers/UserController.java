@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -27,13 +29,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.devops.ecomerce.models.Blog;
 import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.Forum;
-import com.devops.ecomerce.models.Seller;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserOrder;
 import com.devops.ecomerce.service.ICartService;
 import com.devops.ecomerce.service.INetworkService;
-import com.devops.ecomerce.service.IProductService;
 import com.devops.ecomerce.service.IUserService;
 import com.devops.ecomerce.service.IUtilityService;
 
@@ -51,12 +51,17 @@ public class UserController {
 	private ICartService iCartService;
 	
 	@Autowired(required=true)
-	private IProductService iProductService;
-	
-	@Autowired(required=true)
 	private IUtilityService iUtilityService;
 
 	List<ObjectError> errors;
+	
+	@RequestMapping(value="/")
+	public String home(){
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		org.springframework.security.core.userdetails.User currentUser = (org.springframework.security.core.userdetails.User)a.getPrincipal();
+		iUserService.loadUser(currentUser.getUsername());
+		return "redirect:/";
+	}
 
 	/*
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
@@ -91,8 +96,9 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@RequestMapping(value="/authenticate",method=RequestMethod.POST)
 	public String login(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
+		System.out.println("Login");
 		iUserService.verifyUser(u);
 		try{
 			iUserService.getUser().equals(null);

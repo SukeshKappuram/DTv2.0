@@ -10,6 +10,9 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -51,6 +54,9 @@ public class SellerController {
 	
 	@RequestMapping(value="/sell")
 	public ModelAndView sell(){
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		User currentUser = (User)a.getPrincipal();
+		iUserService.loadUser(currentUser.getUsername());
 		ModelAndView mv=new ModelAndView("management","command",new Seller());
 		mv.addObject("categories",iCategoryService.viewCategories());
 		mv.addObject("products", iProductService.viewProducts());

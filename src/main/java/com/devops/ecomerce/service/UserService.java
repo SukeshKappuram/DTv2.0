@@ -84,4 +84,9 @@ public class UserService implements IUserService {
 		return iUserDAO.getShippingAddress();
 	}
 
+	public User loadUser(String mailId) {
+		// TODO Auto-generated method stub
+		return iUserDAO.loadUser(mailId);
+	}
+
 }

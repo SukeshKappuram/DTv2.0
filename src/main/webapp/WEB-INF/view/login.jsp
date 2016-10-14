@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>KartooZ</title>
 </head>
-<body>
+<body onload='document.f.username.focus();'>
 <%@include file="header.jsp" %>
 <div class="container">
   <h2 style="color: white;">Sign In</h2>
@@ -21,7 +21,7 @@
     				</div>
    				</c:if>
 	</c:forEach>
- 	<form:form action="User/login" method="post" >
+ 	<form:form action="User/authenticate" method="post" >
     <div class="form-group">
       <label for="inputlg">Mail Id</label>
       <form:input class="form-control" path="mailId" type="email"/>
@@ -33,30 +33,7 @@
     <div class="form-group">
     	<button type="submit" class="btn btn-primary">Login</button>
    	</div>
-   	<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
   	</form:form>
-  	<form name='loginForm'
-		  action="<c:url value='/loginPattern' />" method='POST'>
-		<table>
-			<tr>
-				<td>User:</td>
-				<td><input type='text' name='username'></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='password' /></td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-				  value="submit" /></td>
-			</tr>
-		  </table>
-
-		  <input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
-
-		</form>
     </div>
     <div class="panel-footer">New User? click <a href="signUp">here</a></div>
   </div>
