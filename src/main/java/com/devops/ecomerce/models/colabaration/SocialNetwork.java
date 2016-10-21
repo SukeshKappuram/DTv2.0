@@ -1,4 +1,4 @@
-package com.devops.ecomerce.models;
+package com.devops.ecomerce.models.colabaration;
 
 import java.util.Date;
 
@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import com.devops.ecomerce.models.User;
 
 @Entity
 public class SocialNetwork {

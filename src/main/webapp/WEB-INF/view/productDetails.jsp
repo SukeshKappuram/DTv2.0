@@ -94,7 +94,7 @@
 }
 </style>
 </head>
-<body>
+<body text='white'>
 <%@include file="header.jsp" %>
 <div class="jumbotron text-center">
   <h2>${product.name}</h2>
@@ -110,16 +110,36 @@
     </div>
     <div class="col-sm-4">
       <h3>Price</h3>
-      <p>$ ${product.price}</p>
-      <p style="color:#093d2f">Available : ${product.available}</p>
-      <p><a href="../Cart/addToCart?c=${product.productId}" class="btn btn-info" role="button">Add To Cart</a></p>
+       <fmt:formatNumber var="prc" value="${product.price}"  maxFractionDigits="0" />
+      <p>$ ${prc}</p>
+      
+      <c:if test="${product.available < 1}">
+      	<p style="color:#cc00cc">Not in Stock</p>
+      </c:if>
+      <c:if test="${product.available > 1}">
+      	<p>Available : ${product.available}</p>
+      	<p><a href="../Cart/addToCart?c=${product.productId}" class="btn btn-info" role="button">Add To Cart</a></p>
+      </c:if>
     </div>
+    
     <div class="col-sm-4">
-      <h3>Delivery</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      <h3>Sellers</h3>
+      <c:forEach var="s" items="${sellers}">
+      <p>${s.userId.firstName} ${s.userId.lastName}</p>
+      <p>${s.description}</p>
+      <fmt:formatNumber var="dis" value="${s.discount}"  maxFractionDigits="0" />
+      <p>Discount ${dis} %</p>
+      <fmt:formatNumber var="disPrice" value="${product.price - (product.price div s.discount)}"  maxFractionDigits="0" />
+      <p>Now for just Rs.  ${disPrice} only</p>
+      <p>${user.getShippingAddress(s.userId).pincode}</p> <p>${s.userId.id}</p>
+      <p>${s.shippingAddress.pincode}</p>
+      <p><c:if test="${s.freeDelivery == true}"> Free Delivery with in ${distance.delivableDays(user.getShippingAddress().getPincode(),s.shippingAddress.pincode)}</c:if></p>
+      <p>Available : ${s.quantity}</p>
+      <p>${s.shippingAddress.pincode}</p>
       <p><a href="#" class="btn btn-success" role="button">Buy Now</a> </p>
+      </c:forEach>
     </div>
+    
   </div>
 </div>
 <div id="myModal" class="modal">

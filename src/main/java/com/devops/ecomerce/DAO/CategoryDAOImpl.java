@@ -23,6 +23,8 @@ public class CategoryDAOImpl implements ICategoryService {
 	@Autowired
 	private SessionFactory factory;
 	
+	//CRUD Operations on Category
+	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public void addCategory(Category category) {
 		Session session=factory.getCurrentSession();

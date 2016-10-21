@@ -166,12 +166,9 @@ box-shadow:         0px 0px 8px 0px rgba(50, 50, 50, 0.54);
     height: 200px;
 }
 </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,200' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<link href='http://fonts.googleapis.com/css?family=Raleway:400,200' rel='stylesheet' type='text/css'>
 <%@ include file="header.jsp" %>
 	<div class="row login_box">
 	    <div class="col-md-12 col-xs-12" align="center">

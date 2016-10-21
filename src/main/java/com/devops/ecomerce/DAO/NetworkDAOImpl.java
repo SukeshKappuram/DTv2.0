@@ -19,10 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devops.ecomerce.models.Blog;
-import com.devops.ecomerce.models.Forum;
-import com.devops.ecomerce.models.SocialNetwork;
 import com.devops.ecomerce.models.User;
+import com.devops.ecomerce.models.colabaration.Blog;
+import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.SocialNetwork;
 import com.devops.ecomerce.service.INetworkService;
 
 @Repository
@@ -31,6 +31,14 @@ public class NetworkDAOImpl implements INetworkService {
 
 	@Autowired
 	private SessionFactory factory;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	public static final String REPLY_TO_ADDRESS="support@kartooz.com";
+	public static final String FROM_ADDRESS="wecare@kartooz.com";
+
+	//CRUD on Networks
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<SocialNetwork> viewNetworks(String network) {
@@ -96,12 +104,8 @@ public class NetworkDAOImpl implements INetworkService {
 		tx.commit();
 		return sn;
 	}
-
-	public static final String REPLY_TO_ADDRESS="support@kartooz.com";
-	public static final String FROM_ADDRESS="wecare@kartooz.com";
 	
-	@Autowired
-	private JavaMailSender javaMailSender;
+	//Emailer
 	
 	public void send(User user,String subject,String body) throws MessagingException
 	{
@@ -113,10 +117,8 @@ public class NetworkDAOImpl implements INetworkService {
 		helper.setFrom(FROM_ADDRESS);
 		helper.setSubject(subject);
 		helper.setText(body);
-		helper.setText(body);
 		helper.addBcc("sukesh.niithabsiguda@gmail.com");
 		javaMailSender.send(mail);
 	}
-
 
 }

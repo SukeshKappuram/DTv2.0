@@ -9,30 +9,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.devops.ecomerce.models.Blog;
 import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.CartItem;
 import com.devops.ecomerce.models.Category;
-import com.devops.ecomerce.models.Comment;
-import com.devops.ecomerce.models.Forum;
 import com.devops.ecomerce.models.UserOrder;
 import com.devops.ecomerce.models.Product;
 import com.devops.ecomerce.models.Seller;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserRole;
+import com.devops.ecomerce.models.colabaration.Blog;
+import com.devops.ecomerce.models.colabaration.Comment;
+import com.devops.ecomerce.models.colabaration.Forum;
 
 @Configuration
 @ComponentScan("com")
 @EnableTransactionManagement
 public class ApplicationConfiguration{
+	
+	//Hibernates Properties
+	
 	private  Properties getHibernateProperties()
 	{
 		Properties properties=new Properties();
@@ -42,12 +44,17 @@ public class ApplicationConfiguration{
 		return properties;
 	}
 	
+	//SessionFactory Bean
+	
 	@Autowired
 	@Bean(name="sessionFactory")
 	public SessionFactory getSessionFactory(DataSource dataSource)
 	{
 		LocalSessionFactoryBuilder localSessionFactoryBuilder=new LocalSessionFactoryBuilder(dataSource);
 		localSessionFactoryBuilder.addProperties(getHibernateProperties());
+		
+		//Ecomerce Module
+		
 		localSessionFactoryBuilder.addAnnotatedClass(User.class);
 		localSessionFactoryBuilder.addAnnotatedClass(UserRole.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Category.class);
@@ -57,11 +64,17 @@ public class ApplicationConfiguration{
 		localSessionFactoryBuilder.addAnnotatedClass(ShippingAddress.class);
 		localSessionFactoryBuilder.addAnnotatedClass(UserOrder.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Seller.class);
+		
+		//Colabration Module
+		
 		localSessionFactoryBuilder.addAnnotatedClass(Blog.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Comment.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Forum.class);
+		
 		return localSessionFactoryBuilder.buildSessionFactory();
 	}
+	
+	//Hibernate Transaction
 	
 	@Autowired
 	@Bean(name="transactionManager")
@@ -71,6 +84,8 @@ public class ApplicationConfiguration{
 		return hibernateTransactionManager;
 		
 	}
+	
+	//Emailer Properties
 	
 	@Autowired
 	@Bean(name="javaMailSender")

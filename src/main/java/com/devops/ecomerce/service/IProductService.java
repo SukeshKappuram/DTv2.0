@@ -20,4 +20,5 @@ public interface IProductService {
 	public void delete(Seller seller);
 	public List<Product> showProducts();
 	public List<Product> updateProductAvailablity();
+	public List<Seller> viewSellers(int productId);
 }

@@ -1,11 +1,12 @@
 package com.devops.ecomerce.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.validation.ObjectError;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.devops.ecomerce.models.SocialNetwork;
+import com.devops.ecomerce.models.colabaration.SocialNetwork;
 
 
 public interface IUtilityService {
@@ -14,4 +15,5 @@ public interface IUtilityService {
 	public void setErrors(List<ObjectError> errors);
 	public List<ObjectError> getErrors();
 	public void uploadImage(MultipartFile file,SocialNetwork s);
+	public double findDistance(long... pin) throws IOException;
 }

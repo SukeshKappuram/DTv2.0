@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
-import com.devops.ecomerce.models.Blog;
-import com.devops.ecomerce.models.Forum;
-import com.devops.ecomerce.models.SocialNetwork;
 import com.devops.ecomerce.models.User;
+import com.devops.ecomerce.models.colabaration.Blog;
+import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.SocialNetwork;
 
 public interface INetworkService {
 	public List<SocialNetwork> viewNetworks(String network);

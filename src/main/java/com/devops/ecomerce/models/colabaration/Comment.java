@@ -1,4 +1,4 @@
-package com.devops.ecomerce.models;
+package com.devops.ecomerce.models.colabaration;
 
 import java.util.Date;
 
@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.devops.ecomerce.models.User;
 
 @Entity
 public class Comment {

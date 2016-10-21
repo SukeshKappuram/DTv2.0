@@ -26,6 +26,8 @@ public class CartController {
 	@Autowired(required=true)
 	private IUserService iUserService;
 	
+	//CRUD on Cart
+	
 	@RequestMapping(value="/cart")
 	public ModelAndView Cart(){
 		return new ModelAndView("viewCart","cartItems",iCartService.viewCart(iUserService.getUser())).addObject("cart",iCartService.getCart(iUserService.getUser())).addObject("user",iUserService);
@@ -67,6 +69,8 @@ public class CartController {
 		return "redirect:/Cart/cart";
 	} 
 	
+	//Payment Options
+	
 	@RequestMapping(value="/payment")
 	public ModelAndView PayCart(){
 		return new ModelAndView("Payment");
@@ -93,6 +97,8 @@ public class CartController {
 		return new ModelAndView("cod","payment",payment);
 	}
 		
+	//CRUD on Order
+	
 	@RequestMapping(value="/createOrder")
 	public ModelAndView createOrder(){
 		return new ModelAndView("wallet");

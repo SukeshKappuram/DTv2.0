@@ -28,6 +28,8 @@ public class ProductDAOImpl implements IProductService {
 	@Autowired
 	private SessionFactory factory;
 
+	//CRUD operations for Product
+	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public void addProduct(Product product) {
 		Session session=factory.getCurrentSession();
@@ -87,6 +89,8 @@ public class ProductDAOImpl implements IProductService {
 		return products;
 	}
 
+	//CRUD Operations for Seller
+	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public void addSeller(Seller seller) {
 		Session session=factory.getCurrentSession();
@@ -94,6 +98,22 @@ public class ProductDAOImpl implements IProductService {
 	    tx.begin();
 	    session.saveOrUpdate(seller);
 	    tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void updateSeller(Seller seller){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		session.update(seller);
+		tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void delete(Seller seller){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		session.delete(seller);
+		tx.commit();
 	}
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
@@ -121,22 +141,6 @@ public class ProductDAOImpl implements IProductService {
 	}
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public void updateSeller(Seller seller){
-		Session session=factory.openSession();
-		Transaction tx=session.beginTransaction();
-		session.update(seller);
-		tx.commit();
-	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public void delete(Seller seller){
-		Session session=factory.openSession();
-		Transaction tx=session.beginTransaction();
-		session.delete(seller);
-		tx.commit();
-	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Product> updateProductAvailablity(){
 		Session session=factory.openSession();
 		Transaction tx=session.beginTransaction();
@@ -159,5 +163,17 @@ public class ProductDAOImpl implements IProductService {
 		}
 		tx.commit();
 		return p;
+	}
+
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Seller> viewSellers(int productId) {
+		updateProductAvailablity();
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(Seller.class);
+		cr.add(Restrictions.eq("product", getProduct(productId)));
+		List<Seller> s=cr.list();
+		tx.commit();
+		return s;
 	}
 }

@@ -1,14 +1,17 @@
 package com.devops.ecomerce.controllers;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import com.devops.ecomerce.models.Blog;
-import com.devops.ecomerce.models.Forum;
+
 import com.devops.ecomerce.models.User;
+import com.devops.ecomerce.models.colabaration.Blog;
+import com.devops.ecomerce.models.colabaration.Forum;
 import com.devops.ecomerce.service.ICategoryService;
 import com.devops.ecomerce.service.INetworkService;
 import com.devops.ecomerce.service.IProductService;
@@ -32,6 +35,8 @@ public class HomeController {
 	
 	@Autowired(required=true)
 	private IUtilityService iUtilityService;
+	
+	//Home Controls
 
 	@RequestMapping(value="/")
 	public ModelAndView home(){
@@ -58,6 +63,8 @@ public class HomeController {
 		return new ModelAndView("signUp","command",new User()).addObject("errors", iUtilityService.getErrors());
 	}
 	
+	//Colabration Landing Page
+	
 	@RequestMapping(value={"/Blogs","/Forums"})
 	public ModelAndView viewSocialNetwork(HttpServletRequest request){
 		ModelAndView mv=new ModelAndView("viewSocialNetwork","command",new Blog());
@@ -71,6 +78,8 @@ public class HomeController {
 		return mv;
 	}
 	
+	//Ecomerce Product Pages
+	
 	@RequestMapping(value="/Product/products")
 	public ModelAndView viewProducts(HttpServletRequest request){
 		int categoryId=Integer.parseInt(request.getParameter("c"));
@@ -78,16 +87,21 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/Product/Details")
-	public ModelAndView viewProduct(HttpServletRequest request){
+	public ModelAndView viewProduct(HttpServletRequest request) throws IOException{
 		int productId=Integer.parseInt(request.getParameter("p"));
-		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService);
+		
+		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService).addObject("sellers",iProductService.viewSellers(productId)).addObject("distance",iUtilityService);
 	}
+
+	//Commom Controls
 	
 	@RequestMapping(value="/Profile")
 	public ModelAndView viewProfile(HttpServletRequest request){
 		//int productId=Integer.parseInt(request.getParameter("p"));
 		return new ModelAndView("profile","user",iUserService);
 	}
+	
+	//Exception Handler
 	
 	@RequestMapping(value = "/403")
 	public ModelAndView errorPage() {

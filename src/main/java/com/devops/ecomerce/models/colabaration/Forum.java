@@ -1,4 +1,4 @@
-package com.devops.ecomerce.models;
+package com.devops.ecomerce.models.colabaration;
 
 
 import javax.persistence.Entity;

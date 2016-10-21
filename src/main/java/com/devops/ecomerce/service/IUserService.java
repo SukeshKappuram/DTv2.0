@@ -17,4 +17,5 @@ public interface IUserService {
 	public void updateRole(int roleId);
 	public String getRole();
 	public ShippingAddress getShippingAddress();
+	public ShippingAddress getShippingAddress(User user);
 }

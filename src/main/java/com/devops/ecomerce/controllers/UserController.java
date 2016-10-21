@@ -21,17 +21,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.devops.ecomerce.models.Blog;
 import com.devops.ecomerce.models.Cart;
-import com.devops.ecomerce.models.Forum;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserOrder;
+import com.devops.ecomerce.models.colabaration.Blog;
+import com.devops.ecomerce.models.colabaration.Forum;
 import com.devops.ecomerce.service.ICartService;
 import com.devops.ecomerce.service.INetworkService;
 import com.devops.ecomerce.service.IUserService;
@@ -55,6 +54,8 @@ public class UserController {
 
 	List<ObjectError> errors;
 	
+	//Security Controls
+	
 	@RequestMapping(value="/")
 	public String home(){
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
@@ -63,6 +64,8 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	//Authentications
+	
 	/*
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
 	public String signUp(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
@@ -116,15 +119,7 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/cart")
-	public ModelAndView cart(){
-		return new ModelAndView("cart");
-	}
-	
-	@RequestMapping(value="/orders")
-	public ModelAndView orders(){
-		return new ModelAndView("orders");
-	}
+	//Common Controls or Views
 	
 	@RequestMapping(value="/shipTo")
 	public ModelAndView shippingAddress(HttpServletRequest request){
@@ -172,6 +167,8 @@ public class UserController {
 		iCartService.addOrder(order);
 		return new ModelAndView("viewOrders","cartItems",iCartService.viewCart(iUserService.getUser()));
 	}
+
+	//Collabration Control vies
 	
 	@RequestMapping(value={"/Blogs"},method=RequestMethod.POST)
 	public String viewSocialNetwork(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file,@Valid @ModelAttribute("ecomerce") Blog b,BindingResult result){

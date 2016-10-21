@@ -26,6 +26,8 @@ public class CartDAOImpl implements ICartService {
 	@Autowired
 	private SessionFactory factory;
 	
+	//CRUD for Cart
+	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public void addToCart(CartItem cartItem) {
 		Session session=factory.getCurrentSession();
@@ -60,38 +62,6 @@ public class CartDAOImpl implements ICartService {
 		return cart;
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public UserOrder addOrder(UserOrder order) {
-		Session session=factory.getCurrentSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		session.saveOrUpdate(order);
-		tx.commit();
-		return new UserOrder();
-	}
-
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public List<CartItem> viewCart(User user) {
-		Session session=factory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria cr=session.createCriteria(CartItem.class).add(Restrictions.eq("cartGroupId.cartId", getCart(user)));
-		List<CartItem> cartItems=cr.list();
-		tx.commit();
-		return cartItems;
-	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public List getSellerOrders(){
-		Session session=factory.openSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria cr=session.createCriteria(UserOrder.class);
-		List<CartItem> cartItems=cr.list();
-		tx.commit();
-		return cartItems;
-	}
-	
 	public List<CartItem> getCart(int productId,int cartId){
 		Session session=factory.openSession();
 		Transaction tx=session.beginTransaction();
@@ -110,4 +80,38 @@ public class CartDAOImpl implements ICartService {
 		return cartItems;
 	}
 
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<CartItem> viewCart(User user) {
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(CartItem.class).add(Restrictions.eq("cartGroupId.cartId", getCart(user)));
+		List<CartItem> cartItems=(List<CartItem>)cr.list();
+		tx.commit();
+		return cartItems;
+	}
+	
+	//CRUD on Orders
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public UserOrder addOrder(UserOrder order) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		session.saveOrUpdate(order);
+		tx.commit();
+		return new UserOrder();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List getSellerOrders(){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(UserOrder.class);
+		List<CartItem> cartItems=cr.list();
+		tx.commit();
+		return cartItems;
+	}
+		
 }

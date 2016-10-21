@@ -18,6 +18,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 	@ComponentScan(basePackages="com.devops")
 	@Import({ SecurityConfiguration.class })
 	public class ViewResolverConfiguration {
+		
+		//DataSource
+		
 		@Bean(name="dataSource")
 		public DataSource getDataSource()
 		{
@@ -29,6 +32,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 			dataSource.setUrl("jdbc:h2:tcp://localhost/~/test");
 			return dataSource;
 		}
+		
+		// ViewResolver
 		 @Bean
 		    public ViewResolver viewResolver() {
 		        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -37,6 +42,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 		        viewResolver.setSuffix(".jsp");
 		        return viewResolver;
 		    }
+		 
+		 //MultiPart Resolver
 		 @Bean(name="multipartResolver") 
 		 public MultipartResolver getMultiResolver(){
 			 CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver();

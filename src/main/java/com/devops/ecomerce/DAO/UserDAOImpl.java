@@ -30,6 +30,8 @@ public class UserDAOImpl implements IUserService {
 	private SessionFactory factory;
 	
 	private User user;
+
+	//CRUD Operations for User
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public int addUser(User u) {
@@ -51,14 +53,6 @@ public class UserDAOImpl implements IUserService {
 		return 1;
 		}
 		return 0;
-	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public void addShippingAddress(ShippingAddress s) {
-		Session session=factory.getCurrentSession();
-		Transaction tx=session.beginTransaction();
-		session.saveOrUpdate(s);
-		tx.commit();
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS)
@@ -97,29 +91,6 @@ public class UserDAOImpl implements IUserService {
 		return users;
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public List<ShippingAddress> viewShippingAddress() {
-		Session session=factory.getCurrentSession();
-		Transaction tx=session.beginTransaction();
-		Criteria cr=session.createCriteria(ShippingAddress.class);
-		cr.add(Restrictions.eq("userId",user));
-		List<ShippingAddress> shippingAddress=cr.list();
-		tx.commit();
-		return shippingAddress;
-	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public ShippingAddress getShippingAddress() {
-		Session session=factory.getCurrentSession();
-		Transaction tx=session.beginTransaction();
-		Criteria cr=session.createCriteria(ShippingAddress.class);
-		cr.add(Restrictions.eq("userId",user));
-		cr.setFirstResult(1);
-		ShippingAddress shippingAddress=(ShippingAddress)cr.uniqueResult();
-		tx.commit();
-		return shippingAddress;
-	}
-	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public boolean isNewUser(User user) {
 		boolean newUser=false;
@@ -173,4 +144,50 @@ public class UserDAOImpl implements IUserService {
 		tx.commit();
 		return user;
 	}
+
+	//CRUD for Shipping Address 
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<ShippingAddress> viewShippingAddress() {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(ShippingAddress.class);
+		cr.add(Restrictions.eq("userId",user));
+		List<ShippingAddress> shippingAddress=cr.list();
+		tx.commit();
+		return shippingAddress;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public ShippingAddress getShippingAddress() {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(ShippingAddress.class);
+		cr.add(Restrictions.eq("userId",user));
+		cr.setFirstResult(1);
+		ShippingAddress shippingAddress=(ShippingAddress)cr.uniqueResult();
+		tx.commit();
+		return shippingAddress;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public ShippingAddress getShippingAddress(User u) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(ShippingAddress.class);
+		cr.add(Restrictions.eq("userId",u));
+		cr.setFirstResult(1);
+		ShippingAddress shippingAddress=(ShippingAddress)cr.uniqueResult();
+		tx.commit();
+		return shippingAddress;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void addShippingAddress(ShippingAddress s) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		session.saveOrUpdate(s);
+		tx.commit();
+	}
+
 }

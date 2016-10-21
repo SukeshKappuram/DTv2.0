@@ -45,6 +45,8 @@ public class AdminController {
 	@Autowired(required=true)
 	private IUserService iUserService;
 	
+	//Controller Page
+	
 	@RequestMapping(value="/")
 	public ModelAndView admin(){
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
@@ -53,6 +55,8 @@ public class AdminController {
 		iUserService.loadUser(currentUser.getUsername());
 		return new ModelAndView("administration","products",iProductService.viewProducts()).addObject("user",iUserService);
 	}
+	
+	//CRUD Operation on Product
 	
 	@RequestMapping(value="/addProduct",method=RequestMethod.GET)
 	public ModelAndView addProduct(){
@@ -95,6 +99,21 @@ public class AdminController {
         return "redirect:./addProduct";
 	}
 	
+	@RequestMapping(value="/edit")
+	public ModelAndView edit(HttpServletRequest request){
+		productId=Integer.parseInt(request.getParameter("p"));
+		return new ModelAndView("addProduct","command",iProductService.getProduct(productId)).addObject("categories", iCategoryService.viewCategories());
+	}
+	
+	@RequestMapping(value="/delete")
+	public String delete(HttpServletRequest request){
+		productId=Integer.parseInt(request.getParameter("p"));
+		iProductService.deleteProduct(productId);
+		return "redirect:./";
+	}
+	
+	//CRUD Operations on Category
+	
 	@RequestMapping(value="/addCategory",method=RequestMethod.GET)
 	public ModelAndView addCategory(){
 		return new ModelAndView("addCategory","command",new Category());
@@ -127,6 +146,8 @@ public class AdminController {
         return "redirect:/addCategory";
 	}
 	
+	//CRUD Operations on User
+	
 	@RequestMapping(value="/approveSeller")
 	public ModelAndView users(){
 		return new ModelAndView("viewUsers","users",iUserService.viewUsers());
@@ -139,16 +160,5 @@ public class AdminController {
 		return "redirect:./approveSeller";
 	}
 	
-	@RequestMapping(value="/edit")
-	public ModelAndView edit(HttpServletRequest request){
-		productId=Integer.parseInt(request.getParameter("p"));
-		return new ModelAndView("addProduct","command",iProductService.getProduct(productId)).addObject("categories", iCategoryService.viewCategories());
-	}
 	
-	@RequestMapping(value="/delete")
-	public String delete(HttpServletRequest request){
-		productId=Integer.parseInt(request.getParameter("p"));
-		iProductService.deleteProduct(productId);
-		return "redirect:./";
-	}
 }

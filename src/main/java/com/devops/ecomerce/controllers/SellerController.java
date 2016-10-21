@@ -27,7 +27,6 @@ import com.devops.ecomerce.service.ICartService;
 import com.devops.ecomerce.service.ICategoryService;
 import com.devops.ecomerce.service.IProductService;
 import com.devops.ecomerce.service.IUserService;
-import com.devops.ecomerce.service.IUtilityService;
 
 @Controller
 @RequestMapping(value="/Seller")
@@ -50,7 +49,9 @@ public class SellerController {
 		return new ModelAndView("viewOrders");
 	}
 	
-	Seller s;
+	private Seller s;
+	
+	//CRUD for Seller
 	
 	@RequestMapping(value="/sell")
 	public ModelAndView sell(){
@@ -65,20 +66,6 @@ public class SellerController {
 		mv.addObject("sproducts",iProductService.viewProducts(iUserService.getUser()));
 		mv.addObject("seller",s);
 		mv.addObject("user",iUserService);
-		return mv;
-	}
-	
-	@RequestMapping(value="/shipFrom")
-	public ModelAndView sShippingAddress(HttpServletRequest request){
-		ModelAndView mv= new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
-		try{
-			if(iUserService.viewShippingAddress().size()>0){
-				mv=new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("shippings",iUserService.viewShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
-			}
-		}
-		catch(Exception e){
-			mv=new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
-		}
 		return mv;
 	}
 	
@@ -116,7 +103,25 @@ public class SellerController {
 		iProductService.updateProductAvailablity();
 		return "redirect:./sell";
 	}
+
+	//Shipping Controls
 	
+	@RequestMapping(value="/shipFrom")
+	public ModelAndView sShippingAddress(HttpServletRequest request){
+		ModelAndView mv= new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
+		try{
+			if(iUserService.viewShippingAddress().size()>0){
+				mv=new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("shippings",iUserService.viewShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
+			}
+		}
+		catch(Exception e){
+			mv=new ModelAndView("shippingDetails","command",new ShippingAddress()).addObject("cartItems",iCartService.viewCart(iUserService.getUser()));
+		}
+		return mv;
+	}
+	
+	//To JSON Data
+		
 	public String getProducts(List<Product> products){
  		ObjectMapper mapper = new ObjectMapper();
         String jsonData="";

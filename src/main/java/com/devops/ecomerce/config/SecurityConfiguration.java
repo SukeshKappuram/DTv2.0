@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+//Security Configuaration
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -18,9 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	  /*auth.inMemoryAuthentication().withUser("me").password("123456").roles("USER");
-	  auth.inMemoryAuthentication().withUser("admin").password("123456").roles("ADMIN");
-	  auth.inMemoryAuthentication().withUser("dba").password("123456").roles("DBA");*/
 	  System.out.println("data source:"+dataSource);
 	  auth.jdbcAuthentication().dataSource(dataSource)
 		.usersByUsernameQuery(
