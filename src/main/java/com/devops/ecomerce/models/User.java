@@ -27,6 +27,8 @@ public class User {
 	private String password;
 	@NotNull
 	private Date registeredDate=new Date();
+	@NotNull
+	private Boolean enabled=true;
 	
 	public Integer getId() {
 		return id;
