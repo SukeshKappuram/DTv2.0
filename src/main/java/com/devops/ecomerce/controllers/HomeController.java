@@ -1,10 +1,19 @@
 package com.devops.ecomerce.controllers;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,6 +68,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/signUp",method=RequestMethod.GET)
+	@PreAuthorize("permitAll()")
 	public ModelAndView signUp(){
 		return new ModelAndView("signUp","command",new User()).addObject("errors", iUtilityService.getErrors());
 	}
@@ -93,7 +103,25 @@ public class HomeController {
 		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService).addObject("sellers",iProductService.viewSellers(productId)).addObject("distance",iUtilityService);
 	}
 
-	//Commom Controls
+	//User Commom Controls
+	
+	List<ObjectError> errors;
+	
+	@RequestMapping(value="/signUp",method=RequestMethod.POST)
+	@PreAuthorize("permitAll()")
+	public String signUp(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
+			System.out.println(u);
+			u.setRegisteredDate(new Date());
+			ObjectError oe= new ObjectError("Success", "You have been successfully Signed Up!!");
+			if(iUserService.addUser(u)==0){
+				oe= new ObjectError("Invalid", "Mail Id already Registered");
+			}
+			iUserService.addUser(u);
+			result.addError(oe);
+			errors=result.getAllErrors();
+		iUtilityService.setErrors(errors);
+		return "redirect:/signUp";
+	}
 	
 	@RequestMapping(value="/Profile")
 	public ModelAndView viewProfile(HttpServletRequest request){

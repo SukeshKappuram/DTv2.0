@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -27,9 +28,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.authoritiesByUsernameQuery(
 			"select u1.mailid, u2.rolename from user u1, userrole u2 where u1.id = u2.roleid_id and u1.mailid =?");
 	}
+	
+	@Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+            .ignoring()
+                // Spring Security should completely ignore URLs starting with /resources/
+                .antMatchers("/signUp**");
+    }
+
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		http.authorizeRequests().antMatchers("/signUp*").permitAll();
 		
 		//SELLER
 		http.authorizeRequests()

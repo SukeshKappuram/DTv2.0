@@ -66,26 +66,15 @@ public class UserController {
 
 	//Authentications
 	
-	/*
-	@RequestMapping(value="/signUp",method=RequestMethod.POST)
-	public String signUp(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
-			u.setRegisteredDate(new Date());
-			ObjectError oe= new ObjectError("Success", "You have been successfully Signed Up!!");
-			if(iUserService.addUser(u)==0){
-				oe= new ObjectError("Invalid", "Mail Id already Registered");
-			}
-			iUserService.addUser(u);
-			result.addError(oe);
-			errors=result.getAllErrors();
-		iUtilityService.setErrors(errors);
-		return "redirect:/signUp";
-	}*/
 	
+	
+	
+	/*
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
 	public ResponseEntity<Void> signUp(@RequestBody User user,UriComponentsBuilder ucBuilder){
 		iUserService.addUser(user);
-		String subject="Thanks for Registering with NIIT CONNECT";
-		String body="This is a greeting mail from NIIT Connect";
+		String subject="Thanks for Registering with KartooZ";
+		String body="This is a greeting mail from KartooZ";
 		try {
 			iNetworkService.send(user, subject,body);
 			System.out.println("mail sent");
@@ -96,8 +85,7 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-		
-	}
+	}*/
 	
 	@RequestMapping(value="/authenticate",method=RequestMethod.POST)
 	public String login(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){

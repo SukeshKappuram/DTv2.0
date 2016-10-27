@@ -1,8 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +37,7 @@ $(document).ready(function(){
 <title>KartooZ</title>
 </head>
 <body>
-<c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER' or empty user}">
+<c:if test="${empty user.getUser()}">
 <%@include file="header.jsp" %>
 </c:if>
 <div class="container">
@@ -159,7 +159,7 @@ $(document).ready(function(){
     				}
 				});
 			</script>
-<c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER' or empty user}">
+<c:if test="${empty user}">
 <%@include file="footer.jsp" %>
 </c:if>
 </body>

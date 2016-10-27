@@ -35,10 +35,10 @@
     				</div>
    				</c:if>
     	</c:forEach>
- 	<form:form role="form"  name="myForm" ng-submit="ctrl.createUser()"> <!-- action="User/signUp" method="post" enctype="multipart/form-data" -->
+ 	<form:form action="signUp" method="post">
     <div class="form-group">
       <label for="inputdefault">First Name</label>
-      <form:input class="form-control" path="firstName" type="text" ng-model="ctrl.user.name"/>
+      <form:input class="form-control" path="firstName" type="text" /><!-- ng-model="ctrl.user.name" -->
     </div>
     <div class="form-group">
       <label for="inputlg">Last Name</label>
@@ -46,18 +46,18 @@
     </div>
     <div class="form-group">
       <label for="inputlg">Mail Id</label>
-      <form:input class="form-control" path="mailId" type="email" ng-model="ctrl.user.mail"/>
+      <form:input class="form-control" path="mailId" type="email" /><!-- ng-model="ctrl.user.mail" -->
     </div>
     <div class="form-group">
       <label for="inputlg">Phone Number</label>
-      <form:input class="form-control" path="phoneNumber" type="text" ng-model="ctrl.user.phno"/>
+      <form:input class="form-control" path="phoneNumber" type="text" /><!-- ng-model="ctrl.user.phno" -->
     </div>
     <div class="form-group">
       <label for="inputlg">Password</label>
-      <form:input class="form-control" path="password" type="password" ng-model="ctrl.user.password"/>
+      <form:input class="form-control" path="password" type="password" /><!--  ng-model="ctrl.user.password" -->
     </div>
     <div class="form-group">
-    	<button type="submit" class="btn btn-primary">I Agree to Sign up KartooZ</button>
+    	<form:button type="submit" class="btn btn-primary">I Agree to Sign up KartooZ</form:button>
    	</div>
   	</form:form>
     </div>
