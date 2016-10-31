@@ -88,7 +88,7 @@ public class UserController {
 	}*/
 	
 	@RequestMapping(value="/authenticate",method=RequestMethod.POST)
-	public String login(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
+	public String login(@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
 		System.out.println("Login");
 		iUserService.verifyUser(u);
 		try{
@@ -102,7 +102,7 @@ public class UserController {
 			result.addError(oe);
 			errors=result.getAllErrors();
 			iUtilityService.setErrors(errors);
-			return "redirect:/login";
+			return "redirect:/authenticate";
 		}
 		return "redirect:/";
 	}

@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -19,21 +20,30 @@ public class ShippingAddress {
 	@ManyToOne
 	private User userId;
 	@NotEmpty(message="Reciever can not be empty")
+	@Pattern(regexp = "[a-zA-Z@=\\-'\"]+")
 	private String receiverName;
 	@NotEmpty(message="Door No can not be empty")
+	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
 	private String doorNo;
 	@NotEmpty(message="Street No can not be empty")
+	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
 	private String street;
 	@NotEmpty(message="location can not be empty")
+	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
 	private String location;
 	@NotEmpty(message="city can not be empty")
+	@Pattern(regexp = "[a-zA-Z@=\\-'\"]+")
 	private String city;
+	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
 	@NotEmpty(message="state can not be empty")
 	private String state;
+	@Pattern(regexp = "[0-9]+")
 	@NotNull(message="Pincode can not be empty")
 	private Integer pincode;
+	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
 	@NotEmpty(message="Address can not be empty")
 	private String description;
+	@Pattern(regexp = "[0-9]10")
 	@Size(min=10,max=10,message="Phone can not be empty")
 	private String phoneNumber;
 	public Integer getId() {

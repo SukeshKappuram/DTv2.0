@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -34,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
             .ignoring()
                 // Spring Security should completely ignore URLs starting with /resources/
-                .antMatchers("/signUp**");
+                .antMatchers("/signUp**").antMatchers("/Admin/Category").antMatchers("/Admin/Product");
     }
 
 
@@ -46,16 +47,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//SELLER
 		http.authorizeRequests()
 		.antMatchers("/Seller/**").access("hasRole('ROLE_SELLER')")
+		.antMatchers(HttpMethod.POST,"/Seller/**").access("hasRole('ROLE_SELLER')")
 		.and().formLogin().defaultSuccessUrl("/Seller/sell").failureUrl("/authenticate?error")
 		.and().logout()
-		.and().exceptionHandling().accessDeniedPage("/403");
+		.and().exceptionHandling().accessDeniedPage("/403?error");
 		
 		//ADMIN
 		http.authorizeRequests()
 		.antMatchers("/Admin/**").access("hasRole('ROLE_ADMIN')")
+		.antMatchers("/Admin/Category*").access("hasRole('ROLE_ADMIN')")
+		.antMatchers(HttpMethod.POST,"/Admin/**").access("hasRole('ROLE_ADMIN')")
 		.and().formLogin().defaultSuccessUrl("/Admin/").failureUrl("/authenticate?error")
 		.and().logout()
-		.and().exceptionHandling().accessDeniedPage("/403");
+		.and().exceptionHandling().accessDeniedPage("/403?error");
 		
 		//USER
 		http.authorizeRequests()
@@ -63,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//.and().formLogin().loginPage("/authenticate").loginProcessingUrl("/login").defaultSuccessUrl("/User/").failureUrl("/authenticate?error")
 		.and().formLogin().defaultSuccessUrl("/User/").failureUrl("/authenticate?error")
 		.and().logout()
-		.and().exceptionHandling().accessDeniedPage("/403")
+		.and().exceptionHandling().accessDeniedPage("/403?error")
 		.and().csrf();		
 		
 		http.headers().frameOptions().disable();

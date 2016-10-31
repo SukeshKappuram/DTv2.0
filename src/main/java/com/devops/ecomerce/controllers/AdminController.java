@@ -58,12 +58,12 @@ public class AdminController {
 	
 	//CRUD Operation on Product
 	
-	@RequestMapping(value="/addProduct",method=RequestMethod.GET)
+	@RequestMapping(value="/Product",method=RequestMethod.GET)
 	public ModelAndView addProduct(){
 		return new ModelAndView("addProduct","command",new Product()).addObject("categories", iCategoryService.viewCategories());
 	}
 	
-	@RequestMapping(value="/addProduct",method=RequestMethod.POST)
+	@RequestMapping(value="/Product",method=RequestMethod.POST)
 	public String storeProduct(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Product p,BindingResult result){
 		int categoryId=Integer.parseInt(request.getParameter("categoryId"));
 		p.setCategoryId(iCategoryService.viewCategory(categoryId));
@@ -96,7 +96,7 @@ public class AdminController {
         	error="You failed to upload " + fileName + ": " + e.getMessage();
         	System.out.println(e);
         }
-        return "redirect:./addProduct";
+        return "redirect:./";
 	}
 	
 	@RequestMapping(value="/edit")
@@ -114,12 +114,12 @@ public class AdminController {
 	
 	//CRUD Operations on Category
 	
-	@RequestMapping(value="/addCategory",method=RequestMethod.GET)
+	@RequestMapping(value="/Category")
 	public ModelAndView addCategory(){
 		return new ModelAndView("addCategory","command",new Category());
 	}
 	
-	@RequestMapping(value="/addCategory",method=RequestMethod.POST)
+	@RequestMapping(value="/Category",method=RequestMethod.POST)
 	public String storeCategory(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Category c,BindingResult result){
 		iCategoryService.addCategory(c);
 		String fileName=null;
@@ -143,7 +143,7 @@ public class AdminController {
            error=c.getName()+" added Successfully !";
            System.out.println("");
         } 
-        return "redirect:/addCategory";
+        return "redirect:./";
 	}
 	
 	//CRUD Operations on User
@@ -159,6 +159,5 @@ public class AdminController {
 		iUserService.updateRole(roleId);
 		return "redirect:./approveSeller";
 	}
-	
 	
 }

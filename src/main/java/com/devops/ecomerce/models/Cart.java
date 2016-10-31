@@ -20,7 +20,7 @@ public class Cart {
 	private User userId;
 	@Column(columnDefinition="BOOLEAN default 'false'")
 	private Boolean paid;
-	@NotNull
+	@Column(columnDefinition="Date default getDate()")
 	private Date cartDate;
 	
 	public User getUserId() {

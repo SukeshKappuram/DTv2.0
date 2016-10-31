@@ -7,17 +7,15 @@
 <title>KartooZ</title>
 </head>
 <body>
-	<div class="container" style="width: 90%; color: white;">
-  <h3 class="text-center">Feedback</h3>
-  <p class="text-center"><em>We love our Customers!</em></p>
-
+<div class="container" >
+ <div class="jumbotron" style="background-image: url('http://www.panunited.com.sg/images/pics/banner-feedback.jpg');background-repeat: no-repeat;background-size:100% 300px; background-position: bottom;">
   <div class="row">
-    <div class="col-md-4">
-      <p>Query? Drop a note.</p>
-      <p><span class="glyphicon glyphicon-map-marker"></span>Hyderabad, India</p>
-      <p><span class="glyphicon glyphicon-phone"></span>Phone: +91 4025879056</p>
-      <p><span class="glyphicon glyphicon-envelope"></span>Email: wecare@kartooz.com</p>
-    </div>
+    <ul class="col-md-4" style="line-height: 20px;">
+      <li>Query? Drop a note.</li>	
+      <li style="font-size: 12px;"><span class="glyphicon glyphicon-map-marker"></span> Hyderabad, India</li>
+      <li style="font-size: 12px;"><span class="glyphicon glyphicon-phone"></span> Phone: +91 4025879056</li>
+      <li style="font-size: 12px;"><span class="glyphicon glyphicon-envelope"></span> Email: wecare@kartooz.com</li>
+    </ul>
     <div class="col-md-8">
       <div class="row">
         <div class="col-sm-6 form-group">
@@ -36,7 +34,7 @@
       </div>
     </div>
   </div>
-	<img alt="feeback" src="http://www.panunited.com.sg/images/pics/banner-feedback.jpg" style="width: 99%;">
+  </div>
 	</div>
 </body>
 </html>

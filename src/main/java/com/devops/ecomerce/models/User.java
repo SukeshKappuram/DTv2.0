@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -15,14 +16,18 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
+	@Pattern(regexp = "[a-zA-Z@=\\-'\"]+")
 	@Size(min=4,max=20,message="FirstName Should atleast have 4 Char")
 	private String firstName;
+	@Pattern(regexp = "[a-zA-Z@=\\-'\"]+")
 	@Size(min=4,max=20,message="LastName Should atleast have 4 Char")
 	private String lastName;
+	@Pattern(regexp = "[0-9]10")
 	@Size(min=10,max=10,message="Invalid Phone Number")
 	private String phoneNumber;
 	@Email(message="Invalid Email Id")
 	private String mailId;
+	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
 	@Size(min=6,max=20,message="Password Should atleast have 4 Char")
 	private String password;
 	@NotNull

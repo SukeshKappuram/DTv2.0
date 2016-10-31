@@ -8,10 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class CartGroup implements Serializable{
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	@NotNull
 	@ManyToOne

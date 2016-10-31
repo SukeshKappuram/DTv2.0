@@ -27,13 +27,13 @@ body {
 	<%@include file="header.jsp"%>
 	<div class="container">
 	<div class="row">
-    <nav class="col-sm-3" id="myScrollspy">
+    <nav class="col-sm-3" id="myScrollspy" style="position: fixed;">
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#section1">View Products</a></li>
         <li><a href="#section2">Add Product</a></li>
         <li><a href="#section3">Add Category</a></li>
         <li><a href="#section4">Approve Seller</a></li>
-        <li><a href="#section5">View BLogs</a></li>
+        <li><a href="#section5">View Blogs</a></li>
         <li><a href="#section6">View Forums</a></li>
       </ul>
     </nav>
@@ -62,12 +62,12 @@ body {
 	</div>
 	<hr style="width:100%;"/>
 	<div id="section2" style="color:white;">
-		<iframe src="addProduct" frameborder='0' style="width:100%;height: 600px;">      	
+		<iframe src="Product" frameborder='0' style="width:100%;height: 600px;">      	
       	</iframe>
     </div>
     <hr style="width:100%;"/>
     <div id="section3" style="color:white;">
-    	<iframe src="addCategory" frameborder='0' style="width:100%;height: 600px;">      	
+    	<iframe src="Category" frameborder='0' style="width:100%;height: 600px;">      	
       	</iframe>
     </div>
     <hr style="width:100%;"/>

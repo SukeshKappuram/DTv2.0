@@ -18,7 +18,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">New Category</div>
     <div class="panel-body">
- 	<form:form action="addCategory" method="post" enctype="multipart/form-data">
+ 	<form:form action="Category" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="inputdefault">Category Name</label>
       <form:input class="form-control" path="name" type="text"/>

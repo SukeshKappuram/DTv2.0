@@ -31,7 +31,7 @@ function selectOption(num)
   <div class="panel panel-default">
     <div class="panel-heading">New Product</div>
     <div class="panel-body">
-    <form:form action="addProduct" method="post" enctype="multipart/form-data">
+    <form:form action="Product" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="inputdefault">Product Name</label>
       <form:input class="form-control" path="name" type="text"/>
