@@ -1,5 +1,6 @@
 package com.devops.ecomerce.DAO;
 
+import java.util.Date;
 import java.util.List;
 
 import com.devops.ecomerce.models.Category;
@@ -30,6 +31,7 @@ public class CategoryDAOImpl implements ICategoryService {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
+		category.setDated(new Date());
 		session.saveOrUpdate(category);
 		tx.commit();
 	}

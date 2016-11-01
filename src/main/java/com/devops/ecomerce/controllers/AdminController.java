@@ -3,7 +3,10 @@ package com.devops.ecomerce.controllers;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -123,8 +126,30 @@ public class AdminController {
 	public String storeCategory(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Category c,BindingResult result){
 		iCategoryService.addCategory(c);
 		String fileName=null;
-		try {
-            fileName = file.getOriginalFilename();
+		//try {
+			MultipartFile image=c.getProductImage();
+			fileName = file.getOriginalFilename();
+			path=Paths.get("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/"+c.getId()+fileName.substring(fileName.indexOf('.')));
+			if (!Files.exists(path)) {
+			    try {
+					Files.createFile(path);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if (image != null && !image.isEmpty()) {
+	            try {
+	            	image.transferTo(new File(path.toString()));
+	            	error= "You have successfully uploaded " + fileName;
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                error="You failed to upload " + fileName + ": " + e.getMessage();
+	                throw new RuntimeException(" image saving failed.", e);
+	            }
+			}
+			/*
+			fileName = file.getOriginalFilename();
             byte[] bytes = file.getBytes();
             BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/" + fileName)));
             buffStream.write(bytes);
@@ -142,7 +167,7 @@ public class AdminController {
            System.out.println(c.getId());
            error=c.getName()+" added Successfully !";
            System.out.println("");
-        } 
+        } */
         return "redirect:./";
 	}
 	

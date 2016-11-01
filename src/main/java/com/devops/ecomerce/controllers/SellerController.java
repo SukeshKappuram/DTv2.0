@@ -53,7 +53,7 @@ public class SellerController {
 	
 	//CRUD for Seller
 	
-	@RequestMapping(value="/sell")
+	@RequestMapping(value="/")
 	public ModelAndView sell(){
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
 		User currentUser = (User)a.getPrincipal();
@@ -73,7 +73,7 @@ public class SellerController {
 	public String edit(HttpServletRequest request){
 		int productId=Integer.parseInt(request.getParameter("p"));
 		s=iProductService.getProduct(productId,iUserService.getUser());
-		return "redirect:./sell";
+		return "redirect:./";
 	}
 	
 	@RequestMapping(value="/update")
@@ -82,7 +82,7 @@ public class SellerController {
 		s.setDiscount(Float.parseFloat(request.getParameter("d")));
 		iProductService.updateSeller(s);
 		s=null;
-		return "redirect:./sell";
+		return "redirect:./";
 	}
 	
 	@RequestMapping(value="/delete")
@@ -90,7 +90,7 @@ public class SellerController {
 		int productId=Integer.parseInt(request.getParameter("p"));
 		s=iProductService.getProduct(productId,iUserService.getUser());
 		iProductService.delete(s);s=null;
-		return "redirect:./sell";
+		return "redirect:./";
 	}
 	
 	@RequestMapping(value="/addSellerProduct")
@@ -101,7 +101,7 @@ public class SellerController {
 		s.setShippingAddress(iUserService.getShippingAddress());
 		iProductService.addSeller(s);
 		iProductService.updateProductAvailablity();
-		return "redirect:./sell";
+		return "redirect:./";
 	}
 
 	//Shipping Controls

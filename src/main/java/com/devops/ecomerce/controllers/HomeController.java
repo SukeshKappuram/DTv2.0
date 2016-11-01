@@ -97,9 +97,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/Product/{product}/{id}")
-	public ModelAndView viewProduct(HttpServletRequest request,@PathVariable(value="product") String categoryName,@PathVariable(value="id") Integer productId) throws IOException{
-		//int productId=Integer.parseInt(request.getParameter("p"));
-		
+	public ModelAndView viewProduct(@PathVariable(value="product") String categoryName,@PathVariable(value="id") Integer productId) throws IOException{
 		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService).addObject("sellers",iProductService.viewSellers(productId)).addObject("distance",iUtilityService);
 	}
 

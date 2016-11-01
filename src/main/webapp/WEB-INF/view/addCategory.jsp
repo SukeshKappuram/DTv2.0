@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
       <label for="inputlg">Upload Image</label>
-      <input class="form-control" name="file" type="file"/>
+      <form:input type="file" path="categoryImage" class="form-control" name="file"/>
     </div>
     <div class="form-group">
     	<button type="submit" class="btn btn-primary">Add Category</button>

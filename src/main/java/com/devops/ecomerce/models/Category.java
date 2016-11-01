@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -20,13 +22,14 @@ public class Category {
 	Integer id;
 	@Column(unique=true)
 	@Size(min=4,max=30,message="Category Should atleast have 4 Char")
-	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
+	@Pattern(regexp = "(\n|^).*?(?=\n|$)")
 	private String name;
 	@Size(min=4,max=30,message="Description Should atleast have 4 Char")
-	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
+	@Pattern(regexp = "(\n|^).*?(?=\n|$)")
 	private String description;
 	@Transient
 	private MultipartFile categoryImage;
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(columnDefinition="Date default getDate()")
 	private Date dated;
 	

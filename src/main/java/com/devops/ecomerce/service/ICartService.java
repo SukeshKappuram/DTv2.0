@@ -10,9 +10,10 @@ import com.devops.ecomerce.models.UserOrder;
 public interface ICartService {
 	public void addToCart(CartItem cartItem);
 	public void updateCart(Cart cart);
-	public Cart getCart(Cart cart);
 	public UserOrder addOrder(UserOrder order);
 	public Cart getCart(User user);
 	public List<CartItem> viewCart(User user);
 	public List<CartItem> getCart(int productId,int cartId);
+	public void deleteCartItem(int cartId,int productId);
+	public void deleteCart(int cartId);
 }

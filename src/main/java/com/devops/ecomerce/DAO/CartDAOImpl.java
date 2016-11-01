@@ -45,11 +45,38 @@ public class CartDAOImpl implements ICartService {
 		session.saveOrUpdate(cart);
 		tx.commit();
 	}
-
-	public Cart getCart(Cart cart) {
-		return cart;
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void deleteCart(int cartId) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(CartItem.class);
+		cr.add(Restrictions.eq("cartGroupId.cartId.cartId",cartId));
+		List<CartItem> items = cr.list();
+		Cart cart = (Cart)session.get(Cart.class, new Integer(cartId));
+		for(CartItem item:items){
+		cart.getCartItems().remove(item);
+		}
+		session.saveOrUpdate(cart);
+		tx.commit();
 	}
 	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void deleteCartItem(int cartId,int productId) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(CartItem.class);
+		cr.add(Restrictions.eq("cartGroupId.cartId.cartId",cartId));
+		cr.add(Restrictions.eq("cartGroupId.productId.productId",productId));
+		CartItem item = (CartItem)cr.list().get(0);
+		Cart cart = (Cart)session.get(Cart.class, new Integer(cartId));
+		cart.getCartItems().remove(item);
+		session.saveOrUpdate(cart);
+		tx.commit();
+	}
+
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public Cart getCart(User user) {
 		Session session=factory.getCurrentSession();

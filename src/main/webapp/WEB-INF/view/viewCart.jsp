@@ -17,28 +17,42 @@
 float sum=0;
 %>
 <div class="container">
-  <h2 style="color: white;">Your Cart</h2>
+  <h2>Your Cart</h2>
   <div class="panel panel-default">
-    <div class="panel-heading">Your product has been added to cart</div>
+    <div class="panel-heading">Your product has been added to cart 
+    <c:if test="${not empty cart.getCartItems()}">
+    	<a href="deleteCart/${cart.cartId}/">
+    		<button type="button" class="btn btn-danger" style="float: right;">
+    			<i class="fa fa-trash"> Clear Cart </i>
+   			</button>
+		</a>
+    </c:if>
+    </div>
     <div class="panel-body">
-    	<c:forEach var="c" items="${cartItems}">
+    	<c:if test="${empty cart.getCartItems()}">
+    		<i>Your Cart is Empty</i>
+    	</c:if>
+    	<c:forEach var="c" items="${cart.getCartItems()}">
     	<div class="row">
     		<div class="col-lg-4">
     		<img src="/ecomerce/resources/images/product/${c.cartGroupId.productId.productId}.jpg" style="float: left;max-width: 100px;max-height: 100px;"/>
 			${c.cartGroupId.productId.name}</div>
 			<div class="col-lg-4">
-				<input type="number" value="${c.quantity}" min="1" max="${c.cartGroupId.productId.available}"/>
+				<form action="updateCart/${c.cartGroupId.cartId.cartId}/${c.cartGroupId.productId.productId}">
+					<input type="number" value="${c.quantity}" name="q" min="1" max="${c.cartGroupId.productId.available}"/>
+					<button class="fa fa-refresh"></button>
+				</form>
 			</div>
 			<div class="col-sm-2">$ ${c.totatPrice}</div>
 			<div class="col-sm-2">
-				<a href="updateCart?c=${c.cartGroupId}"><img src="/ecomerce/resources/images/reload.png" width="20" height="20"></a>&nbsp
-				<a href="deleteCart?c=${c.cartGroupId}"><img src="/ecomerce/resources/images/delete.png" width="20" height="20"></a>
+				<a href="deleteCart/${c.cartGroupId.cartId.cartId}/${c.cartGroupId.productId.productId}"><i class="fa fa-trash fa-stack-2x"></i></a>
 			</div>
     	</div>
     	<p style="visibility: hidden;">${sum=sum+c.totatPrice}</p>
     	</c:forEach>
     </div>
     <div class="panel-footer">
+    <c:if test="${not empty cart.getCartItems()}">
     	<div class="row">
 			<div class="col-lg-8" style="font-size: 30px;">Total</div>
 			<div class="col-sm-4" style="font-size: 30px;">$ ${sum}</div>
@@ -49,6 +63,7 @@ float sum=0;
 				<a href="../User/shipTo?c=${cart.cartId}" class="btn btn-info" role="button">Proceed to Shipment</a>
 			</div>
     	</div>
+   	</c:if>
     </div>
     </div>
 </div>

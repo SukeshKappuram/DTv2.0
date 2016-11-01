@@ -130,7 +130,7 @@
     <c:if test="${fn:length(user.getUser().firstName) > 0}">
     <ul class="nav navbar-nav navbar-right">
       <c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER'}">
-        <li><a href="${pageContext.request.contextPath}/Cart/cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+        <li><a href="${pageContext.request.contextPath}/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
       </c:if>
                 
       <li class="dropdown">
