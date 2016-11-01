@@ -48,10 +48,11 @@ $(document).ready(function(){
 </script>
 <div class="slider1" >
 	<c:forEach var="c" items="${categories}">
-		<div class="slide" style="text-align: center;">
-			<a href="Product/products?c=${c.id}" title="${c.name}">
+		<div class="slide">
+			<a href="${c.name}/${c.id}" title="${c.name}">
 				<img alt="${c.name}" src='/ecomerce/resources/images/category/${image.getImage("category",c.id)}' width="150" height="150" /><br/>
 			</a>
+			<i>${c.name}</i>
 		</div>
 	</c:forEach>
 </div>

@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -90,15 +91,14 @@ public class HomeController {
 	
 	//Ecomerce Product Pages
 	
-	@RequestMapping(value="/Product/products")
-	public ModelAndView viewProducts(HttpServletRequest request){
-		int categoryId=Integer.parseInt(request.getParameter("c"));
+	@RequestMapping(value="/{category}/{id}")
+	public ModelAndView viewProducts(@PathVariable(value="category") String categoryName,@PathVariable(value="id") Integer categoryId){
 		return new ModelAndView("products","products",iUtilityService.getJson(iProductService.viewProducts(iCategoryService.viewCategory(categoryId)))).addObject("image", iUtilityService).addObject("user",iUserService);
 	}
 	
-	@RequestMapping(value="/Product/Details")
-	public ModelAndView viewProduct(HttpServletRequest request) throws IOException{
-		int productId=Integer.parseInt(request.getParameter("p"));
+	@RequestMapping(value="/Product/{product}/{id}")
+	public ModelAndView viewProduct(HttpServletRequest request,@PathVariable(value="product") String categoryName,@PathVariable(value="id") Integer productId) throws IOException{
+		//int productId=Integer.parseInt(request.getParameter("p"));
 		
 		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService).addObject("sellers",iProductService.viewSellers(productId)).addObject("distance",iUtilityService);
 	}

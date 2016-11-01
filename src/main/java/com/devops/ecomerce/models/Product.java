@@ -23,7 +23,7 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer productId;
-	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
+	@Pattern(regexp = "(\n|^).*?(?=\n|$)")
 	@Size(min=4,max=20,message="Product Name Should atleast have 4 Char")
 	private String name;
 	@NotNull
@@ -32,7 +32,7 @@ public class Product {
 	private Category categoryId;
 	@NotNull
 	private Float price;
-	@Pattern(regexp = "[a-zA-Z0-9@=\\-'\"]+")
+	@Pattern(regexp = "(\n|^).*?(?=\n|$)")
 	@Size(min=10,max=50,message="Description Should atleast have 10 Char")
 	private String description;
 	@Column(columnDefinition="Integer default 0")

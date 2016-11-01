@@ -94,14 +94,14 @@
 }
 </style>
 </head>
-<body text='white'>
+<body>
 <%@include file="header.jsp" %>
 <div class="jumbotron text-center">
   <h2>${product.name}</h2>
   <p>${product.description} !</p>
 </div>
   
-<div class="container" style="color: white;">
+<div class="container" >
   <div class="row">
     <div class="col-sm-4">
       <div class="thumbnail">
@@ -131,11 +131,10 @@
       <p>Discount ${dis} %</p>
       <fmt:formatNumber var="disPrice" value="${product.price - (product.price div s.discount)}"  maxFractionDigits="0" />
       <p>Now for just Rs.  ${disPrice} only</p>
-      <p>${user.getShippingAddress(s.userId).pincode}</p> <p>${s.userId.id}</p>
-      <p>${s.shippingAddress.pincode}</p>
-      <p><c:if test="${s.freeDelivery == true}"> Free Delivery with in ${distance.delivableDays(user.getShippingAddress().getPincode(),s.shippingAddress.pincode)}</c:if></p>
+      <!-- <p>${user.getShippingAddress(s.userId).pincode}</p> -->
+      <p><c:if test="${s.freeDelivery == true}"> Free Delivery with in ${distance.delivableDays(user.getShippingAddress().getPincode(),s.shippingAddress.pincode)}</c:if> Days</p>
       <p>Available : ${s.quantity}</p>
-      <p>${s.shippingAddress.pincode}</p>
+      <!-- <p>${s.shippingAddress.pincode}</p> -->
       <p><a href="#" class="btn btn-success" role="button">Buy Now</a> </p>
       </c:forEach>
     </div>

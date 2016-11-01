@@ -84,7 +84,7 @@
   			<ul class="price">
   				<li>
   					<div class="thumbnail">
-          				<a href="Details?p={{ resource.productId }}">
+          				<a href="../Product/{{ resource.name }}/{{ resource.productId }}">
           					<img src='/ecomerce/resources/images/product/{{ resource.productId }}.jpg' class="img-rounded" alt="Cinque Terre" style="max-width:200px;max-height:200px;">
           				</a>
          			</div>

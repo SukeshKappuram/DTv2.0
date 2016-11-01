@@ -14,7 +14,65 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <link rel="icon" type="image/png" href="/ecomerce/resources/images/cart.png">
+  <!-- google Script -->
+  <script type="text/javascript">
+        function login() 
+        {
+          var myParams = {
+            'clientid' : 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+            'cookiepolicy' : 'single_host_origin',
+            'callback' : 'loginCallback',
+            'approvalprompt':'force',
+            'scope' : 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read'
+          };
+          gapi.auth.signIn(myParams);
+        }
+
+        function loginCallback(result)
+        {
+            if(result['status']['signed_in'])
+            {
+                var request = gapi.client.plus.people.get(
+                {
+                    'userId': 'me'
+                });
+                request.execute(function (resp)
+                {
+                    /* console.log(resp);
+                    console.log(resp['id']); */
+                    var email = '';
+                    if(resp['emails'])
+                    {
+                        for(i = 0; i < resp['emails'].length; i++)
+                        {
+                            if(resp['emails'][i]['type'] == 'account')
+                            {
+                                email = resp['emails'][i]['value'];//here is required email id
+                            }
+                        }
+                    }
+                   var usersname = resp['displayName'];//required name
+                });
+            }
+        }
+        function onLoadCallback()
+        {
+            gapi.client.setApiKey('YOUR_API_KEY');
+            gapi.client.load('plus', 'v1',function(){});
+        }
+
+            </script>
+
+        <script type="text/javascript">
+              (function() {
+               var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+               po.src = 'https://apis.google.com/js/client.js?onload=onLoadCallback';
+               var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+             })();
+        </script>
+        <!-- End of google Script -->
   <style type="text/css">
   	#header{
 		color: #093d2f;
@@ -64,7 +122,7 @@
       		<li><a href="${pageContext.request.contextPath}/authenticate"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
      	  </c:if>
           <li class="divider"></li>
-          <li><a href="#">Separated link</a></li>
+          <li><a><div id="mySignin" onclick="login()"><i class="fa fa-google"> Google</i></div></a></li>
         </ul>
       </li>
     </ul>
