@@ -17,21 +17,30 @@
 float sum=0;
 %>
 <div class="container">
-  <h2>Your Cart</h2>
+  <h2>Your <c:if test="${empty cart}">WishList</c:if><c:if test="${not empty cart}">Cart</c:if></h2>
   <div class="panel panel-default">
-    <div class="panel-heading">Your product has been added to cart 
+    <div class="panel-heading">Your product has been added to <c:if test="${not empty cart}">Cart</c:if>
     <c:if test="${not empty cart.getCartItems()}">
     	<a href="deleteCart/${cart.cartId}/">
     		<button type="button" class="btn btn-danger" style="float: right;">
-    			<i class="fa fa-trash"> Clear Cart </i>
+    			<i class="fa fa-trash"> Clear All </i>
+   			</button>
+		</a>
+    </c:if>
+    <c:if test="${not empty wishes.getListItems()}">
+    	<a href="delete/${wishes.id}/">
+    		<button type="button" class="btn btn-danger" style="float: right;">
+    			<i class="fa fa-trash"> Clear All </i>
    			</button>
 		</a>
     </c:if>
     </div>
     <div class="panel-body">
-    	<c:if test="${empty cart.getCartItems()}">
-    		<i>Your Cart is Empty</i>
+    
+    	<c:if test="${empty cart.getCartItems() and empty wishes.getListItems()}">
+				<i>Your <c:if test="${empty cart}">WishList</c:if><c:if test="${not empty cart}">Cart</c:if> is Empty</i>
     	</c:if>
+    	
     	<c:forEach var="c" items="${cart.getCartItems()}">
     	<div class="row">
     		<div class="col-lg-4">
@@ -45,10 +54,22 @@ float sum=0;
 			</div>
 			<div class="col-sm-2">$ ${c.totatPrice}</div>
 			<div class="col-sm-2">
-				<a href="deleteCart/${c.cartGroupId.cartId.cartId}/${c.cartGroupId.productId.productId}"><i class="fa fa-trash fa-stack-2x"></i></a>
+				<a href="delete/${c.cartGroupId.cartId.cartId}/${c.cartGroupId.productId.productId}"><i class="fa fa-trash fa-stack-2x"></i></a>
 			</div>
     	</div>
     	<p style="visibility: hidden;">${sum=sum+c.totatPrice}</p>
+    	</c:forEach>	
+    	<c:forEach var="c" items="${wishes.getListItems()}">
+    	<div class="row">
+    		<div class="col-lg-4">
+    		<img src="/ecomerce/resources/images/product/${c.wishGroup.product.productId}.jpg" style="float: left;max-width: 100px;max-height: 100px;"/>
+			${c.wishGroup.product.name}</div>
+			<div class="col-lg-4">
+			</div>
+			<div class="col-sm-2">
+				<a href="delete/${c.wishGroup.wishList.id}/${c.wishGroup.product.productId}"><i class="fa fa-trash fa-stack-2x"></i></a>
+			</div>
+    	</div>
     	</c:forEach>
     </div>
     <div class="panel-footer">

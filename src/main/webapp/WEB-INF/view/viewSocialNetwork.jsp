@@ -47,7 +47,31 @@ $(document).ready(function(){
   <div>
   	<hr style="width: 100%;color: black;height: 2px;" />
   </div>
-
+<c:if test="${not empty user.getUser()}">
+  <div class="panel panel-default" id="create">
+    <div class="panel-heading" id="flip">Add ${network}</div>
+    <div class="panel-body" id="panel">
+	<form:form action="./User/${network}s" method="post" enctype="multipart/form-data">
+   	<div class="form-group">
+        	<form:input type="text" path="name" class="form-control input-lg" placeholder="Title of Your ${network}"/>     
+        	<form:errors path="name"/>                    
+ 	</div>
+    <div class="form-group">
+        	<form:textarea  path="description" class="form-control input-lg" placeholder="Description" cols="10" rows="10" />
+        	<form:errors path="description"/>     
+	</div>
+	<div class="form-group">
+      <label for="inputlg">Upload Image</label>
+      <input class="form-control" name="file" type="file"/>
+    </div>
+	<div  class="form-group">
+        	<button class="btn btn-primary" type="submit" style="width:100%;">Add My ${network}</button>
+    </div>
+   	</form:form>
+   	 </div>
+    <div class="panel-footer"></div>          
+	</div>
+	</c:if>
 <div class="container-fluid">
   <div class="row content">
    <div class="col-sm-3 sidenav">
@@ -184,31 +208,7 @@ $(document).ready(function(){
 </div>
 </div>
   
-  <c:if test="${not empty user.getUser()}">
-  <div class="panel panel-default" id="create">
-    <div class="panel-heading" id="flip">Add ${network}</div>
-    <div class="panel-body" id="panel">
-	<form:form action="./User/${network}s" method="post" enctype="multipart/form-data">
-   	<div class="form-group">
-        	<form:input type="text" path="name" class="form-control input-lg" placeholder="Title of Your ${network}"/>     
-        	<form:errors path="name"/>                    
- 	</div>
-    <div class="form-group">
-        	<form:textarea  path="description" class="form-control input-lg" placeholder="Description" cols="10" rows="10" />
-        	<form:errors path="description"/>     
-	</div>
-	<div class="form-group">
-      <label for="inputlg">Upload Image</label>
-      <input class="form-control" name="file" type="file"/>
-    </div>
-	<div  class="form-group">
-        	<button class="btn btn-primary" type="submit" style="width:100%;">Add My ${network}</button>
-    </div>
-   	</form:form>
-   	 </div>
-    <div class="panel-footer"></div>          
-	</div>
-	</c:if>
+  
 </div>
 			<script>
 				angular.module('myApp', []).controller('namesCtrl', function($scope) {

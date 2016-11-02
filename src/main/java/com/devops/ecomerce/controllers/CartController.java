@@ -1,7 +1,5 @@
 package com.devops.ecomerce.controllers;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.CartGroup;
 import com.devops.ecomerce.models.CartItem;
+import com.devops.ecomerce.models.ListItem;
+import com.devops.ecomerce.models.WishGroup;
+import com.devops.ecomerce.models.WishList;
 import com.devops.ecomerce.service.ICartService;
 import com.devops.ecomerce.service.IProductService;
 import com.devops.ecomerce.service.IUserService;
@@ -36,7 +37,25 @@ public class CartController {
 		return new ModelAndView("viewCart","command",new CartItem()).addObject("cart",iCartService.getCart(iUserService.getUser())).addObject("user",iUserService);
 	}
 	
-	@RequestMapping(value={"/addToCart","/buyNow"})
+	@RequestMapping(value="/WishList")
+	public ModelAndView WishList(){
+		return new ModelAndView("viewCart","command",new CartItem()).addObject("wishes",iCartService.getWishList(iUserService.getUser())).addObject("user",iUserService);
+	}
+	
+	@RequestMapping(value="/WishList/delete/{listItem}/{product}")
+	public String deleteWish(@PathVariable(value="listItem") Integer listItemId,@PathVariable(value="product") Integer productId){
+		System.out.println("Deleting");
+		iCartService.deleteWishListItem(listItemId,productId);
+		return "redirect:/Cart/WishList";
+	}
+	
+	@RequestMapping(value="/WishList/delete/{wishList}")
+	public String deleteWishList(@PathVariable(value="wishList") Integer wishListId){
+		iCartService.deleteWishList(wishListId);
+		return "redirect:/Cart/WishList";
+	}
+	
+	@RequestMapping(value={"/addToCart","/buyNow","addWish"})
 	public String addToCart(HttpServletRequest request){
 		int productId=Integer.parseInt(request.getParameter("c"));
 		String redirect="redirect:/";
@@ -47,32 +66,61 @@ public class CartController {
 			redirect="redirect:/login";
 			return redirect;
 		}
-		
-		Cart cart=new Cart();
-		cart.setCartId(iCartService.getCart(iUserService.getUser()).getCartId());
-		cart.setUserId(iUserService.getUser());
-		cart.setCartDate(new Date());
-		cart.setPaid(false);
-		
-		CartGroup cartGroup=new CartGroup();
-		cartGroup.setProductId(iProductService.getProduct(productId));
-		cartGroup.setCartId(cart);
-		
-		CartItem cartItem=new CartItem();
-		cartItem.setQuantity(1);
-		cartItem.setTotatPrice(iProductService.getProduct(productId).getPrice());
-		cartItem.setCartGroupId(cartGroup);
-		
-		cart.getCartItems().addAll(iCartService.getCart(iUserService.getUser()).getCartItems());
-		cart.getCartItems().add(cartItem);
-		
-		iCartService.addToCart(cartItem);
-		iCartService.updateCart(cart);
-		
+
+		if(request.getRequestURI().contains("addWish")){
+			System.out.println("creating wishList "+request.getHeader("referer"));
+			WishList wishList=new WishList();
+			
+				wishList.setUserId(iUserService.getUser());
+				try{
+					wishList.setId(iCartService.getWishList(iUserService.getUser()).getId());
+				}catch(Exception e){iCartService.addWishList(wishList);}
+				System.out.println("creating wishList Item");
+				
+				WishGroup wishGroup=new WishGroup(); 
+				wishGroup.setProduct(iProductService.getProduct(productId));
+				wishGroup.setWishList(wishList);
+				
+				ListItem listItem = new ListItem();
+				listItem.setWishGroup(wishGroup);
+				
+				System.out.println("adding wishList items");
+				
+				try{wishList.getListItems().addAll(iCartService.getWishList(iUserService.getUser()).getListItems());
+				}catch(Exception e){}
+				wishList.getListItems().add(listItem);
+				System.out.println("adding wishList");
+				iCartService.addWishListItem(listItem);
+				iCartService.addWishList(wishList);
+				return "redirect:"+request.getHeader("referer");
+		}
+		else{
+			Cart cart=new Cart();
+			try{
+				cart.setCartId(iCartService.getCart(iUserService.getUser()).getCartId());
+			}catch(Exception e){}
+				cart.setUserId(iUserService.getUser());
+			
+			CartGroup cartGroup=new CartGroup();
+			cartGroup.setProductId(iProductService.getProduct(productId));
+			cartGroup.setCartId(cart);
+			
+			CartItem cartItem=new CartItem();
+			cartItem.setQuantity(1);
+			cartItem.setTotatPrice(iProductService.getProduct(productId).getPrice());
+			cartItem.setCartGroupId(cartGroup);
+			iCartService.addCartItem(cartItem);
+			
+			cart.getCartItems().addAll(iCartService.getCart(iUserService.getUser()).getCartItems());
+			cart.getCartItems().add(cartItem);
+			iCartService.updateCart(cart);
 			redirect="redirect:/Cart/";
 			if(request.getRequestURI().contains("buyNow")){
 				redirect="redirect:/User/shipTo?c="+cart.getCartId()+"&&p="+productId;
 			}
+		}
+		
+			
 		return redirect;
 	}
 	
@@ -82,17 +130,17 @@ public class CartController {
 		int q=Integer.parseInt(requset.getParameter("q"));
 		cartItem.setQuantity(q);
 		cartItem.setTotatPrice(cartItem.getCartGroupId().getProductId().getPrice()*q);
-		iCartService.addToCart(cartItem);
+		iCartService.addCartItem(cartItem);
 		return "redirect:/Cart/";
 	}
 	
-	@RequestMapping(value="/deleteCart/{cart}/{product}")
+	@RequestMapping(value="/delete/{cart}/{product}")
 	public String deleteCartItem(@PathVariable(value="cart") Integer cartId,@PathVariable(value="product") Integer productId){
 		iCartService.deleteCartItem(cartId, productId);
 		return "redirect:/Cart/";
 	}
 	
-	@RequestMapping(value="/deleteCart/{cart}")
+	@RequestMapping(value="/delete/{cart}")
 	public String deleteCart(@PathVariable(value="cart") Integer cartId){
 		iCartService.deleteCart(cartId);
 		return "redirect:/Cart/";

@@ -30,6 +30,7 @@ import com.devops.ecomerce.models.Product;
 import com.devops.ecomerce.service.ICategoryService;
 import com.devops.ecomerce.service.IProductService;
 import com.devops.ecomerce.service.IUserService;
+import com.devops.ecomerce.service.IUtilityService;
 
 @Controller
 @RequestMapping(value="/Admin")
@@ -47,6 +48,9 @@ public class AdminController {
 	
 	@Autowired(required=true)
 	private IUserService iUserService;
+	
+	@Autowired(required=true)
+	private IUtilityService iUtilityService;
 	
 	//Controller Page
 	
@@ -125,49 +129,7 @@ public class AdminController {
 	@RequestMapping(value="/Category",method=RequestMethod.POST)
 	public String storeCategory(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Category c,BindingResult result){
 		iCategoryService.addCategory(c);
-		String fileName=null;
-		//try {
-			MultipartFile image=c.getProductImage();
-			fileName = file.getOriginalFilename();
-			path=Paths.get("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/"+c.getId()+fileName.substring(fileName.indexOf('.')));
-			if (!Files.exists(path)) {
-			    try {
-					Files.createFile(path);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if (image != null && !image.isEmpty()) {
-	            try {
-	            	image.transferTo(new File(path.toString()));
-	            	error= "You have successfully uploaded " + fileName;
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	                error="You failed to upload " + fileName + ": " + e.getMessage();
-	                throw new RuntimeException(" image saving failed.", e);
-	            }
-			}
-			/*
-			fileName = file.getOriginalFilename();
-            byte[] bytes = file.getBytes();
-            BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/" + fileName)));
-            buffStream.write(bytes);
-            buffStream.close();
-            error= "You have successfully uploaded " + fileName;
-            System.out.println("---------->"+error);
-        } catch (Exception e) {
-        	error="You failed to upload " + fileName + ": " + e.getMessage();
-        	System.out.println(e);
-        }
-		File oldName = new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/" + fileName);
-        File newName = new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/" + c.getId()+fileName.substring(fileName.indexOf(".")));
-        System.out.println("new file name:--------------->"+newName);
-        if(oldName.renameTo(newName)) {
-           System.out.println(c.getId());
-           error=c.getName()+" added Successfully !";
-           System.out.println("");
-        } */
+		iUtilityService.uploadImage(c.getCategoryImage(), file.getOriginalFilename(), "category", c.getId());
         return "redirect:./";
 	}
 	

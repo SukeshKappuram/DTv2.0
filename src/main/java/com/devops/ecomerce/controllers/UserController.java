@@ -3,13 +3,10 @@ package com.devops.ecomerce.controllers;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,18 +14,17 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserOrder;
+import com.devops.ecomerce.models.WishList;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
 import com.devops.ecomerce.service.ICartService;
@@ -65,10 +61,6 @@ public class UserController {
 	}
 
 	//Authentications
-	
-	
-	
-	
 	/*
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
 	public ResponseEntity<Void> signUp(@RequestBody User user,UriComponentsBuilder ucBuilder){
@@ -86,6 +78,23 @@ public class UserController {
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}*/
+	
+	@RequestMapping(value="/signUp",method=RequestMethod.POST)
+	@PreAuthorize("permitAll()")
+	public String signUp(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,@RequestParam("file") MultipartFile file,BindingResult result){
+			System.out.println(u);
+			u.setRegisteredDate(new Date());
+			ObjectError oe= new ObjectError("Success", "You have been successfully Signed Up!!");
+			if(iUserService.addUser(u)==0){
+				oe= new ObjectError("Invalid", "Mail Id already Registered");
+			}
+			iUserService.addUser(u);
+			iUtilityService.uploadImage(u.getUserImage(), file.getOriginalFilename(), "user", u.getId());
+			result.addError(oe);
+			errors=result.getAllErrors();
+		iUtilityService.setErrors(errors);
+		return "redirect:/signUp";
+	}
 	
 	@RequestMapping(value="/authenticate",method=RequestMethod.POST)
 	public String login(@Valid @ModelAttribute("ecomerce") User u,BindingResult result){

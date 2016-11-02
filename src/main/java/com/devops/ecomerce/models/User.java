@@ -5,11 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class User {
@@ -22,7 +24,7 @@ public class User {
 	@Pattern(regexp = "[a-zA-Z@=\\-'\"]+")
 	@Size(min=4,max=20,message="LastName Should atleast have 4 Char")
 	private String lastName;
-	@Pattern(regexp = "[0-9]10")
+	@Pattern(regexp = "[0-9]{10}")
 	@Size(min=10,max=10,message="Invalid Phone Number")
 	private String phoneNumber;
 	@Email(message="Invalid Email Id")
@@ -34,6 +36,8 @@ public class User {
 	private Date registeredDate=new Date();
 	@NotNull
 	private Boolean enabled=true;
+	@Transient
+	private MultipartFile userImage;
 	
 	public Integer getId() {
 		return id;
@@ -76,6 +80,18 @@ public class User {
 	}
 	public void setRegisteredDate(Date registeredDate) {
 		this.registeredDate = registeredDate;
+	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+	public MultipartFile getUserImage() {
+		return userImage;
+	}
+	public void setUserImage(MultipartFile userImage) {
+		this.userImage = userImage;
 	}
 	
 }

@@ -16,4 +16,5 @@ public interface IUtilityService {
 	public List<ObjectError> getErrors();
 	public void uploadImage(MultipartFile file,SocialNetwork s);
 	public double findDistance(long... pin) throws IOException;
+	public String uploadImage(MultipartFile image,String fileName,String folder,int imageId);
 }

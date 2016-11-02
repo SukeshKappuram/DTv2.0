@@ -133,11 +133,11 @@ div.scrollmenu a:hover {
         font-size: 150px;
     }
   }
+ 
 </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60"> 
 <%@include file="header.jsp" %>
-
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">

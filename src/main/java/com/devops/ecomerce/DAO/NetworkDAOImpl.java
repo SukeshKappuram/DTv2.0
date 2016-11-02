@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.Share;
 import com.devops.ecomerce.models.colabaration.SocialNetwork;
 import com.devops.ecomerce.service.INetworkService;
 
@@ -39,6 +40,8 @@ public class NetworkDAOImpl implements INetworkService {
 	public static final String FROM_ADDRESS="wecare@kartooz.com";
 
 	//CRUD on Networks
+	
+	
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<SocialNetwork> viewNetworks(String network) {
@@ -91,6 +94,14 @@ public class NetworkDAOImpl implements INetworkService {
 		session.saveOrUpdate(f);
 		tx.commit();
 	}
+	
+	public void addShare(Share s) {
+		// TODO Auto-generated method stub
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		session.saveOrUpdate(s);
+		tx.commit();
+	}
 
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public SocialNetwork getNetwork(String Id) {
@@ -120,5 +131,7 @@ public class NetworkDAOImpl implements INetworkService {
 		helper.addBcc("sukesh.niithabsiguda@gmail.com");
 		javaMailSender.send(mail);
 	}
+
+	
 
 }

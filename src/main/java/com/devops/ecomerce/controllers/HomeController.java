@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
@@ -76,7 +77,7 @@ public class HomeController {
 	
 	//Colabration Landing Page
 	
-	@RequestMapping(value={"/Blogs","/Forums"})
+	@RequestMapping(value={"/Blogs","/Forums","/Share"})
 	public ModelAndView viewSocialNetwork(HttpServletRequest request){
 		ModelAndView mv=new ModelAndView("viewSocialNetwork","command",new Blog());
 		String reqString=request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/')+1,request.getRequestURI().length()-1);
@@ -97,29 +98,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/Product/{product}/{id}")
-	public ModelAndView viewProduct(@PathVariable(value="product") String categoryName,@PathVariable(value="id") Integer productId) throws IOException{
+	public ModelAndView viewProduct(@PathVariable(value="product") String productName,@PathVariable(value="id") Integer productId) throws IOException{
 		return new ModelAndView("productDetails","product",iProductService.getProduct(productId)).addObject("user",iUserService).addObject("sellers",iProductService.viewSellers(productId)).addObject("distance",iUtilityService);
 	}
 
 	//User Commom Controls
 	
 	List<ObjectError> errors;
-	
-	@RequestMapping(value="/signUp",method=RequestMethod.POST)
-	@PreAuthorize("permitAll()")
-	public String signUp(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,BindingResult result){
-			System.out.println(u);
-			u.setRegisteredDate(new Date());
-			ObjectError oe= new ObjectError("Success", "You have been successfully Signed Up!!");
-			if(iUserService.addUser(u)==0){
-				oe= new ObjectError("Invalid", "Mail Id already Registered");
-			}
-			iUserService.addUser(u);
-			result.addError(oe);
-			errors=result.getAllErrors();
-		iUtilityService.setErrors(errors);
-		return "redirect:/signUp";
-	}
 	
 	@RequestMapping(value="/Profile")
 	public ModelAndView viewProfile(HttpServletRequest request){

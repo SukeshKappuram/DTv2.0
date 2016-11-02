@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +90,51 @@ public class UtilityService implements IUtilityService {
         if(oldName.renameTo(newName)) {
            System.out.println(s.getId());
         } 
+	}
+	
+	public String uploadImage(MultipartFile image,String fileName,String folder,int imageId){
+		String error="";
+		//try {
+		Path path=Paths.get("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/"+imageId+fileName.substring(fileName.indexOf('.')));
+		if (!Files.exists(path)) {
+		    try {
+				Files.createFile(path);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (image != null && !image.isEmpty()) {
+            try {
+            	image.transferTo(new File(path.toString()));
+            	error= "You have successfully uploaded " + fileName;
+            } catch (Exception e) {
+                e.printStackTrace();
+                error="You failed to upload " + fileName + ": " + e.getMessage();
+                throw new RuntimeException(" image saving failed.", e);
+            }
+		}
+		/*
+		fileName = file.getOriginalFilename();
+        byte[] bytes = file.getBytes();
+        BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/" + fileName)));
+        buffStream.write(bytes);
+        buffStream.close();
+        error= "You have successfully uploaded " + fileName;
+        System.out.println("---------->"+error);
+    } catch (Exception e) {
+    	error="You failed to upload " + fileName + ": " + e.getMessage();
+    	System.out.println(e);
+    }
+	File oldName = new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/" + fileName);
+    File newName = new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/category/" + c.getId()+fileName.substring(fileName.indexOf(".")));
+    System.out.println("new file name:--------------->"+newName);
+    if(oldName.renameTo(newName)) {
+       System.out.println(c.getId());
+       error=c.getName()+" added Successfully !";
+       System.out.println("");
+    } */
+		return error;
 	}
 	
 	//No of KM between latitudes and longitudes

@@ -73,6 +73,7 @@
              })();
         </script>
         <!-- End of google Script -->
+
   <style type="text/css">
   	#header{
 		color: #093d2f;
@@ -85,10 +86,13 @@
 		font-family: fantasy;
 		text-decoration: underline;
 	}
+	 .parallax { 
+  	height: 50px;
+  }
   </style>
 </head>
 <body>
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -113,6 +117,8 @@
       <li><a href="${pageContext.request.contextPath}/#feedback">Feedback</a></li>
       <li><a href="${pageContext.request.contextPath}/Blogs">Blogs</a></li>
       <li><a href="${pageContext.request.contextPath}/Forums">Forums</a></li>
+      <li><a href="${pageContext.request.contextPath}/Share">Share</a></li>
+      <li><a href="${pageContext.request.contextPath}/Offers">Offer Zone</a></li>
    	  </ul>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"><b class="caret"></b></a>
@@ -125,12 +131,23 @@
           <li><a><div id="mySignin" onclick="login()"><i class="fa fa-google"> Google</i></div></a></li>
         </ul>
       </li>
+    	<div class="col-sm-3 col-md-3 navbar-right" >
+        <form class="navbar-form" role="search">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="q">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+        </form>
+    </div>  
     </ul>
     
     <c:if test="${fn:length(user.getUser().firstName) > 0}">
     <ul class="nav navbar-nav navbar-right">
       <c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER'}">
         <li><a href="${pageContext.request.contextPath}/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+        <li><a href="${pageContext.request.contextPath}/Cart/WishList/"><span class="glyphicon glyphicon-heart"></span><i class="fa fa-th-list"></i></a></li>
       </c:if>
                 
       <li class="dropdown">
@@ -144,18 +161,8 @@
       </li>
     </ul>
      </c:if>
-
-    <div class="col-sm-3 col-md-3 navbar-right" >
-        <form class="navbar-form" role="search">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" name="q">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
-        </div>
-        </form>
-    </div>
   </div>
 </nav>
+<div class="parallax"></div>
 </body>
 </html>

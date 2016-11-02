@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
             .ignoring()
                 // Spring Security should completely ignore URLs starting with /resources/
-                .antMatchers("/signUp**").antMatchers("/Admin/Category").antMatchers("/Admin/Product");
+                .antMatchers("/User/signUp**").antMatchers("/Admin/Category").antMatchers("/Admin/Product");
     }
 
 

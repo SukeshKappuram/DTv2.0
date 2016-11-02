@@ -35,7 +35,7 @@
     				</div>
    				</c:if>
     	</c:forEach>
- 	<form:form action="signUp" method="post">
+ 	<form:form action="User/signUp" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="inputdefault">First Name</label>
       <form:input class="form-control" path="firstName" type="text" /><!-- ng-model="ctrl.user.name" -->
@@ -55,6 +55,10 @@
     <div class="form-group">
       <label for="inputlg">Password</label>
       <form:input class="form-control" path="password" type="password" /><!--  ng-model="ctrl.user.password" -->
+    </div>
+    <div class="form-group">
+      <label for="inputlg">Upload Image</label>
+      <form:input type="file" path="userImage" class="form-control" name="file"/>
     </div>
     <div class="form-group">
     	<form:button type="submit" class="btn btn-primary">I Agree to Sign up KartooZ</form:button>

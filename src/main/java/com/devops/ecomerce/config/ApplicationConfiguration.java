@@ -18,15 +18,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.CartItem;
 import com.devops.ecomerce.models.Category;
+import com.devops.ecomerce.models.ListItem;
 import com.devops.ecomerce.models.UserOrder;
 import com.devops.ecomerce.models.Product;
 import com.devops.ecomerce.models.Seller;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserRole;
+import com.devops.ecomerce.models.WishList;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Comment;
 import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.Share;
 
 @Configuration
 @ComponentScan("com")
@@ -64,12 +67,15 @@ public class ApplicationConfiguration{
 		localSessionFactoryBuilder.addAnnotatedClass(ShippingAddress.class);
 		localSessionFactoryBuilder.addAnnotatedClass(UserOrder.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Seller.class);
+		localSessionFactoryBuilder.addAnnotatedClass(WishList.class);
+		localSessionFactoryBuilder.addAnnotatedClass(ListItem.class);
 		
 		//Colabration Module
 		
 		localSessionFactoryBuilder.addAnnotatedClass(Blog.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Comment.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Forum.class);
+		localSessionFactoryBuilder.addAnnotatedClass(Share.class);
 		
 		return localSessionFactoryBuilder.buildSessionFactory();
 	}

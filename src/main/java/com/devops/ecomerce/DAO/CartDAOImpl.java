@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.CartItem;
+import com.devops.ecomerce.models.ListItem;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserOrder;
+import com.devops.ecomerce.models.WishList;
 import com.devops.ecomerce.service.ICartService;
 
 @Repository
@@ -26,14 +28,68 @@ public class CartDAOImpl implements ICartService {
 	@Autowired
 	private SessionFactory factory;
 	
+	//Wishlist
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void addWishListItem(ListItem listItem) {
+		// TODO Auto-generated method stub
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		session.saveOrUpdate(listItem);
+		tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void addWishList(WishList wishList){
+		// TODO Auto-generated method stub
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		session.saveOrUpdate(wishList);
+		tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void deleteWishList(int wishListId) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(ListItem.class);
+		cr.add(Restrictions.eq("wishGroup.wishList.Id",wishListId));
+		List<ListItem> items = cr.list();
+		WishList wishes = (WishList)session.get(WishList.class, new Integer(wishListId));
+		for(ListItem item:items){
+			wishes.getListItems().remove(item);
+		}
+		session.saveOrUpdate(wishes);
+		tx.commit();
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void deleteWishListItem(int wishListId,int productId) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(ListItem.class);
+		cr.add(Restrictions.eq("wishGroup.wishList.Id",wishListId));
+		cr.add(Restrictions.eq("wishGroup.product.productId",productId));
+		ListItem item = (ListItem)cr.list().get(0);
+		WishList wish = (WishList)session.get(WishList.class, new Integer(wishListId));
+		wish.getListItems().remove(item);
+		session.saveOrUpdate(wish);
+		tx.commit();
+	}
+	
 	//CRUD for Cart
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public void addToCart(CartItem cartItem) {
+	public void addCartItem(CartItem cartItem) {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		tx.begin();
 		session.saveOrUpdate(cartItem);
+		System.out.println(cartItem.getTotatPrice()+" added");
 		tx.commit();
 	}
 
@@ -88,6 +144,18 @@ public class CartDAOImpl implements ICartService {
 		tx.commit();
 		return cart;
 	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public WishList getWishList(User user) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(WishList.class);
+		cr.add(Restrictions.eq("userId",user));
+		WishList wishList=(WishList)cr.uniqueResult();
+		tx.commit();
+		return wishList;
+	}
 
 	public List<CartItem> getCart(int productId,int cartId){
 		Session session=factory.openSession();
@@ -140,5 +208,6 @@ public class CartDAOImpl implements ICartService {
 		tx.commit();
 		return cartItems;
 	}
+
 		
 }

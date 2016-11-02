@@ -29,6 +29,5 @@ public class CartGroup implements Serializable{
 	public void setProductId(Product productId) {
 		this.productId = productId;
 	}
-	
-	
+
 }

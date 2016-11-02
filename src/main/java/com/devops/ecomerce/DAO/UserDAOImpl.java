@@ -8,6 +8,7 @@ import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserRole;
+import com.devops.ecomerce.models.WishList;
 import com.devops.ecomerce.service.IUserService;
 
 import org.hibernate.Criteria;
@@ -49,6 +50,10 @@ public class UserDAOImpl implements IUserService {
 		cart.setUserId(u);
 		cart.setCartDate(new Date());
 		session.saveOrUpdate(cart);
+		WishList wishList =new WishList();
+		wishList.setUserId(u);
+		wishList.setWishDate(new Date());
+		session.saveOrUpdate(wishList);
 		tx.commit();
 		return 1;
 		}
