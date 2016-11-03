@@ -44,7 +44,6 @@ public class CartController {
 	
 	@RequestMapping(value="/WishList/delete/{listItem}/{product}")
 	public String deleteWish(@PathVariable(value="listItem") Integer listItemId,@PathVariable(value="product") Integer productId){
-		System.out.println("Deleting");
 		iCartService.deleteWishListItem(listItemId,productId);
 		return "redirect:/Cart/WishList";
 	}
@@ -55,27 +54,24 @@ public class CartController {
 		return "redirect:/Cart/WishList";
 	}
 	
-	@RequestMapping(value={"/addToCart","/buyNow","addWish"})
-	public String addToCart(HttpServletRequest request){
-		int productId=Integer.parseInt(request.getParameter("c"));
+	@RequestMapping(value={"/addToCart/{product}","/buyNow/{product}","addWish/{product}"})
+	public String addToCart(HttpServletRequest request,@PathVariable(value="product") Integer productId){
 		String redirect="redirect:/";
 		
 		try{
-			System.out.println(iUserService.getUser().getFirstName());
+			iUserService.getUser().getFirstName();
 		}catch(Exception e){
 			redirect="redirect:/login";
 			return redirect;
 		}
 
 		if(request.getRequestURI().contains("addWish")){
-			System.out.println("creating wishList "+request.getHeader("referer"));
+
 			WishList wishList=new WishList();
-			
-				wishList.setUserId(iUserService.getUser());
+			wishList.setUserId(iUserService.getUser());
 				try{
 					wishList.setId(iCartService.getWishList(iUserService.getUser()).getId());
 				}catch(Exception e){iCartService.addWishList(wishList);}
-				System.out.println("creating wishList Item");
 				
 				WishGroup wishGroup=new WishGroup(); 
 				wishGroup.setProduct(iProductService.getProduct(productId));
@@ -84,14 +80,14 @@ public class CartController {
 				ListItem listItem = new ListItem();
 				listItem.setWishGroup(wishGroup);
 				
-				System.out.println("adding wishList items");
-				
 				try{wishList.getListItems().addAll(iCartService.getWishList(iUserService.getUser()).getListItems());
 				}catch(Exception e){}
+
 				wishList.getListItems().add(listItem);
-				System.out.println("adding wishList");
+
 				iCartService.addWishListItem(listItem);
 				iCartService.addWishList(wishList);
+				
 				return "redirect:"+request.getHeader("referer");
 		}
 		else{
@@ -119,7 +115,6 @@ public class CartController {
 				redirect="redirect:/User/shipTo?c="+cart.getCartId()+"&&p="+productId;
 			}
 		}
-		
 			
 		return redirect;
 	}

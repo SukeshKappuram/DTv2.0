@@ -72,7 +72,7 @@ public class ProductDAOImpl implements IProductService {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		Criteria cr=session.createCriteria(Product.class);
-		List<Product> products = cr.list();
+		List<Product> products =cr.list();
 		tx.commit();
 		return products;
 	}

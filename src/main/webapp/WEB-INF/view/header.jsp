@@ -111,7 +111,7 @@
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
       <ul class="nav navbar-nav">
-      <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+      <li><a href="${pageContext.request.contextPath}/#Home">Home</a></li>
       <li><a href="${pageContext.request.contextPath}/#about">About Us</a></li>
       <li><a href="${pageContext.request.contextPath}/#contact">Contact Us</a></li>
       <li><a href="${pageContext.request.contextPath}/#feedback">Feedback</a></li>

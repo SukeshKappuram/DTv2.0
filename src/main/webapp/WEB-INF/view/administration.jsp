@@ -49,11 +49,11 @@ body {
       	<tbody> 
       	<c:forEach var="p" items="${products}">
       	<tr class="info">
-      		<th scope="row"><a href="edit?p=${p.productId}">${p.name}</a></th>
+      		<th scope="row"><a href="edit/${p.productId}">${p.name}</a></th>
       		<th scope="row">${p.price}</th>
   			<td>${p.available}</td>
   			<td>${p.categoryId.name}</td>
-  			<td><a href="delete?p=${p.productId}"><img src="/ecomerce/resources/images/delete.png" width="20" height="20"></a></td>
+  			<td><a href="delete/${p.productId}"><img src="/ecomerce/resources/images/delete.png" width="20" height="20"></a></td>
 		</tr>
 	  </c:forEach>
 	  </tbody>	

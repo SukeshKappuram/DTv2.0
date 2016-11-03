@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="container" >
+<div class="parallax"></div>
  <div class="jumbotron" style="background-image: url('http://www.panunited.com.sg/images/pics/banner-feedback.jpg');background-repeat: no-repeat;background-size:100% 300px; background-position: bottom;">
   <div class="row">
     <ul class="col-md-4" style="line-height: 20px;">

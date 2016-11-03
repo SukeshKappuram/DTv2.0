@@ -41,8 +41,6 @@ public class NetworkDAOImpl implements INetworkService {
 
 	//CRUD on Networks
 	
-	
-	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<SocialNetwork> viewNetworks(String network) {
 		Session session=factory.getCurrentSession();
@@ -131,7 +129,5 @@ public class NetworkDAOImpl implements INetworkService {
 		helper.addBcc("sukesh.niithabsiguda@gmail.com");
 		javaMailSender.send(mail);
 	}
-
-	
 
 }

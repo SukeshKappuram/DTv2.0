@@ -138,13 +138,13 @@ div.scrollmenu a:hover {
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60"> 
 <%@include file="header.jsp" %>
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <div id="Home" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="dot"></li>
-      <li data-target="#myCarousel" data-slide-to="1" class="dot"></li>
-      <li data-target="#myCarousel" data-slide-to="2" class="dot"></li>
-      <li data-target="#myCarousel" data-slide-to="3" class="dot"></li>
+      <li data-target="#Home" data-slide-to="0" class="dot"></li>
+      <li data-target="#Home" data-slide-to="1" class="dot"></li>
+      <li data-target="#Home" data-slide-to="2" class="dot"></li>
+      <li data-target="#Home" data-slide-to="3" class="dot"></li>
     </ol>
 
     <!-- Wrapper for slides -->
@@ -167,11 +167,11 @@ div.scrollmenu a:hover {
     </div>
 
     <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <a class="left carousel-control" href="#Home" role="button" data-slide="prev">
       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <a class="right carousel-control" href="#Home" role="button" data-slide="next">
       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>

@@ -29,7 +29,7 @@
 				${u.roleName}
 			</div>
 			<div class="col-sm-2">
-				<a href="updateRole?u=${u.roleId.id}">Make Seller</a>
+				<a href="updateRole/${u.roleId.id}">Make Seller</a>
 			</div>
 		</div>
 	</c:forEach>

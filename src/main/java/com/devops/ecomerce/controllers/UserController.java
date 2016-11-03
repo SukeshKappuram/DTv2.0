@@ -24,7 +24,6 @@ import com.devops.ecomerce.models.Cart;
 import com.devops.ecomerce.models.ShippingAddress;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserOrder;
-import com.devops.ecomerce.models.WishList;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
 import com.devops.ecomerce.service.ICartService;
@@ -81,7 +80,7 @@ public class UserController {
 	
 	@RequestMapping(value="/signUp",method=RequestMethod.POST)
 	@PreAuthorize("permitAll()")
-	public String signUp(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") User u,@RequestParam("file") MultipartFile file,BindingResult result){
+	public String signUp(ModelMap model,@Valid @ModelAttribute("ecomerce") User u,@RequestParam("file") MultipartFile file,BindingResult result){
 			System.out.println(u);
 			u.setRegisteredDate(new Date());
 			ObjectError oe= new ObjectError("Success", "You have been successfully Signed Up!!");
@@ -146,7 +145,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/shipTo",method=RequestMethod.POST)
-	public String addShippingAddress(HttpServletRequest request,ModelMap model,@Valid @ModelAttribute("ecomerce") ShippingAddress s,BindingResult result){
+	public String addShippingAddress(ModelMap model,@Valid @ModelAttribute("ecomerce") ShippingAddress s,BindingResult result){
 		s.setUserId(iUserService.getUser());
 		iUserService.addShippingAddress(s);
 		return "redirect:/shipTo";
@@ -168,7 +167,7 @@ public class UserController {
 	//Collabration Control vies
 	
 	@RequestMapping(value={"/Blogs"},method=RequestMethod.POST)
-	public String viewSocialNetwork(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file,@Valid @ModelAttribute("ecomerce") Blog b,BindingResult result){
+	public String viewSocialNetwork(ModelMap model,@RequestParam("file") MultipartFile file,@Valid @ModelAttribute("ecomerce") Blog b,BindingResult result){
 		b.setCreatedDate(new Date());
 		b.setUser(iUserService.getUser());
 		iNetworkService.addBlog(b);
@@ -177,7 +176,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value={"/Forums"},method=RequestMethod.POST)
-	public String viewSocialNetwork(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file,@Valid @ModelAttribute("ecomerce") Forum f,BindingResult result){
+	public String viewSocialNetwork(ModelMap model,@RequestParam("file") MultipartFile file,@Valid @ModelAttribute("ecomerce") Forum f,BindingResult result){
 		f.setCreatedDate(new Date());
 		f.setUser(iUserService.getUser());
 		iNetworkService.addForum(f);

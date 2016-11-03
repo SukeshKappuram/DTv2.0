@@ -1,13 +1,5 @@
 package com.devops.ecomerce.controllers;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -19,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +29,6 @@ import com.devops.ecomerce.service.IUtilityService;
 @RequestMapping(value="/Admin")
 public class AdminController {
 	
-	Path path;
 	String error;
 	int productId=0;
 	
@@ -71,7 +63,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/Product",method=RequestMethod.POST)
-	public String storeProduct(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Product p,BindingResult result){
+	public String addProduct(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Product p,BindingResult result){
 		int categoryId=Integer.parseInt(request.getParameter("categoryId"));
 		p.setCategoryId(iCategoryService.viewCategory(categoryId));
 		p.setAvailable(0);
@@ -81,40 +73,17 @@ public class AdminController {
 		}
 		System.out.println(p.getProductId());
 		iProductService.addProduct(p);
-		String fileName=null;
-		try {
-            fileName = file.getOriginalFilename();
-            byte[] bytes = file.getBytes();
-            BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/product/" + fileName)));
-            buffStream.write(bytes);
-            buffStream.close();
-            error= "You have successfully uploaded " + fileName;
-            System.out.println("---------->"+error);
-        
-		File oldName = new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/product/" + fileName);
-        File newName = new File("D:/DevOps/workspace/ecomerce/src/main/webapp/resources/images/product/" + p.getProductId()+fileName.substring(fileName.indexOf(".")));
-        System.out.println("new file name:--------------->"+newName);
-        if(oldName.renameTo(newName)) {
-           System.out.println(p.getProductId());
-           error=p.getName()+" added Successfully !";
-           System.out.println("");
-        } 
-		} catch (Exception e) {
-        	error="You failed to upload " + fileName + ": " + e.getMessage();
-        	System.out.println(e);
-        }
+		iUtilityService.uploadImage(p.getProductImage(), file.getOriginalFilename(), "product", p.getProductId());
         return "redirect:./";
 	}
 	
-	@RequestMapping(value="/edit")
-	public ModelAndView edit(HttpServletRequest request){
-		productId=Integer.parseInt(request.getParameter("p"));
+	@RequestMapping(value="/edit/{productId}")
+	public ModelAndView editProduct(@PathVariable(value="productId") Integer productId){
 		return new ModelAndView("addProduct","command",iProductService.getProduct(productId)).addObject("categories", iCategoryService.viewCategories());
 	}
 	
-	@RequestMapping(value="/delete")
-	public String delete(HttpServletRequest request){
-		productId=Integer.parseInt(request.getParameter("p"));
+	@RequestMapping(value="/delete/{productId}")
+	public String deleteProduct(@PathVariable(value="productId") Integer productId){
 		iProductService.deleteProduct(productId);
 		return "redirect:./";
 	}
@@ -127,7 +96,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/Category",method=RequestMethod.POST)
-	public String storeCategory(HttpServletRequest request,ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Category c,BindingResult result){
+	public String addCategory(ModelMap model,@RequestParam("file") MultipartFile file, @Valid @ModelAttribute("ecomerce") Category c,BindingResult result){
 		iCategoryService.addCategory(c);
 		iUtilityService.uploadImage(c.getCategoryImage(), file.getOriginalFilename(), "category", c.getId());
         return "redirect:./";
@@ -136,13 +105,12 @@ public class AdminController {
 	//CRUD Operations on User
 	
 	@RequestMapping(value="/approveSeller")
-	public ModelAndView users(){
+	public ModelAndView viewUsers(){
 		return new ModelAndView("viewUsers","users",iUserService.viewUsers());
 	}
 	
-	@RequestMapping(value="/updateRole")
-	public String updateRole(HttpServletRequest request){
-		int roleId=Integer.parseInt(request.getParameter("u"));
+	@RequestMapping(value="/updateRole/{roleId}")
+	public String updateRole(@PathVariable(value="roleId") Integer roleId){
 		iUserService.updateRole(roleId);
 		return "redirect:./approveSeller";
 	}

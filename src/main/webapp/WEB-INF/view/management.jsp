@@ -71,8 +71,8 @@ body {
   			<c:if test="${empty seller}" >
   			<td>${p.quantity}</td>
   			<td>${p.discount}</td>
-  			<td><a href="edit?p=${p.id}">Update</a></td>
-  			<td><a href="delete?p=${p.id}">Delete</a></td>
+  			<td><a href="edit/${p.id}">Update</a></td>
+  			<td><a href="delete/${p.id}">Delete</a></td>
   			</c:if>
   			<c:if test="${p.id == seller.id}">
   			<form action="update">

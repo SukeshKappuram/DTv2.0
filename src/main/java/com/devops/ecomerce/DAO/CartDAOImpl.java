@@ -51,6 +51,18 @@ public class CartDAOImpl implements ICartService {
 	}
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
+	public WishList getWishList(User user) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		tx.begin();
+		Criteria cr=session.createCriteria(WishList.class);
+		cr.add(Restrictions.eq("userId",user));
+		WishList wishList=(WishList)cr.uniqueResult();
+		tx.commit();
+		return wishList;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public void deleteWishList(int wishListId) {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
@@ -145,18 +157,6 @@ public class CartDAOImpl implements ICartService {
 		return cart;
 	}
 	
-	@Transactional(propagation=Propagation.SUPPORTS)
-	public WishList getWishList(User user) {
-		Session session=factory.getCurrentSession();
-		Transaction tx=session.beginTransaction();
-		tx.begin();
-		Criteria cr=session.createCriteria(WishList.class);
-		cr.add(Restrictions.eq("userId",user));
-		WishList wishList=(WishList)cr.uniqueResult();
-		tx.commit();
-		return wishList;
-	}
-
 	public List<CartItem> getCart(int productId,int cartId){
 		Session session=factory.openSession();
 		Transaction tx=session.beginTransaction();

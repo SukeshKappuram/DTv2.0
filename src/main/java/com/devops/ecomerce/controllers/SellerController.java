@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -69,9 +70,8 @@ public class SellerController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/edit")
-	public String edit(HttpServletRequest request){
-		int productId=Integer.parseInt(request.getParameter("p"));
+	@RequestMapping(value="/edit/{productId}")
+	public String edit(@PathVariable(value="productId") Integer productId){
 		s=iProductService.getProduct(productId,iUserService.getUser());
 		return "redirect:./";
 	}
@@ -85,9 +85,8 @@ public class SellerController {
 		return "redirect:./";
 	}
 	
-	@RequestMapping(value="/delete")
-	public String delete(HttpServletRequest request){
-		int productId=Integer.parseInt(request.getParameter("p"));
+	@RequestMapping(value="/delete/{productId}")
+	public String delete(@PathVariable(value="productId") Integer productId){
 		s=iProductService.getProduct(productId,iUserService.getUser());
 		iProductService.delete(s);s=null;
 		return "redirect:./";

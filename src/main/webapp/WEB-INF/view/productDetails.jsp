@@ -118,9 +118,9 @@
       </c:if>
       <c:if test="${product.available > 1}">
       	<p>Available : ${product.available}</p>
-      	<p><a href="/${pageContext.request.contextPath}/Cart/addToCart?c=${product.productId}" class="btn btn-info" role="button">Add To Cart</a></p>
+      	<p><a href="${pageContext.request.contextPath}/Cart/addToCart/${product.productId}" class="btn btn-info" role="button">Add To Cart</a></p>
       </c:if>
-      <p><a href="${pageContext.request.contextPath}/Cart/addWish?c=${product.productId}" class="btn btn-warning" role="button">Add To WishList</a></p>
+      <p><a href="${pageContext.request.contextPath}/Cart/addWish/${product.productId}" class="btn btn-warning" role="button">Add To WishList</a></p>
     </div>
     
     <div class="col-sm-4">
