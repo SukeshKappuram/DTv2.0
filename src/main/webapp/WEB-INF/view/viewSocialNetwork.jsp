@@ -10,9 +10,7 @@
 <title>KartooZ</title>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js" ></script>
 <script>
 $(document).ready(function(){
@@ -155,10 +153,13 @@ $(document).ready(function(){
       <h4><small>RECENT POSTS</small></h4>
       <hr>
       <h2>{{ resource.name}}</h2>
-      <h5><span class="glyphicon glyphicon-time"></span> Post by {{ resource.user.firstName}} {{ resource.user.lastName}} <img src='/ecomerce/resources/images/user/{{ resource.user.Id }}.jpg' class="img-circle" alt="{{ resource.user.firstName }}" style="max-width:50px;max-height:50px;">, {{ resource.createdDate}}.</h5>
+      <h5><span class="glyphicon glyphicon-time"></span> Post by {{ resource.user.firstName}} {{ resource.user.lastName}} <img src='/ecomerce/resources/images/user/{{ resource.user.Id }}.jpg' class="img-circle" alt="{{ resource.user.firstName }}" style="max-width:50px;max-height:50px;">, 
+      {{showDate(resource.createdDate,resource.id)}}
+      <small id='{{ resource.id }}'></small>.
+      </h5>
       <h5>
-      	<span class="label label-success"><a href="updateCart?n={{ resource.Id }}">reload</a></span>
-      	<span class="label label-danger"><a href="deleteCart?n={{ resource.Id }}">delete</a></span>
+      	<span class="label label-success"><a href="updateCart?n={{ resource.id }}">reload</a></span>
+      	<span class="label label-danger"><a href="deleteCart?n={{ resource.id }}">delete</a></span>
       </h5><br>
       <p>{{ resource.description}}</p>
       <hr>
@@ -211,12 +212,27 @@ $(document).ready(function(){
   
 </div>
 			<script>
-				angular.module('myApp', []).controller('namesCtrl', function($scope) {
+				angular.module('myApp', []).controller('namesCtrl',['$scope', function($scope) {
     				$scope.names = ${networks};
     				$scope.orderByMe = function(x) {
         				$scope.myOrderBy = x;
     				}
-				}).controller('usrCtrl', function($scope) {
+    				$scope.showDate = function (jsonDate,div) {
+    					var monthNames = [
+    					                  "January", "February", "March",
+    					                  "April", "May", "June", "July",
+    					                  "August", "September", "October",
+    					                  "November", "December"
+    					                ];
+    					var date = new Date(parseInt(jsonDate));
+    		            //alert("This is an example of ng-click "+date);
+    		            var am_pm = date.getHours() >= 12 ? "PM" : "AM";
+    		            var hrs=date.getHours()>=12 ? date.getHours()-12 : date.getHours();
+    		            var str=monthNames[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+", "+hrs+":"+date.getMinutes()+" "+am_pm;
+    		            document.getElementById(div).innerHTML = str;
+    		        }
+    				
+				}]).controller('usrCtrl', function($scope) {
     				$scope.names = ${userNetworks};
     				$scope.orderByMe = function(x) {
         				$scope.myOrderBy = x;

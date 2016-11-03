@@ -111,7 +111,7 @@
     <div class="col-sm-4">
       <h3>Price</h3>
        <fmt:formatNumber var="prc" value="${product.price}"  maxFractionDigits="0" />
-      <p>$ ${prc}</p>
+      <p>$ ${prc} on ${product.dated}</p>
       
       <c:if test="${product.available < 1}">
       	<p style="color:#cc00cc">Not in Stock</p>
@@ -126,7 +126,8 @@
     <div class="col-sm-4">
       <h3>Sellers</h3>
       <c:forEach var="s" items="${sellers}">
-      <p>${s.userId.firstName} ${s.userId.lastName}</p>
+      <p><a href="#seller" class="btn btn-default" data-toggle="collapse">${s.userId.firstName} ${s.userId.lastName}</a></p>
+      <div id="seller" class="collapse">
       <p>${s.description}</p>
       <fmt:formatNumber var="dis" value="${s.discount}"  maxFractionDigits="0" />
       <p>Discount ${dis} %</p>
@@ -136,6 +137,7 @@
       <p><c:if test="${s.freeDelivery == true}"> Free Delivery with in ${distance.delivableDays(user.getShippingAddress().getPincode(),s.shippingAddress.pincode)}</c:if> Days</p>
       <p>Available : ${s.quantity}</p>
       <!-- <p>${s.shippingAddress.pincode}</p> -->
+      </div>
       <p><a href="#" class="btn btn-success" role="button">Buy Now</a> </p>
       </c:forEach>
     </div>

@@ -1,6 +1,7 @@
 package com.devops.ecomerce.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,11 +73,12 @@ public class HomeController {
 	//Colabration Landing Page
 	
 	@RequestMapping(value={"/Blogs","/Forums","/Share"})
-	public ModelAndView viewSocialNetwork(HttpServletRequest request){
+	public ModelAndView viewSocialNetwork(HttpServletRequest request) throws ParseException{
 		ModelAndView mv=new ModelAndView("viewSocialNetwork","command",new Blog());
 		String reqString=request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/')+1,request.getRequestURI().length()-1);
 		System.out.println(reqString);
 		if(reqString.equals("Forum")){mv=new ModelAndView("viewSocialNetwork","command",new Forum());}
+		mv.addObject("nets",iNetworkService.viewNetworks(reqString));
 		mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString)));
 		mv.addObject("userNetworks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
 		mv.addObject("network",reqString).addObject("user",iUserService);

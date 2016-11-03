@@ -1,5 +1,7 @@
 package com.devops.ecomerce.DAO;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -42,7 +44,7 @@ public class NetworkDAOImpl implements INetworkService {
 	//CRUD on Networks
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public List<SocialNetwork> viewNetworks(String network) {
+	public List<SocialNetwork> viewNetworks(String network) throws ParseException {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		Criteria cr=session.createCriteria(Blog.class);
@@ -51,9 +53,17 @@ public class NetworkDAOImpl implements INetworkService {
 		}
 		cr.addOrder(Order.desc("createdDate"));
 		List<SocialNetwork> networks =cr.list();
+		/*
+		SimpleDateFormat mdyFormat = new SimpleDateFormat("MM-dd-yyyy");
+		
+		for(SocialNetwork s:networks){
+			System.out.println(mdyFormat.format(s.getCreatedDate()));
+			 String mdy = mdyFormat.format(s.getCreatedDate());
+			s.setCreatedDate((mdyFormat.parse(mdy)));
+		}
 		for(SocialNetwork s:networks){
 			System.out.println(s.getCreatedDate());
-		}
+		}*/
 		tx.commit();
 		return networks;
 	}

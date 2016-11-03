@@ -1,5 +1,6 @@
 package com.devops.ecomerce.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -11,7 +12,7 @@ import com.devops.ecomerce.models.colabaration.Share;
 import com.devops.ecomerce.models.colabaration.SocialNetwork;
 
 public interface INetworkService {
-	public List<SocialNetwork> viewNetworks(String network);
+	public List<SocialNetwork> viewNetworks(String network)throws ParseException;
 	public void addBlog(Blog b);
 	public void addForum(Forum f);
 	public void addShare(Share s);
