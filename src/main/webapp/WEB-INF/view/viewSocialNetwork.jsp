@@ -96,7 +96,8 @@ $(document).ready(function(){
 			<h4><small>RECENT POSTS</small></h4>
       <hr>
       <h2>{{ resource.name}}</h2>
-      <h5><span class="glyphicon glyphicon-time"></span> Post by {{ resource.user.firstName}} {{ resource.user.lastName}} <img src='/ecomerce/resources/images/user/{{ resource.user.Id }}.jpg' class="img-circle" alt="{{ resource.user.firstName }}" style="max-width:50px;max-height:50px;">, {{ resource.createdDate}}.</h5>
+      <h5><span class="glyphicon glyphicon-time"></span> Post by {{ resource.user.firstName}} {{ resource.user.lastName}} <img src='/ecomerce/resources/images/user/{{ resource.user.Id }}.jpg' class="img-circle" alt="{{ resource.user.firstName }}" style="max-width:50px;max-height:50px;">, {{showDate(resource.createdDate,resource.id)}}
+      <small id='{{ resource.id }}'></small></h5>
       <h5>
       	<span class="label label-success"><a href="updateCart?n={{ resource.Id }}">reload</a></span>
       	<span class="label label-danger"><a href="deleteCart?n={{ resource.Id }}">delete</a></span>
@@ -237,6 +238,20 @@ $(document).ready(function(){
     				$scope.orderByMe = function(x) {
         				$scope.myOrderBy = x;
     				}
+    				$scope.showDate = function (jsonDate,div) {
+    					var monthNames = [
+    					                  "January", "February", "March",
+    					                  "April", "May", "June", "July",
+    					                  "August", "September", "October",
+    					                  "November", "December"
+    					                ];
+    					var date = new Date(parseInt(jsonDate));
+    		            //alert("This is an example of ng-click "+date);
+    		            var am_pm = date.getHours() >= 12 ? "PM" : "AM";
+    		            var hrs=date.getHours()>=12 ? date.getHours()-12 : date.getHours();
+    		            var str=monthNames[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+", "+hrs+":"+date.getMinutes()+" "+am_pm;
+    		            document.getElementById(div).innerHTML = str;
+    		        }
 				});
 			</script>
 <c:if test="${empty user}">

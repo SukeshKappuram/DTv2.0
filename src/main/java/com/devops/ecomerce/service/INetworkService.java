@@ -19,4 +19,5 @@ public interface INetworkService {
 	public SocialNetwork getNetwork(String Id);
 	public List<SocialNetwork> viewNetworks(String network,User user);
 	public void send(User user,String subject,String body)throws MessagingException;
+	public void deleteNetwork(int networkId);
 }

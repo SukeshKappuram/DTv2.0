@@ -54,5 +54,17 @@ public class CategoryDAOImpl implements ICategoryService {
 		cr.add(Restrictions.eq("id",categoryId));
 		return (Category)cr.uniqueResult();
 	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void deleteCategory(int categoryId) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria cr=session.createCriteria(Category.class);
+		cr.add(Restrictions.eq("id",categoryId));
+		Category category=(Category)cr.uniqueResult();
+		tx.begin();
+		session.delete(category);
+		tx.commit();
+	}
 
 }

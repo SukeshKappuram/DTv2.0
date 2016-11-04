@@ -53,17 +53,6 @@ public class NetworkDAOImpl implements INetworkService {
 		}
 		cr.addOrder(Order.desc("createdDate"));
 		List<SocialNetwork> networks =cr.list();
-		/*
-		SimpleDateFormat mdyFormat = new SimpleDateFormat("MM-dd-yyyy");
-		
-		for(SocialNetwork s:networks){
-			System.out.println(mdyFormat.format(s.getCreatedDate()));
-			 String mdy = mdyFormat.format(s.getCreatedDate());
-			s.setCreatedDate((mdyFormat.parse(mdy)));
-		}
-		for(SocialNetwork s:networks){
-			System.out.println(s.getCreatedDate());
-		}*/
 		tx.commit();
 		return networks;
 	}
@@ -122,6 +111,17 @@ public class NetworkDAOImpl implements INetworkService {
 		SocialNetwork sn=(SocialNetwork)ct.uniqueResult();
 		tx.commit();
 		return sn;
+	}
+	
+	public void deleteNetwork(int networkId) {
+		// TODO Auto-generated method stub
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria ct=session.createCriteria(SocialNetwork.class);
+		ct.add(Restrictions.eq("id",networkId));
+		SocialNetwork sn=(SocialNetwork)ct.uniqueResult();
+		session.delete(sn);
+		tx.commit();
 	}
 	
 	//Emailer

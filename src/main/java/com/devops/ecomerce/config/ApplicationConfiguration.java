@@ -29,6 +29,7 @@ import com.devops.ecomerce.models.WishList;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Comment;
 import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.Friend;
 import com.devops.ecomerce.models.colabaration.Share;
 
 @Configuration
@@ -76,6 +77,7 @@ public class ApplicationConfiguration{
 		localSessionFactoryBuilder.addAnnotatedClass(Comment.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Forum.class);
 		localSessionFactoryBuilder.addAnnotatedClass(Share.class);
+		localSessionFactoryBuilder.addAnnotatedClass(Friend.class);
 		
 		return localSessionFactoryBuilder.buildSessionFactory();
 	}

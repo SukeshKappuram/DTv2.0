@@ -8,4 +8,5 @@ public interface ICategoryService {
 	public void addCategory(Category category);
 	public List<Category> viewCategories();
 	public Category viewCategory(int categoryId);
+	public void deleteCategory(int categoryId);
 }
