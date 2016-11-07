@@ -117,7 +117,7 @@
       <li><a href="${pageContext.request.contextPath}/#feedback">Feedback</a></li>
       <li><a href="${pageContext.request.contextPath}/Blogs">Blogs</a></li>
       <li><a href="${pageContext.request.contextPath}/Forums">Forums</a></li>
-      <li><a href="${pageContext.request.contextPath}/Share">Share</a></li>
+      <li><a href="${pageContext.request.contextPath}/Friends">Friends</a></li>
       <li><a href="${pageContext.request.contextPath}/Offers">Offer Zone</a></li>
    	  </ul>
       <li class="dropdown">
@@ -131,7 +131,28 @@
           <li><a><div id="mySignin" onclick="login()"><i class="fa fa-google"> Google</i></div></a></li>
         </ul>
       </li>
-    	<div class="col-sm-3 col-md-3 navbar-right" >
+    	  
+    </ul>
+    
+    <c:if test="${fn:length(user.getUser().firstName) > 0}">
+    <ul class="nav navbar-nav navbar-right">
+      <c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER'}">
+        <li><a href="${pageContext.request.contextPath}/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+      </c:if>
+                
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi ${user.getUser().firstName} !<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="${pageContext.request.contextPath}/Profile"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
+          <li><a href="${pageContext.request.contextPath}/Cart/viewOrder"><span class="glyphicon glyphicon-th"></span> My Orders</a></li>
+          <li><a href="${pageContext.request.contextPath}/Cart/WishList/"><span class="glyphicon glyphicon-heart"></span> My WishList</a></li>
+          <li class="divider"></li>
+          <li><a href="${pageContext.request.contextPath}/logout">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
+        </ul>
+      </li>
+    </ul>
+     </c:if>
+     <div class="col-sm-3 col-md-3 navbar-right" >
         <form class="navbar-form" role="search">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search" name="q">
@@ -140,29 +161,9 @@
             </div>
         </div>
         </form>
-    </div>  
-    </ul>
-    
-    <c:if test="${fn:length(user.getUser().firstName) > 0}">
-    <ul class="nav navbar-nav navbar-right">
-      <c:if test="${user.getRole()=='ROLE_USER' or user.getRole()=='ROLE_SELLER'}">
-        <li><a href="${pageContext.request.contextPath}/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-        <li><a href="${pageContext.request.contextPath}/Cart/WishList/"><span class="glyphicon glyphicon-heart"></span><i class="fa fa-th-list"></i></a></li>
-      </c:if>
-                
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hi ${user.getUser().firstName} !<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="${pageContext.request.contextPath}/Profile"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
-          <li><a href="${pageContext.request.contextPath}/Cart/viewOrder"><span class="glyphicon glyphicon-th"></span> My Orders</a></li>
-          <li class="divider"></li>
-          <li><a href="${pageContext.request.contextPath}/logout">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
-        </ul>
-      </li>
-    </ul>
-     </c:if>
+    </div>
   </div>
 </nav>
-<div class="parallax"></div>
+	<div class="parallax"></div>
 </body>
 </html>

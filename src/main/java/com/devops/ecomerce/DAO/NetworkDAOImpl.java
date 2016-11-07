@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.Friend;
 import com.devops.ecomerce.models.colabaration.Share;
 import com.devops.ecomerce.models.colabaration.SocialNetwork;
 import com.devops.ecomerce.service.INetworkService;
@@ -62,6 +63,10 @@ public class NetworkDAOImpl implements INetworkService {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		Criteria cr=session.createCriteria(Blog.class);
+		System.err.println(network);
+		if(network.equals("Friend")){
+			cr=session.createCriteria(Friend.class);
+		}
 		if(network.equals("Forum")){
 			cr=session.createCriteria(Forum.class);
 		}
@@ -107,7 +112,7 @@ public class NetworkDAOImpl implements INetworkService {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		Criteria ct=session.createCriteria(SocialNetwork.class);
-		//ct.add(Restrictions.eq("id",Id));
+		ct.add(Restrictions.eq("id",Id));
 		SocialNetwork sn=(SocialNetwork)ct.uniqueResult();
 		tx.commit();
 		return sn;
@@ -140,4 +145,47 @@ public class NetworkDAOImpl implements INetworkService {
 		javaMailSender.send(mail);
 	}
 
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<User> viewUsers(User u){
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria ct=session.createCriteria(User.class);
+		ct.add(Restrictions.ne("id",u.getId()));
+		List<User> allUser=ct.list();
+		Criteria cf=session.createCriteria(Friend.class);
+		cf.add(Restrictions.eq("user",u));
+		List<Friend> friends=cf.list();
+		for(Friend f:friends){
+			System.out.println(f.getUser());
+			allUser.remove(f.getFriends());
+			for(User us:f.getFriends()){
+				allUser.remove(us);
+				System.out.println(us.getId());
+			}
+		}
+		tx.commit();
+		return allUser;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public Friend getFriend(User u) {
+		// TODO Auto-generated method stub
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria ct=session.createCriteria(Friend.class);
+		ct.add(Restrictions.eq("user",u));
+		Friend f=(Friend)ct.uniqueResult();
+		tx.commit();
+		return f;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public void addFriend(Friend friend){
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		session.saveOrUpdate(friend);
+		tx.commit();
+	}
+	
+	
 }

@@ -12,6 +12,9 @@
 span a{
 	color: black;
 }
+.tiny{
+	font-size: 8px;
+}
 </style>
 </head>
 <body>
@@ -27,51 +30,58 @@ span a{
  </script> -->
 </div>
 <div class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container">
-      <p class="navbar-text pull-left" style="font-size: 12px;">© 2016 - Site Built By Kappuram Sukesh
-           <a href="#">KartooZ</a> 
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           
-           
-           <span class="fa-stack fa-2x">
+    <div class="container" >
+    <div class="row">
+      	<div class="col-md-4"> 
+      		<ul class="nav nav-pills">
+      			<li><a class="tiny" >© 2016 - Site Built By Kappuram Sukesh</a></li>
+      			<li><a class="tiny" href="#">KartooZ</a></li>
+           	</ul> 
+		</div>
+		<div class="col-md-4">           
+           <span class="fa-stack fa-1x">
   				<a href="https://twitter.com/SukeshKappuram"><i class="fa fa-twitter fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="https://www.facebook.com/sukeshkappuram"><i class="fa fa-facebook fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="https://www.instagram.com/sukeshkappuram/"><i class="fa fa-instagram fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="intent://send/7207160996#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end"><i class="fa fa-whatsapp fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="SkypeButton_Call_iamsukeshk_1"><i class="fa fa-skype fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="https://powerof10-som.slack.com/messages/@sukesh/"><i class="fa fa-slack fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="https://www.linkedin.com/in/sukeshkappuram"><i class="fa fa-linkedin fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="https://plus.google.com/107212432925734848273"><i class="fa fa-google-plus fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="https://github.com/SukeshKappuram"><i class="fa fa-github fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="https://github.com/SukeshKappuram"><i class="fa fa-youtube fa-stack-1x"></i></a>
 			</span>
-			<span class="fa-stack fa-2x">
+			<span class="fa-stack fa-1x">
   				<a href="mailto:iamsukeshk@gmail.com"><i class="fa fa-envelope fa-stack-1x"></i></a>
 			</span>
-			
-			<a href="#">Return Policy</a> | 
-           <a href="#">Terms to Use</a> | 
-           <a href="#">Security</a> | 
-           <a href="#">Privacy</a>
-      </p>
+		</div>
+		<div class="col-md-4">
+			<ul class="nav nav-pills">
+				<li><a class="tiny" href="#">Return Policy</a></li>
+				<li><a class="tiny" href="#">Terms to Use</a></li>
+    	    	<li><a class="tiny" href="#">Security</a></li>
+        		<li><a class="tiny" href="#">Privacy</a></li>
+           	</ul>
+       	</div>
+      </div>
     </div>
 </div>
 </body>

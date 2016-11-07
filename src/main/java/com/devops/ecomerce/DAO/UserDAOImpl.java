@@ -71,9 +71,19 @@ public class UserDAOImpl implements IUserService {
 		tx.commit();
 		return user;
 	}
-
+	
 	public User getUser() {
 		return user;
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public User getUser(int userId) {
+		Session session=factory.getCurrentSession();
+		Transaction tx=session.beginTransaction();
+		Criteria ct=session.createCriteria(User.class);
+		ct.add(Restrictions.eq("id",userId));
+		User u=(User)ct.uniqueResult();
+		return u;
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS)

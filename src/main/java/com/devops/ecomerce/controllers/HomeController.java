@@ -72,18 +72,25 @@ public class HomeController {
 	
 	//Colabration Landing Page
 	
-	@RequestMapping(value={"/Blogs","/Forums","/Share"})
+	@RequestMapping(value={"/Blogs","/Forums","/Share","/Friends"})
 	public ModelAndView viewSocialNetwork(HttpServletRequest request) throws ParseException{
 		ModelAndView mv=new ModelAndView("viewSocialNetwork","command",new Blog());
 		String reqString=request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/')+1,request.getRequestURI().length()-1);
 		System.out.println(reqString);
 		if(reqString.equals("Forum")){mv=new ModelAndView("viewSocialNetwork","command",new Forum());}
-		mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString)));
+		if(reqString.equals("Friend")){
+			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewUsers(iUserService.getUser())));
+		}
+		else{
+			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString)));
+		}
 		mv.addObject("userNetworks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
 		mv.addObject("network",reqString).addObject("user",iUserService);
 		mv.addObject("image", iUtilityService);
 		return mv;
 	}
+	
+	
 	
 	//Ecomerce Product Pages
 	

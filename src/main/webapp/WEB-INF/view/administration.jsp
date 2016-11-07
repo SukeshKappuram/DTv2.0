@@ -3,43 +3,52 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>KartooZ</title>
-<style>
-body {
+  <style>
+  body {
       position: relative;
   }
   ul.nav-pills {
-      top: 20px;
+      top: 100px;
+      position: fixed;
   }
+  #section1 {color: #000; background-color: #fff;}
+  #section2 {color: #000; background-color: #fff;}
+  #section3 {color: #000; background-color: #fff;}
+  #section4 {color: #000; background-color: #fff;}
+  #section51 {color: #000; background-color: #fff;}
+  #section52 {color: #000; background-color: #fff;}
   
   @media screen and (max-width: 810px) {
-    #section1, #section2, #section3, #section41, #section42  {
+    #section1, #section2, #section3, #section4, #section51, #section52  {
         margin-left: 150px;
     }
-  }
-  th,td{
-  	text-align: center;
   }
   </style>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
-	<%@include file="header.jsp"%>
-	<div class="container">
-	<div class="row">
-    <nav class="col-sm-3" id="myScrollspy" style="position: fixed;">
+<%@include file="header.jsp" %>
+<div class="container">
+  <div class="row">
+    <nav class="col-sm-3" id="myScrollspy">
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#section1">View Products</a></li>
         <li><a href="#section2">Add Product</a></li>
         <li><a href="#section3">Add Category</a></li>
-        <li><a href="#section4">Approve Seller</a></li>
-        <li><a href="#section5">View Blogs</a></li>
-        <li><a href="#section6">View Forums</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">View  <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#section51">Blogs</a></li>
+            <li><a href="#section52">Forums</a></li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <div class="col-sm-9">
-	<div id="section1" style="color:white;">
-		<div class="table-responsive"> 
+      <div id="section1">
+      	<div class="parallax"></div>
+        <h1>Products</h1>
+        <div class="table-responsive"> 
       	<table class="table table-hover" style="color: black">
       	<thead> 
       	<tr class="active"> 
@@ -59,33 +68,34 @@ body {
 	  </tbody>	
 	  </table>
 	  </div>
-	</div>
-	<hr style="width:100%;"/>
-	<div id="section2" style="color:white;">
-		<iframe src="Product" frameborder='0' style="width:100%;height: 600px;">      	
-      	</iframe>
-    </div>
-    <hr style="width:100%;"/>
-    <div id="section3" style="color:white;">
-    	<iframe src="Category" frameborder='0' style="width:100%;height: 600px;">      	
-      	</iframe>
-    </div>
-    <hr style="width:100%;"/>
-    <div id="section4" style="color:white;">
-    	<iframe src="approveSeller" frameborder='0' style="width:100%;height: 600px;">      	
-      	</iframe>
-    </div>
-    <div id="section5" style="color:white;">
-    	<iframe src="../Blogs" frameborder='0' style="width:100%;height: 600px;">      	
-      	</iframe>
-    </div>
-    <div id="section6" style="color:white;">
-    	<iframe src="../Forums" frameborder='0' style="width:100%;height: 600px;">      	
-      	</iframe>
+      </div>
+      <div id="section2">
+      	<div class="parallax"><hr style="width:100%;color: #ccc"/></div>
+        <h1>Add Product</h1>
+        <iframe src="Product" frameborder='0' style="width:100%;height: 600px;"></iframe>
+      </div>
+      <div id="section3">
+        <div class="parallax"><hr style="width:100%;color: #ccc"/></div>
+        <h1>Add Category</h1>
+        <iframe src="Category" frameborder='0' style="width:100%;height: 600px;"></iframe>
+      </div>
+      <div id="section4">
+      	<div class="parallax"><hr style="width:100%;color: #ccc"/></div>
+        <h1>Approve Seller</h1>
+        <iframe src="approveSeller" frameborder='0' style="width:100%;height: 600px;"></iframe>
+      </div>
+      <div id="section51">
+      	<div class="parallax"><hr style="width:100%;color: #ccc"/></div>
+        <h1>BLOGS</h1>
+        <iframe src="../Blogs" frameborder='0' style="width:100%;height: 600px;"></iframe>
+      </div>
+      <div id="section52">
+      	<div class="parallax"><hr style="width:100%;color: #ccc"/></div>
+        <h1>FORUMS</h1>
+        <iframe src="../Forums" frameborder='0' style="width:100%;height: 600px;"></iframe>
+      </div>
     </div>
   </div>
-	</div>
-	</div>
-	<%@include file="footer.jsp"%>
+</div>
 </body>
 </html>

@@ -11,6 +11,7 @@ public interface IUserService {
 	public User verifyUser(User user);
 	public User loadUser(String mailId);
 	public User getUser();
+	public User getUser(int userId);
 	public void updateUser(User user);
 	public List<User> viewUsers();
 	public List<ShippingAddress> viewShippingAddress();

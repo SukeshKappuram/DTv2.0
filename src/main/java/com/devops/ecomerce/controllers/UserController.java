@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,7 @@ import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.UserOrder;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.Friend;
 import com.devops.ecomerce.service.ICartService;
 import com.devops.ecomerce.service.INetworkService;
 import com.devops.ecomerce.service.IUserService;
@@ -164,7 +166,7 @@ public class UserController {
 		return new ModelAndView("viewOrders","cartItems",iCartService.viewCart(iUserService.getUser()));
 	}
 
-	//Collabration Control vies
+	//Collabration Control views
 	
 	@RequestMapping(value={"/Blogs"},method=RequestMethod.POST)
 	public String viewSocialNetwork(ModelMap model,@RequestParam("file") MultipartFile file,@Valid @ModelAttribute("ecomerce") Blog b,BindingResult result){
@@ -182,5 +184,15 @@ public class UserController {
 		iNetworkService.addForum(f);
 		iUtilityService.uploadImage(file, f);
 		return "redirect:/Forums";
+	}
+	
+	@RequestMapping(value={"/AddFriend/{friendId}"})
+	public String addFriend(@PathVariable(value="friendId") Integer friendId){
+		Friend friend=new Friend();
+		friend.setUser(iUserService.getUser());
+		friend.getFriends().add(iUserService.getUser(friendId));
+		friend.setCreatedDate(new Date());
+		iNetworkService.addFriend(friend);
+		return "redirect:/Friends";
 	}
 }

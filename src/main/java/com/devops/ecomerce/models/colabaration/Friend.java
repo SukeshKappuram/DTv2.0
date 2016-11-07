@@ -4,37 +4,38 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.devops.ecomerce.models.User;
 
 @Entity
-public class Friend {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer Id;
-	@ManyToOne
+public class Friend extends SocialNetwork{
+	
 	@NotNull
-	private User user;
-	@OneToMany
-	@NotNull
-	private Set<User> friends = new HashSet<User>(0);
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+	private boolean accepted=false;
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade({CascadeType.DELETE})
+	private Set<User> Friends = new HashSet<User>(0);
+
 	public Set<User> getFriends() {
-		return friends;
-	}
-	public void setFriends(Set<User> friends) {
-		this.friends = friends;
+		return Friends;
 	}
 
+	public void setFriends(Set<User> friends) {
+		Friends = friends;
+	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+	
 }

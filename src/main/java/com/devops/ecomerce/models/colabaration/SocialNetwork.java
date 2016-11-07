@@ -15,12 +15,12 @@ import com.devops.ecomerce.models.User;
 public class SocialNetwork {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	protected Integer id;
 	@NotNull
 	@ManyToOne
-	private User user;
+	protected User user;
 	@NotNull
-	private Date createdDate;
+	protected Date createdDate;
 	
 	public Integer getId() {
 		return id;
