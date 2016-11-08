@@ -86,18 +86,28 @@ $(document).ready(function(){
     		</div> 
     		<!-- This are the Social Networks created by User -->
 			<div class="col-sm-9" ng-controller="usrCtrl"  id="created">
-				<c:if test="${not empty user and network != 'Friend'}">
 				<div ng-repeat="resource in names | filter:search">
+				<c:if test="${not empty user}">
           			<c:if test="${not empty user and userNetworks.length() > 2 }">  
-					<h4><small>RECENT POSTS</small></h4>
       				<hr>
-      				<h2>{{ resource.name}}</h2>
-      				<h5><span class="glyphicon glyphicon-time"></span> Post by {{ resource.user.firstName}} {{ resource.user.lastName}} <img src='/ecomerce/resources/images/user/{{ resource.user.Id }}.jpg' class="img-circle" alt="{{ resource.user.firstName }}" style="max-width:50px;max-height:50px;">, {{showDate(resource.createdDate,resource.id)}}
-      					<small id='{{ resource.id }}'></small></h5>
+      				<h2>
+      					{{ resource.name}}
+      					<a href='#'>{{resource.friends[0].firstName}} {{resource.friends[0].lastName}}</a> 
+      				</h2>
+      				<h5><span class="glyphicon glyphicon-time"></span> <c:if test="${network != 'Friend'}">Post by {{ resource.user.firstName}} {{ resource.user.lastName}}</c:if>  <img src='/ecomerce/resources/images/user/{{ resource.friends[0].Id }}.jpg' class="img-circle" alt="{{ resource.friends[0].firstName }}" style="max-width:50px;max-height:50px;">, {{showDate(resource.createdDate,resource.id)}}
+      					<c:if test="${network == 'Friend'}"> Since {{ resource.accepted }}</c:if> <small id='{{ resource.id }}'></small></h5>
       				<h5>
-      				<span class="label label-success"><a href="updateCart?n={{ resource.Id }}">reload</a></span>
-      				<span class="label label-danger"><a href="deleteCart?n={{ resource.Id }}">delete</a></span>
+					<c:if test="${network != 'Friend'}">
+      					<span class="label label-success"><a href="updateCart?n={{ resource.Id }}">reload</a></span>
+      					<span class="label label-danger"><a href="deleteCart?n={{ resource.Id }}">delete</a></span>
+      				</c:if>
+      				<c:if test="${network == 'Friend'}">
+      					{{isAccepted(resource.accepted,resource.friends[0].id )}}
+      					<span class="label label-success" id="{{ resource.friends[0].id }}"><a href="User/Accept/{{ resource.id}}">Accept</a></span>
+      					<span class="label"><span class="badge">2</span> <a>Mutual Friends</a></span>
+      				</c:if>	
     				</h5><br/>
+      				<c:if test="${network != 'Friend'}">
       				<p>{{ resource.description}}</p>
       				<hr>
 					<h4>Leave a Comment:</h4>
@@ -109,7 +119,6 @@ $(document).ready(function(){
       				</form>
       				<br/><br/>
 					<p><span class="badge">2</span> Comments:</p><br>
-      
       				<div class="row">
         				<div class="col-sm-2 text-center">
           					<img src="bandmember.jpg" class="img-circle" height="65" width="65" alt="Avatar">
@@ -140,37 +149,34 @@ $(document).ready(function(){
 		 				</div>
   	  				</div>	  
 	  				</c:if>
-    			</div>
+	  				</c:if>
     			</c:if>
-    			<c:if test="${not empty user and network == 'Friend'}">
-    			<div class="row" ng-repeat="resource in names | filter:search">
-    				<div class="col-sm-3">
-    					{{ resource.user.firstName}}
-    				</div>
-    				<div class="col-sm-3">
-    						<a href="User/Accept/{{ resource.id}}">Accept</a>
-    					</div>
     			</div>
-    			</c:if>
     		</div>
     		<!-- This are the Social Networks created by others -->
+    		<div class="col-sm-3 sidenav"></div>
     		<div class="col-sm-9" ng-controller="namesCtrl">
     			<div ng-repeat="resource in names | filter:search">
-    				<c:if test="${not empty user and network != 'Friend'}">
-   					<h4><small>RECENT POSTS</small></h4>
+    				<c:if test="${not empty user}">
       				<hr>
-      				<h2>{{ resource.name}}</h2>
-      				<h5><span class="glyphicon glyphicon-time"></span> Post by {{ resource.user.firstName}} {{ resource.user.lastName}} <img src='/ecomerce/resources/images/user/{{ resource.user.Id }}.jpg' class="img-circle" alt="{{ resource.user.firstName }}" style="max-width:50px;max-height:50px;">, 
-      					{{showDate(resource.createdDate,resource.id)}}
-      					<small id='{{ resource.id }}'></small>.
+      				<h2>{{ resource.name}} {{ resource.firstName}} {{ resource.lastName}}</h2>
+      				<h5><span class="glyphicon glyphicon-time"></span><c:if test="${network != 'Friend'}"> Post by {{ resource.user.firstName}} {{ resource.user.lastName}}</c:if> <img src='/ecomerce/resources/images/user/{{ resource.user.Id }}.jpg' class="img-circle" alt="{{ resource.user.firstName }}" style="max-width:50px;max-height:50px;">, 
+      					{{showDate(resource.registeredDate,resource.id)}}
+      					<c:if test="${network == 'Friend'}">Since {{ resource.accepted }}</c:if> <small id='{{ resource.id }}'></small>.
       				</h5>
       				<h5>
-      					<span class="label label-success"><a href="updateCart?n={{ resource.id }}">reload</a></span>
-   						<span class="label label-danger"><a href="deleteCart?n={{ resource.id }}">delete</a></span>
+      					<c:if test="${network != 'Friend'}">
+      						<span class="label label-success"><a href="updateCart?n={{ resource.id }}">reload</a></span>
+   							<span class="label label-danger"><a href="deleteCart?n={{ resource.id }}">delete</a></span>
+   						</c:if>
+   						<c:if test="${network == 'Friend'}">
+      						<span class="label label-success"><a href="User/AddFriend/{{ resource.id}}">Add as Friend</a></span>
+      						<span class="label"><span class="badge">2</span> <a>Mutual Friends</a></span>
+	      				</c:if>	
       				</h5><br>
+      				<c:if test="${network != 'Friend'}">
       				<p>{{ resource.description}}</p>
       				<hr>
-
       				<h4>Leave a Comment:</h4>
       				<form role="form">
         				<div class="form-group">
@@ -178,7 +184,7 @@ $(document).ready(function(){
         				</div>
         				<button type="submit" class="btn btn-success">Submit</button>
       				</form>
-      				<br><br>
+      				<br/><br/>
       				<p><span class="badge">2</span> Comments:</p><br>
       				<div class="row">
         				<div class="col-sm-2 text-center">
@@ -209,16 +215,7 @@ $(document).ready(function(){
           					</div>
         				</div>
       				</div>
-    				</c:if>
-    				<c:if test="${not empty user and network == 'Friend'}">
-    				<div class="row">
-    					<div class="col-sm-3">
-    						{{ resource.firstName}} {{ resource.lastName}}
-    					</div>
-    					<div class="col-sm-3">
-    						<a href="User/AddFriend/{{ resource.id}}">Add as Friend</a>
-    					</div>
-   					</div>
+      				</c:if>
     				</c:if>
     			</div>
   			</div>
@@ -245,7 +242,6 @@ $(document).ready(function(){
     		            var str=monthNames[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+", "+hrs+":"+date.getMinutes()+" "+am_pm;
     		            document.getElementById(div).innerHTML = str;
     		        }
-    				
 				}]).controller('usrCtrl', function($scope) {
     				$scope.names = ${userNetworks};
     				$scope.orderByMe = function(x) {
@@ -265,6 +261,21 @@ $(document).ready(function(){
     		            var str=monthNames[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+", "+hrs+":"+date.getMinutes()+" "+am_pm;
     		            document.getElementById(div).innerHTML = str;
     		        }
+    				$scope.isAccepted = function (jsonData,div){
+    					if(jsonData==true){
+    						document.getElementById(div).innerHTML = '';
+    					}
+    				}
+    				$scope.isSameUser = function(userId,frindId){
+    					alert(userId+' '+frindId);
+    					if(userId==frindId){
+    						alert('Hi');
+    						var x='{{ resource.user.firstName }} {{ resource.user.lastName}}';
+    						var y=document.getElementById(userId);
+    						alert(y);
+    						y.innerHTML=x;
+    					}
+    				}
 				});
 			</script>
 <c:if test="${empty user}">

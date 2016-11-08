@@ -24,4 +24,5 @@ public interface INetworkService {
 	public List<User> viewUsers(User u);
 	public void addFriend(Friend friend);
 	public Friend getFriend(User u);
+	public void acceptFriend(int requestId);
 }

@@ -77,6 +77,7 @@ public class HomeController {
 		ModelAndView mv=new ModelAndView("viewSocialNetwork","command",new Blog());
 		String reqString=request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/')+1,request.getRequestURI().length()-1);
 		System.out.println(reqString);
+		mv.addObject("userNetworks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
 		if(reqString.equals("Forum")){mv=new ModelAndView("viewSocialNetwork","command",new Forum());}
 		if(reqString.equals("Friend")){
 			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewUsers(iUserService.getUser())));
@@ -84,7 +85,6 @@ public class HomeController {
 		else{
 			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString)));
 		}
-		mv.addObject("userNetworks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
 		mv.addObject("network",reqString).addObject("user",iUserService);
 		mv.addObject("image", iUtilityService);
 		return mv;

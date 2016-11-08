@@ -195,4 +195,10 @@ public class UserController {
 		iNetworkService.addFriend(friend);
 		return "redirect:/Friends";
 	}
+	
+	@RequestMapping(value={"/Accept/{Id}"})
+	public String acceptFriend(@PathVariable(value="Id") Integer requestId){
+		iNetworkService.acceptFriend(requestId);
+		return "redirect:/Friends";
+	}
 }

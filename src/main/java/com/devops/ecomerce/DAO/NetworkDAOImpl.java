@@ -2,12 +2,16 @@ package com.devops.ecomerce.DAO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,6 +46,7 @@ public class NetworkDAOImpl implements INetworkService {
 	public static final String REPLY_TO_ADDRESS="support@kartooz.com";
 	public static final String FROM_ADDRESS="wecare@kartooz.com";
 
+	Set<User> Users=new HashSet<User>();
 	//CRUD on Networks
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
@@ -62,19 +67,39 @@ public class NetworkDAOImpl implements INetworkService {
 	public List<SocialNetwork> viewNetworks(String network,User user) {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
-		Criteria cr=session.createCriteria(Blog.class);
-		System.err.println(network);
+		List<SocialNetwork> networks=null;
 		if(network.equals("Friend")){
-			cr=session.createCriteria(Friend.class);
-		}
+			Criteria cf=session.createCriteria(Friend.class);
+			cf.add(Restrictions.eq("user.id",user.getId()));
+			List<SocialNetwork> friendz=cf.list();
+			
+			Criteria cuf=session.createCriteria(Friend.class);
+			List<Friend> fuzers=cuf.list();
+			
+			for(Friend ux:fuzers){
+				List<User> uzers=new ArrayList();	
+				uzers.addAll(ux.getFriends());
+				if(uzers.get(0).getId().equals(user.getId())){
+					friendz.add(ux);
+					Users.add(ux.getUser());
+				}
+			}
+			
+			System.out.println("==================================");
+			for(SocialNetwork fx:friendz){
+				System.out.println(fx.getId());
+			}
+			System.out.println("==================================");
+			networks=friendz;
+		}else{
+		Criteria cr=session.createCriteria(Blog.class);
 		if(network.equals("Forum")){
 			cr=session.createCriteria(Forum.class);
 		}
-		cr.add(Restrictions.eq("user", user));
+		cr.add(Restrictions.eq("user.id", user.getId()));
+		System.out.println(user.getId());
 		cr.addOrder(Order.desc("createdDate"));
-		List<SocialNetwork> networks =cr.list();
-		for(SocialNetwork s:networks){
-			System.out.println(s.getCreatedDate());
+			networks=cr.list();
 		}
 		tx.commit();
 		return networks;
@@ -150,23 +175,31 @@ public class NetworkDAOImpl implements INetworkService {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
 		Criteria ct=session.createCriteria(User.class);
-		ct.add(Restrictions.ne("id",u.getId()));
 		List<User> allUser=ct.list();
-		Criteria cf=session.createCriteria(Friend.class);
-		cf.add(Restrictions.eq("user",u));
-		List<Friend> friends=cf.list();
-		for(Friend f:friends){
-			System.out.println(f.getUser());
-			allUser.remove(f.getFriends());
-			for(User us:f.getFriends()){
-				allUser.remove(us);
-				System.out.println(us.getId());
+		System.out.println("=============USER=================");
+		List<User> nonFriends=new ArrayList<User>(allUser);
+		for(User fx:allUser){
+			System.out.println(fx.getId());
+			for(User fy:Users){
+				if(fy.getId().equals(fx.getId())){
+					nonFriends.remove(fx);
+				}
+			}
+			if(u.getId().equals(fx.getId())){
+				System.out.println(u.getId()+"==="+fx.getId());
+				nonFriends.remove(fx);
 			}
 		}
-		tx.commit();
-		return allUser;
+		nonFriends.remove(u);
+		System.out.println("==================================");
+		System.out.println("=============NoN Friends=================");
+		for(User fx:nonFriends){
+			System.out.println(fx.getId());
+		}
+		System.out.println("==================================");
+		return nonFriends;
 	}
-	
+		
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public Friend getFriend(User u) {
 		// TODO Auto-generated method stub
@@ -187,5 +220,14 @@ public class NetworkDAOImpl implements INetworkService {
 		tx.commit();
 	}
 	
-	
+	public void acceptFriend(int requestId){
+		Session session=factory.openSession();
+		Transaction tx=session.beginTransaction();
+		Criteria ct=session.createCriteria(Friend.class);
+		ct.add(Restrictions.eq("id",requestId));
+		Friend f=(Friend)ct.uniqueResult();
+		f.setAccepted(true);
+		session.saveOrUpdate(f);
+		tx.commit();
+	}
 }
