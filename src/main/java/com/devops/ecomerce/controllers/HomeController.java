@@ -2,6 +2,7 @@ package com.devops.ecomerce.controllers;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
+import com.devops.ecomerce.models.colabaration.SocialNetwork;
 import com.devops.ecomerce.service.ICategoryService;
 import com.devops.ecomerce.service.INetworkService;
 import com.devops.ecomerce.service.IProductService;
@@ -78,6 +80,9 @@ public class HomeController {
 		String reqString=request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/')+1,request.getRequestURI().length()-1);
 		System.out.println(reqString);
 		mv.addObject("userNetworks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
+		if(iNetworkService.viewNetworks(reqString,iUserService.getUser()).isEmpty()){
+			mv.addObject("userNetworks","[]");
+		}
 		if(reqString.equals("Forum")){mv=new ModelAndView("viewSocialNetwork","command",new Forum());}
 		if(reqString.equals("Friend")){
 			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewUsers(iUserService.getUser())));
@@ -85,6 +90,7 @@ public class HomeController {
 		else{
 			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString)));
 		}
+		System.out.println("Hello "+iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
 		mv.addObject("network",reqString).addObject("user",iUserService);
 		mv.addObject("image", iUtilityService);
 		return mv;

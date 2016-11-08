@@ -1,4 +1,4 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -26,7 +26,6 @@ $(document).ready(function(){
     background-color: #e5eecc;
     border: solid 1px #c3c3c3;
 }
-
 #panel {
     padding: 50px;
     display: none;
@@ -209,7 +208,8 @@ $(document).ready(function(){
             					</div>
             					<div class="col-xs-10">
               						<h4>Nested Bro <small>Sep 25, 2015, 8:28 PM</small></h4>
-             						<p>Me too! WOW!</p>
+             						<p>Me too! WOW! 
+             						<a href="#" class="btn btn-danger btnAction" ng-click="getMessage(123)"><span class="glyphicon glyphicon-remove"></span>remove</a></p>
               						<br>
             					</div>
           					</div>
@@ -223,7 +223,7 @@ $(document).ready(function(){
 	</div>
 </div>
 			<script>
-				angular.module('myApp', []).controller('namesCtrl',['$scope', function($scope) {
+				angular.module('myApp', []).controller('namesCtrl',['$scope','$http', function($scope, $http) {
     				$scope.names = ${networks};
     				$scope.orderByMe = function(x) {
         				$scope.myOrderBy = x;
@@ -242,8 +242,14 @@ $(document).ready(function(){
     		            var str=monthNames[date.getMonth()]+" "+date.getDate()+", "+date.getFullYear()+", "+hrs+":"+date.getMinutes()+" "+am_pm;
     		            document.getElementById(div).innerHTML = str;
     		        }
+    				$scope.getMessage = function (itemId) {
+    		        	alert('inside remove method');
+    		            $http.put('http://localhost:8080/ecomerce/Cart/removeItem/'+itemId).success(function () {
+    		            	alert('pls refresh now');
+    		            });
+    		        };
 				}]).controller('usrCtrl', function($scope) {
-    				$scope.names = ${userNetworks};
+    				$scope.names = [];
     				$scope.orderByMe = function(x) {
         				$scope.myOrderBy = x;
     				}

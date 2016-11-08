@@ -55,6 +55,7 @@ public class NetworkDAOImpl implements INetworkService {
 		Transaction tx=session.beginTransaction();
 		Criteria cr=session.createCriteria(Blog.class);
 		if(network.equals("Forum")){
+			System.out.println(network);
 			cr=session.createCriteria(Forum.class);
 		}
 		cr.addOrder(Order.desc("createdDate"));
@@ -67,7 +68,7 @@ public class NetworkDAOImpl implements INetworkService {
 	public List<SocialNetwork> viewNetworks(String network,User user) {
 		Session session=factory.getCurrentSession();
 		Transaction tx=session.beginTransaction();
-		List<SocialNetwork> networks=null;
+		List<SocialNetwork> networks=new ArrayList<SocialNetwork>();
 		if(network.equals("Friend")){
 			Criteria cf=session.createCriteria(Friend.class);
 			cf.add(Restrictions.eq("user.id",user.getId()));
@@ -95,11 +96,14 @@ public class NetworkDAOImpl implements INetworkService {
 		Criteria cr=session.createCriteria(Blog.class);
 		if(network.equals("Forum")){
 			cr=session.createCriteria(Forum.class);
+			System.out.println(network+" "+user.getId());
 		}
 		cr.add(Restrictions.eq("user.id", user.getId()));
-		System.out.println(user.getId());
+		
 		cr.addOrder(Order.desc("createdDate"));
+		
 			networks=cr.list();
+			System.out.println(networks);
 		}
 		tx.commit();
 		return networks;
