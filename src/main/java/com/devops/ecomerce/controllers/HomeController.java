@@ -2,31 +2,29 @@ package com.devops.ecomerce.controllers;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.devops.ecomerce.models.User;
 import com.devops.ecomerce.models.colabaration.Blog;
 import com.devops.ecomerce.models.colabaration.Forum;
-import com.devops.ecomerce.models.colabaration.SocialNetwork;
 import com.devops.ecomerce.service.ICategoryService;
 import com.devops.ecomerce.service.INetworkService;
 import com.devops.ecomerce.service.IProductService;
 import com.devops.ecomerce.service.IUserService;
 import com.devops.ecomerce.service.IUtilityService;
 
-@Controller
+@RestController
 public class HomeController {
 	
 	@Autowired(required=true)
@@ -79,23 +77,26 @@ public class HomeController {
 		ModelAndView mv=new ModelAndView("viewSocialNetwork","command",new Blog());
 		String reqString=request.getRequestURI().substring(request.getRequestURI().lastIndexOf('/')+1,request.getRequestURI().length()-1);
 		System.out.println(reqString);
-		mv.addObject("userNetworks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
-		if(iNetworkService.viewNetworks(reqString,iUserService.getUser()).isEmpty()){
-			mv.addObject("userNetworks","[]");
-		}
-		if(reqString.equals("Forum")){mv=new ModelAndView("viewSocialNetwork","command",new Forum());}
-		if(reqString.equals("Friend")){
-			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewUsers(iUserService.getUser())));
-		}
-		else{
-			mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString)));
-		}
-		System.out.println("Hello "+iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
-		mv.addObject("network",reqString).addObject("user",iUserService);
+		try{
+			mv.addObject("userNetworks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString,iUserService.getUser())));
+			System.out.println("userNetworks : "+iNetworkService.viewNetworks(reqString,iUserService.getUser()).size());
+			if(iNetworkService.viewNetworks(reqString,iUserService.getUser()).isEmpty()){
+				System.out.println("User not Created any");
+				mv.addObject("userNetworks","[]");
+			}
+		}catch(Exception e){mv.addObject("userNetworks","[]");}
+			if(reqString.equals("Forum")){mv=new ModelAndView("viewSocialNetwork","command",new Forum());}
+			if(reqString.equals("Friend")){
+				mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewUsers(iUserService.getUser())));
+			}
+			else{
+				mv.addObject("networks",iUtilityService.getJson(iNetworkService.viewNetworks(reqString)));
+			}
+		mv.addObject("user",iUserService);
+		mv.addObject("network",reqString);
 		mv.addObject("image", iUtilityService);
 		return mv;
 	}
-	
 	
 	
 	//Ecomerce Product Pages

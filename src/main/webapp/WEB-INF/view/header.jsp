@@ -117,7 +117,9 @@
       <li><a href="${pageContext.request.contextPath}/#feedback">Feedback</a></li>
       <li><a href="${pageContext.request.contextPath}/Blogs">Blogs</a></li>
       <li><a href="${pageContext.request.contextPath}/Forums">Forums</a></li>
+      <c:if test="${not empty user.getUser()}">
       <li><a href="${pageContext.request.contextPath}/Friends">Friends</a></li>
+      </c:if>
       <li><a href="${pageContext.request.contextPath}/Offers">Offer Zone</a></li>
    	  </ul>
       <li class="dropdown">

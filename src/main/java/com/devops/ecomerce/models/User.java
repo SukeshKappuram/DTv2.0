@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
-public class User {
+public class User extends BaseLogger{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
@@ -36,6 +36,8 @@ public class User {
 	private Date registeredDate=new Date();
 	@NotNull
 	private Boolean enabled=true;
+	@NotNull
+	private Boolean online=false;
 	@Transient
 	private MultipartFile userImage;
 	
@@ -92,6 +94,12 @@ public class User {
 	}
 	public void setUserImage(MultipartFile userImage) {
 		this.userImage = userImage;
+	}
+	public Boolean getOnline() {
+		return online;
+	}
+	public void setOnline(Boolean online) {
+		this.online = online;
 	}
 	
 }
